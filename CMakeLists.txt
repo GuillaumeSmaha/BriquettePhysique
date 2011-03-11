@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
 #Déclaration du projet
-project(modele-project-cmake)
+project(Briquette Physique)
 set(PROJECT_VERSION_MAJOR 1)
 set(PROJECT_VERSION_MINOR 0)
 set(PROJECT_VERSION_PATCH 0)
@@ -116,14 +116,14 @@ file(
 
 #Déclaration de l'exécutable
 add_executable(
-	modele-project-cmake
+	briquette-physique
 	${source_files}
 )
 
 #Configuration de l'édition de liens
 if(WIN32)
 	target_link_libraries(
-		modele-project-cmake
+		briquette-physique
 		${OIS_LIBRARIES}
 		${OGRE_LIBRARIES}
 		${Boost_THREAD_LIBRARY}
@@ -140,7 +140,7 @@ if(WIN32)
 	)
 ELSE()
 	target_link_libraries(
-		modele-project-cmake
+		briquette-physique
 		${OIS_LIBRARIES}
 		${OGRE_LIBRARIES}
 		${CEGUI_LIBRARIES}
