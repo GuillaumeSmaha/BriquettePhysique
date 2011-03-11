@@ -1,0 +1,25 @@
+/*!
+ **  \file  config.h
+ **  \brief This file contains the declaration of the constants for the configuration of the projects
+ **/
+#ifndef _CONFIG_H_
+#define _CONFIG_H_
+
+	/*!
+	 **  \brief Nom du projet
+	 **/
+	#cmakedefine PROJECT_NAME "${CMAKE_PROJECT_NAME}"
+	/*!
+	 **  \brief Version du projet
+	 **/
+	#cmakedefine PROJECT_VERSION "@PROJECT_VERSION@"
+	/*!
+	 **  \brief Version complète du projet
+	 **/
+	#cmakedefine PROJECT_VERSION_FULL "@PROJECT_VERSION_FULL@"
+	/*!
+	 **  \brief Nom complet du projet
+	 **/
+	#define PROJECT_FULLNAME PROJECT_NAME" "PROJECT_VERSION_FULL
+
+#endif
