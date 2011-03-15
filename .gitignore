@@ -1,1 +1,3 @@
-build/
+build/*
+compileDebug.sh
+init_cmake.sh

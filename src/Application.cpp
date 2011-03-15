@@ -84,6 +84,9 @@ bool Application::start(void)
 	// restore the config or show the configuration dialog and
 	if (!this->root->showConfigDialog())
 		return false;
+		
+	//Create Window Singleton
+	ListenerWindow::createSingleton("Briquette Physique");
 
 	// get the generic SceneManager
 	this->sceneMgr = this->root->createSceneManager(Ogre::ST_GENERIC);
@@ -137,11 +140,7 @@ void Application::loadRessources(void)
 
 
 void Application::initListeners(void)
-{		
-	//Create Window Singleton
-	ListenerWindow::createSingleton("Briquette Physique");
-	
-	
+{	
 	// Init the input system manager
 	OIS::ParamList pl;
 	size_t windowHnd = 0;
