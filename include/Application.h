@@ -54,6 +54,11 @@ class Application
 		Ogre::Overlay * debugOverlay;
 
 		/*!
+		*  \brief Capteur d'événements
+		*/
+		OIS::InputManager * inputManager;
+
+		/*!
 		* \brief Listener pour les événements fenetre
 		*/
 		ListenerWindow * listenerWindow;

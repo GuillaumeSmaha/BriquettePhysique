@@ -48,7 +48,7 @@ bool Application::start(void)
 		return false;
 
 	// initialise the system, create the default rendering window
-	this->listenerWindow = new ListenerWindow(this->root, "Combat spatial");
+	this->listenerWindow = new ListenerWindow(this->root, "Briquette");
 
 	// get the generic SceneManager
 	this->sceneMgr = this->root->createSceneManager(Ogre::ST_GENERIC);
@@ -151,14 +151,14 @@ void Application::initListeners(void)
 	windowHndStr << windowHnd;
 	pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
 
-	//this->inputManager = OIS::InputManager::createInputSystem(pl);
+	this->inputManager = OIS::InputManager::createInputSystem(pl);
 	this->listenerFrame = new ListenerFrame(this->root);
 
 	this->listenerWindow->signalWindowClosed.add(&ListenerFrame::shutdown, this->listenerFrame);
 
 
-	//this->listenerMouse = new ListenerMouse(this->inputManager);
-	//this->listenerKeyboard = new ListenerKeyboard(this->inputManager);
+	this->listenerMouse = new ListenerMouse(this->inputManager);
+	this->listenerKeyboard = new ListenerKeyboard(this->inputManager);
 
 
 	this->listenerWindow->setMouseControl(this->listenerMouse);

@@ -11,11 +11,9 @@
 
 /*!
  * \brief Main function
- * \param argc Number of parameters
- * \param argv List of parameters
  * \return State of execution
 */
-int main(int argc, char * argv[]);
+int main();
 
 
 #endif // __MAIN_H__
