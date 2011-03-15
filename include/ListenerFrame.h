@@ -7,9 +7,6 @@
 
 #include <iostream>
 #include <Ogre.h>
-#include <OgreFrameListener.h>
-#include <OgreBulletDynamicsRigidBody.h>
-#include <Shapes/OgreBulletCollisionsSphereShape.h>
 #include "Signal.h"
 #include "ClassRoot.h"
 
@@ -19,6 +16,29 @@
  */
 class ListenerFrame : public ClassRoot, public Ogre::FrameListener
 {
+	private:
+		/*!
+		 *  \brief Instance de ListenerFrame pour le singleton
+		 */
+		static ListenerFrame * _instance ;
+		
+	public:
+		/*!
+		 *  \brief Retourne une référence sur l'instance du singleton
+		 */		
+		static void createSingleton();
+		/*!
+		 *  \brief Retourne un pointeur sur l'instance du singleton
+		 */
+		static ListenerFrame * getSingletonPtr();
+		/*!
+		 *  \brief Retourne une référence sur l'instance du singleton
+		 */		
+		static ListenerFrame & getSingleton();
+		
+		
+		
+		
     private :
         /*!
          * \brief Indique si l'application est fermée
@@ -29,7 +49,7 @@ class ListenerFrame : public ClassRoot, public Ogre::FrameListener
         /*!
          * \brief Dispatche le signal à chaque image. N'a aucun argument.
          */
-        Signal<void*> signalFrameRendering;
+        Signal<void *> signalFrameRendering;
          /*!
          * \brief Dispatche le signal à chaque début d'image. 
          */
@@ -38,39 +58,47 @@ class ListenerFrame : public ClassRoot, public Ogre::FrameListener
          * \brief Dispatche le signal à chaque fin d'image. 
          */
         Signal<const Ogre::FrameEvent&> signalFrameEnded;
+        
+        
+	private:
 		/*!
 		 * \brief Constructeur
 		 */
-		ListenerFrame(Ogre::Root * root);
+		ListenerFrame();
+		
+	public:
 		/*!
 		 * \brief Destructeur
 		 */
 		~ListenerFrame();
+		
 		/*!
-		 *  \brief Génère la frame de rendu
+		 * \brief Génère la frame de rendu
+		 * \param evt Evénement de la frame
+		 * \return Si on arrête l'application
 		 */
         bool frameRenderingQueued(const Ogre::FrameEvent& evt);
-
-		bool frameStarted(const Ogre::FrameEvent& evt);//Tingshuo
 		/*!
-		*  \brief Comportement après génération de la frame
-		*/
+		 * \brief Comportement avnt génération de la frame
+		 * \param evt Evénement de la frame
+		 * \return Si on arrête l'application
+		 */
+		bool frameStarted(const Ogre::FrameEvent& evt);
+		/*!
+		 * \brief Comportement après génération de la frame
+		 * \param evt Evénement de la frame
+		 * \return Si on arrête l'application
+		 */
 		bool frameEnded(const Ogre::FrameEvent& evt);
+		
+		/*!
+         * \brief Appelée lorsque l'application est fermée
+         */
+        void shutdown();
 		/*!
         * \brief Appelée lorsque l'application est fermée
         */
-        void shutdown()
-        {
-            this->shutdown(NULL);
-        }
-		/*!
-        * \brief Appelée lorsque l'application est fermée
-        */
-        void shutdown(void*);
-//		//Tingshuo Debut
-//		OgreBulletDynamics::RigidBody* addSphere(const Ogre::Entity *entity, Ogre::SceneNode *node, const Ogre::Vector3 &pos, const Ogre::Quaternion &q, const Ogre::Real radius, 
-//			const Ogre::Real bodyRestitution, const Ogre::Real bodyFriction, const Ogre::Real bodyMass);
-//		//Tingshuo Fin
+        void shutdown(void *);
 };
 
 #endif //__LISTENER_FRAME_H__

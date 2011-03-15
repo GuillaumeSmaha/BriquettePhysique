@@ -5,7 +5,7 @@
 #ifndef __UTILS_H__
 #define __UTILS_H__
 
-#include <Ogre.h>
+#include <OgreString.h>
 #include <math.h>
 #include <time.h>
 #include <sstream>

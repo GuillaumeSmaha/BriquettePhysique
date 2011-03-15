@@ -3,6 +3,36 @@
 using namespace Ogre;
 
 
+Application * Application::_instance = NULL;
+
+void Application::createSingleton()
+{
+	if (_instance == NULL)
+	{
+		_instance = new Application();
+	}
+}
+
+Application * Application::getSingletonPtr()
+{
+	if (_instance == NULL)
+	{
+		_instance = new Application();
+	}
+	return _instance;
+}
+
+Application & Application::getSingleton()
+{
+	if (_instance == NULL)
+	{
+		_instance = new Application();
+	}
+	return *_instance;
+}
+
+
+
 Application::Application(void)
 {
 	this->root = NULL;

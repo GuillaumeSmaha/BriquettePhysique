@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 #Déclaration du projet
 project(BriquettePhysique)
+set(CMAKE_PROJECT_NAME "BriquettePhysique")
 set(PROJECT_VERSION_MAJOR 1)
 set(PROJECT_VERSION_MINOR 0)
 set(PROJECT_VERSION_PATCH 0)

@@ -1,5 +1,35 @@
 #include "ListenerMouse.h"
 
+
+ListenerMouse * ListenerMouse::_instance = NULL;
+
+void ListenerMouse::createSingleton(OIS::InputManager * inputManager)
+{
+	if (_instance == NULL)
+	{
+		_instance = new ListenerMouse(inputManager);
+	}
+}
+
+ListenerMouse * ListenerMouse::getSingletonPtr()
+{
+	if (_instance == NULL)
+	{
+		return NULL;
+	}
+	return _instance;
+}
+
+ListenerMouse & ListenerMouse::getSingleton()
+{
+	if (_instance == NULL)
+	{
+		return NULL;
+	}
+	return *_instance;
+}
+
+
 ListenerMouse::ListenerMouse(OIS::InputManager * inputManager)
 {
 	this->inputManager = inputManager;
@@ -12,7 +42,7 @@ ListenerMouse::~ListenerMouse()
 	this->inputManager->destroyInputObject(this->mouse);
 }
 
-void ListenerMouse::capture(void * paramCapture)
+void ListenerMouse::capture(void *)
 {
     this->mouse->capture();
 }

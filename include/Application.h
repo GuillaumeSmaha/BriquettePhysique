@@ -32,6 +32,29 @@ class Application
 {
 	private:
 		/*!
+		 *  \brief Instance de Application pour le singleton
+		 */
+		static Application * _instance ;
+		
+	public:
+		/*!
+		 *  \brief Retourne une référence sur l'instance du singleton
+		 */		
+		static void createSingleton();
+		/*!
+		 *  \brief Retourne un pointeur sur l'instance du singleton
+		 */
+		static Application * getSingletonPtr();
+		/*!
+		 *  \brief Retourne une référence sur l'instance du singleton
+		 */		
+		static Application & getSingleton();
+		
+		
+		
+		
+	private:
+		/*!
 		*  \brief Ogre Root
 		*/
 		Ogre::Root * root;
@@ -59,23 +82,6 @@ class Application
 		OIS::InputManager * inputManager;
 
 		/*!
-		* \brief Listener pour les événements fenetre
-		*/
-		ListenerWindow * listenerWindow;
-		/*!
-		* \brief Listener pour les événements souris
-		*/
-		ListenerMouse * listenerMouse;
-		/*!
-		* \brief Listener pour les événements clavier
-		*/
-		ListenerKeyboard * listenerKeyboard;
-		/*!
-		* \brief Listener pour les événements rendu
-		*/
-		ListenerFrame * listenerFrame;
-
-		/*!
 		* \brief Texte utile pour le debug
 		*/
 		Ogre::String debugText;
@@ -91,15 +97,17 @@ class Application
 		*  \brief Définit si on arrête le jeu
 		*/
 		bool shutDown;
-
-    public:
-
+		
+		
+	private:
         /*!
-         * \brief constructeur
+         * \brief Constructeur
         */
         Application();
+
+    public:
         /*!
-         * \brief destructeur
+         * \brief Destructeur
         */
         ~Application();
         /*!

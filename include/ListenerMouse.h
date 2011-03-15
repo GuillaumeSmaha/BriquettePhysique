@@ -20,6 +20,28 @@ class ListenerMouse : public ClassRoot, public OIS::MouseListener
 {
 	private:
 		/*!
+		 *  \brief Instance de ListenerMouse pour le singleton
+		 */
+		static ListenerMouse * _instance ;
+		
+	public:
+		/*!
+		 *  \brief Retourne une référence sur l'instance du singleton
+		 */		
+		static void createSingleton(OIS::InputManager * inputManager);
+		/*!
+		 *  \brief Retourne un pointeur sur l'instance du singleton
+		 */
+		static ListenerMouse * getSingletonPtr();
+		/*!
+		 *  \brief Retourne une référence sur l'instance du singleton
+		 */		
+		static ListenerMouse & getSingleton();
+		
+		
+		
+	private:
+		/*!
 		 *  \brief Gestionnaire d'événements
 		 */
         OIS::InputManager * inputManager;
@@ -41,10 +63,18 @@ class ListenerMouse : public ClassRoot, public OIS::MouseListener
 		 * \brief Dispatche un signal lorsque une touche de la souris est relâchée Signal(OIS::MouseButtonID)
 		 */
         Signal<OIS::MouseButtonID> signalMouseReleased;
+        
+        
+        
+        
+	private:
 		/*!
 		 * \brief Constructeur
+		 * \param inputManager Gestionnaire d'entrée
 		 */
 		ListenerMouse(OIS::InputManager * inputManager);
+        
+	public:
 		/*!
 		 * \brief Destructeur
 		 */
@@ -53,34 +83,33 @@ class ListenerMouse : public ClassRoot, public OIS::MouseListener
 		/*!
 		 * \brief Recupère les événements
 		 */
-		void capture()
-		{
-			this->capture(NULL);
-		}
+		void capture();
 		/*!
 		 * \brief Recupère les événements
-		 * \param paramCapture Parametre de capture 
 		 */
-		void capture(void * paramCapture);
+		void capture(void *);
 		/*!
-		 *  \brief Action à effectuer pour l'événement "souis en mouvement"
-		 * 	\param evt Evenement de la souris
+		 * \brief Action à effectuer pour l'événement "souis en mouvement"
+		 * \param evt Evenement de la souris
+		 * \return Si il y a une erreur durant l'événement
 		 */
         bool mouseMoved( const OIS::MouseEvent &evt );
 		/*!
-		 *  \brief Action à effectuer pour l'événement "touche de la souris cliquée"
-		 * 	\param evt Evenement de la souris
-		 * 	\param id Identifiant du bouton de la souris
+		 * \brief Action à effectuer pour l'événement "touche de la souris cliquée"
+		 * \param evt Evenement de la souris
+		 * \param id Identifiant du bouton de la souris
+		 * \return Si il y a une erreur durant l'événement
 		 */
         bool mousePressed( const OIS::MouseEvent &evt, OIS::MouseButtonID id );
 		/*!
-		 *  \brief Action à effectuer pour l'événement "touche de la souris relachée"
-		 * 	\param evt Evenement de la souris
-		 * 	\param id Identifiant du bouton de la souris
+		 * \brief Action à effectuer pour l'événement "touche de la souris relachée"
+		 * \param evt Evenement de la souris
+		 * \param id Identifiant du bouton de la souris
+		 * \return Si il y a une erreur durant l'événement
 		 */
         bool mouseReleased( const OIS::MouseEvent &evt, OIS::MouseButtonID id );
         
-        //getter/setter
+        //Getter/Setter
 
 		/*!
 		 * \brief [Getter] Récupère la valeur de mouse

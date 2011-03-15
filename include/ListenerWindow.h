@@ -5,9 +5,7 @@
 #ifndef __LISTENER_WINDOW_H__
 #define __LISTENER_WINDOW_H__
 
-#include <OgreRoot.h>
-#include <OgreWindowEventUtilities.h>
-#include "Utils.h"
+#include <Ogre.h>
 #include "Signal.h"
 #include "OISMouse.h"
 #include "ListenerMouse.h"
@@ -20,54 +18,55 @@
 class ListenerWindow :  public ClassRoot, public Ogre::WindowEventListener
 {
 	private:
+		/*!
+		 *  \brief Instance de ListenerWindow pour le singleton
+		 */
+		static ListenerWindow * _instance ;
+		
+	public:
+		/*!
+		 *  \brief Retourne une référence sur l'instance du singleton
+		 */		
+		static void createSingleton(Ogre::String windowName);
+		/*!
+		 *  \brief Retourne un pointeur sur l'instance du singleton
+		 */
+		static ListenerWindow * getSingletonPtr();
+		/*!
+		 *  \brief Retourne une référence sur l'instance du singleton
+		 */		
+		static ListenerWindow & getSingleton();
+	
+				
+		
+	private:
         /*!
 		 *  \brief Dispatche un signal lorsque la souris bouge Signal(Ogre::Vector3(X, Y, Z)))
 		 */
-        Ogre::RenderWindow * renderWindow;
-         /*!
-		 * \brief Pointeur sur le controleur de la souris
-		 */
-        ListenerMouse * mouseControl;
+        Ogre::RenderWindow * renderWindow;		
 		
-
 	public:
 		/*!
 		 * \brief Dispatche un signal lorsque la fenêtre est fermée Signal(void)
 		 */
 		Signal<void*> signalWindowClosed;
+		
+	private:
 		/*!
-		 * \brief Constructeur
+		 * \brief Constructor
 		 */
-		ListenerWindow(Ogre::Root * root, Ogre::String nameWindow);
+		ListenerWindow();
+		/*!
+		 * \brief Constructor
+		 * \param nameWindow Name of the window
+		 */
+		ListenerWindow(Ogre::String windowName);
+		
+	public:
 		/*!
 		 * \brief Destructeur
 		 */
 		~ListenerWindow();
-
-		/*!
-		 * \brief [Getter] Recupère le pointeur
-		 * \return Le pointeur sur le capteur d'événements de la fenêtre
-		 */
-		Ogre::RenderWindow * getRenderWindow()
-		{
-			return this->renderWindow;
-		}
-		/*!
-		 * \brief [Setter] Définit le pointeur
-		 * \return window Le pointeur sur le capteur d'événements de la souris
-		 */
-		void setMouseControl(ListenerMouse * mouseControl)
-		{
-			this->mouseControl = mouseControl;
-		}
-		/*!
-		 * \brief [Setter] Définit le pointeur
-		 * \return window Le pointeur sur le capteur d'événements de la fenêtre
-		 */
-		void setRenderWindow(Ogre::RenderWindow * renderWindow)
-		{
-			this->renderWindow = renderWindow;
-		}
 
 		/*!
 		 *  \brief Action à effectuer pour l'événement "redimensionnement de la fenêtre"
@@ -79,6 +78,25 @@ class ListenerWindow :  public ClassRoot, public Ogre::WindowEventListener
 		 * 	\param rw Fenêtre de rendu
 		 */
         void windowClosed(Ogre::RenderWindow * rw);
+        
+		//Getter/Setter
+		
+		/*!
+		 * \brief [Getter] Recupère le pointeur
+		 * \return Le pointeur sur le capteur d'événements de la fenêtre
+		 */
+		Ogre::RenderWindow * getRenderWindow()
+		{
+			return this->renderWindow;
+		}
+		/*!
+		 * \brief [Setter] Définit le pointeur
+		 * \return window Le pointeur sur le capteur d'événements de la fenêtre
+		 */
+		void setRenderWindow(Ogre::RenderWindow * renderWindow)
+		{
+			this->renderWindow = renderWindow;
+		}
 };
 
 #endif //__LISTENER_WINDOW_H__

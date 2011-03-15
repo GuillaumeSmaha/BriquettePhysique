@@ -1,5 +1,35 @@
 #include "ListenerKeyboard.h"
 
+
+
+ListenerKeyboard * ListenerKeyboard::_instance = NULL;
+
+void ListenerKeyboard::createSingleton(OIS::InputManager * inputManager)
+{
+	if (_instance == NULL)
+	{
+		_instance = new ListenerKeyboard(inputManager);
+	}
+}
+
+ListenerKeyboard * ListenerKeyboard::getSingletonPtr()
+{
+	if (_instance == NULL)
+	{
+		return NULL;
+	}
+	return _instance;
+}
+
+ListenerKeyboard & ListenerKeyboard::getSingleton()
+{
+	if (_instance == NULL)
+	{
+		return NULL;
+	}
+	return *_instance;
+}
+
 ListenerKeyboard::ListenerKeyboard(OIS::InputManager * inputManager)
 {
     this->inputManager = inputManager;
@@ -12,7 +42,7 @@ ListenerKeyboard::~ListenerKeyboard()
 	this->inputManager->destroyInputObject(this->keyboard);
 }
 
-void ListenerKeyboard::capture(void*)
+void ListenerKeyboard::capture(void *)
 {
     this->keyboard->capture();
 }

@@ -16,6 +16,17 @@
 template <typename Retour>
 class Signal : public ClassRoot
 {
+    private:
+        /*!
+         * \brief Contient la liste des listeners Class
+         */
+		std::vector<ClassRoot *> listenersClass;
+        /*!
+         * \brief Contient la liste des listeners Method
+         */
+		std::vector<void (ClassRoot::*)(Retour)> listenersMethod;
+		
+		
     public:
         /*!
 		* \brief Constructor
@@ -56,7 +67,7 @@ class Signal : public ClassRoot
 		* \brief Appelle les différents listeners en leur passant un paramètre
 		* \param argument Paramètre passé aux listeners
 		*/
-        void dispatch( Retour argument)
+        void dispatch(Retour argument)
         {
 			ClassRoot * ptrClass;
             void (ClassRoot::* func)(Retour);
@@ -90,16 +101,6 @@ class Signal : public ClassRoot
                 }
             }
         }
-
-    private:
-        /*!
-         * \brief Contient la liste des listeners Class
-         */
-		std::vector<ClassRoot *> listenersClass;
-        /*!
-         * \brief Contient la liste des listeners Method
-         */
-		std::vector<void (ClassRoot::*)(Retour)> listenersMethod;
 };
 
 #endif // __SIGNAL_H__

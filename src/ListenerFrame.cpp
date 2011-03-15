@@ -1,8 +1,38 @@
 #include "ListenerFrame.h"
 
-ListenerFrame::ListenerFrame( Ogre::Root * root): closed(false)
+
+ListenerFrame * ListenerFrame::_instance = NULL;
+
+void ListenerFrame::createSingleton()
 {
-   	root->addFrameListener(this);
+	if (_instance == NULL)
+	{
+		_instance = new ListenerFrame();
+	}
+}
+
+ListenerFrame * ListenerFrame::getSingletonPtr()
+{
+	if (_instance == NULL)
+	{
+		_instance = new ListenerFrame();
+	}
+	return _instance;
+}
+
+ListenerFrame & ListenerFrame::getSingleton()
+{
+	if (_instance == NULL)
+	{
+		_instance = new ListenerFrame();
+	}
+	return *_instance;
+}
+
+
+ListenerFrame::ListenerFrame(): closed(false)
+{
+   	Application::getSingleton()->getRoot()->addFrameListener(this);
 }
 
 ListenerFrame::~ListenerFrame()
@@ -11,7 +41,6 @@ ListenerFrame::~ListenerFrame()
 
 bool ListenerFrame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
-
     if(this->closed)
     {
         return false;
@@ -19,12 +48,6 @@ bool ListenerFrame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 
     this->signalFrameRendering.dispatch();
 	return true;
-}
-
-void ListenerFrame::shutdown(void*)
-{
-    this->closed = true;
-
 }
 
 bool ListenerFrame::frameStarted(const Ogre::FrameEvent &evt)
@@ -39,3 +62,14 @@ bool ListenerFrame::frameEnded(const Ogre::FrameEvent &evt)
 	return true;
 }
 
+
+void ListenerFrame::shutdown()
+{
+    this->shutdown(NULL);
+
+}
+void ListenerFrame::shutdown(void*)
+{
+    this->closed = true;
+
+}
