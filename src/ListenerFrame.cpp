@@ -29,10 +29,18 @@ ListenerFrame & ListenerFrame::getSingleton()
 	return *_instance;
 }
 
+void ListenerFrame::destroySingleton()
+{
+    if(_instance != NULL)
+    {
+        delete _instance;
+    }
+}
+
 
 ListenerFrame::ListenerFrame(): closed(false)
 {
-   	Application::getSingleton()->getRoot()->addFrameListener(this);
+   	Application::getSingletonPtr()->getRoot()->addFrameListener(this);
 }
 
 ListenerFrame::~ListenerFrame()

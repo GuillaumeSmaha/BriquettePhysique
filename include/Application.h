@@ -1,5 +1,3 @@
-
-
 /*!
 *  \file  Application.h
 *  \brief Ce fichier contient la déclaration de la classe Application. C'est la classe qui permet d'initialiser le logiciel en partie en gérant les aspecs graphiques et évènement
@@ -9,11 +7,16 @@
 
 
 #include <Ogre.h>
-
+#include "Utils.h"
 #include "ListenerWindow.h"
 #include "ListenerMouse.h"
 #include "ListenerKeyboard.h"
 #include "ListenerFrame.h"
+
+class ListenerWindow;
+class ListenerMouse;
+class ListenerKeyboard;
+class ListenerFrame;
 
 /*!
 * \class Application
@@ -49,6 +52,10 @@ class Application
 		 *  \brief Retourne une référence sur l'instance du singleton
 		 */		
 		static Application & getSingleton();
+        /*!
+         * \brief Detruit le singleton
+         */
+        static void destroySingleton();
 		
 		
 		
@@ -63,6 +70,15 @@ class Application
 		*/
 		Ogre::SceneManager * sceneMgr;
 		/*!
+		*  \brief Capteur d'événements
+		*/
+		OIS::InputManager * inputManager;
+		/*!
+		* \brief GUI pour afficher les stats
+		*/
+		Ogre::Overlay * debugOverlay;
+		
+		/*!
 		*  \brief Chemin du fichier resources.cfg
 		*/
 		Ogre::String resourcesCfg;
@@ -72,23 +88,9 @@ class Application
 		Ogre::String pluginsCfg;
 
 		/*!
-		* \brief GUI pour afficher les stats
-		*/
-		Ogre::Overlay * debugOverlay;
-
-		/*!
-		*  \brief Capteur d'événements
-		*/
-		OIS::InputManager * inputManager;
-
-		/*!
 		* \brief Texte utile pour le debug
 		*/
 		Ogre::String debugText;
-
-
-    public:
-
     	/*!
 		*  \brief Définit si on affiche les stats
 		*/
@@ -110,15 +112,11 @@ class Application
          * \brief Destructeur
         */
         ~Application();
+        
         /*!
          * \brief demarrage du programme
         */
         bool start();
-
-        /*!
-         * \brief mise à jour des statistiques (nb frames...)
-        */
-        void updateStats(void *);
     
         /*!
          * \brief charge les ressources du projet (mesh, material...)
@@ -134,10 +132,52 @@ class Application
          * \brief Charge le graphe de scene
         */
         void initSceneGraph();
+
+        /*!
+         * \brief mise à jour des statistiques (nb frames...)
+        */
+        void updateStats(void *);
+        
+        
+        //Getter/Setter
+        
 		/*!
 		* \brief Affiche l'overlay des stats
+		* \param show Si on affiche les stats
 		*/
-		void showDebugOverlay(bool);
+		void showDebugOverlay(bool show);
+		
+		/*!
+		* \brief [Getter] Returns a pointer on root
+		* \return Get the value of root
+		*/
+		Ogre::Root * getRoot()
+		{
+			return this->root;
+		}
+		
+		/*!
+		* \brief [Getter] Returns a pointer on sceneMgr
+		* \return Get the value of sceneMgr
+		*/
+		Ogre::SceneManager * getSceneManager()
+		{
+			return this->sceneMgr;
+		}
+		
+		/*!
+		* \brief [Getter] Returns a pointer on inputManager
+		* \return Get the value of inputManager
+		*/
+		OIS::InputManager * getInputManager()
+		{
+			return this->inputManager;
+		}
+		
+		Ogre::Overlay * getDebugOverlay()
+		{
+			return this->debugOverlay;
+		}
 
 
 };

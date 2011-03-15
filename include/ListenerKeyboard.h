@@ -10,6 +10,9 @@
 #include <OISKeyboard.h>
 #include "ClassRoot.h"
 #include "Signal.h"
+#include "Application.h"
+
+class Application;
 
 /*!
  * \class ListenerKeyboard
@@ -27,7 +30,7 @@ class ListenerKeyboard : public ClassRoot , public OIS::KeyListener
 		/*!
 		 *  \brief Retourne une référence sur l'instance du singleton
 		 */		
-		static void createSingleton(OIS::InputManager * inputManager);
+		static void createSingleton();
 		/*!
 		 *  \brief Retourne un pointeur sur l'instance du singleton
 		 */
@@ -36,15 +39,15 @@ class ListenerKeyboard : public ClassRoot , public OIS::KeyListener
 		 *  \brief Retourne une référence sur l'instance du singleton
 		 */		
 		static ListenerKeyboard & getSingleton();
+        /*!
+         * \brief Detruit le singleton
+         */
+        static void destroySingleton();
 		
 		
 		
 		
 	private:
-        /*!
-		 *  \brief Gestionnaire d'événements I/O
-		 */
-        OIS::InputManager * inputManager;
 		/*!
 		 *  \brief Capteur d'événements du clavier
 		 */
@@ -66,7 +69,7 @@ class ListenerKeyboard : public ClassRoot , public OIS::KeyListener
 		 * \brief Constructeur
 		 * \param inputManager Gestionnaire d'entrée
 		 */
-		ListenerKeyboard(OIS::InputManager * inputManager);
+		ListenerKeyboard();
 		
 	public:
 		/*!

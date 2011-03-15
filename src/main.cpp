@@ -3,12 +3,17 @@
 
 int main(void)
 {
-	Application appli;
+	Application::createSingleton();
 
-	try {
-	    appli.start();
-	} catch( Ogre::Exception& e ) {
+	try
+	{
+	    Application::getSingletonPtr()->start();
+		Application::destroySingleton();
+	}
+	catch( Ogre::Exception& e )
+	{
 		std::cerr << "An exception has occured: " << e.getFullDescription().c_str() << std::endl;
+		Application::destroySingleton();
 		return 1;
 	}
 

@@ -8,7 +8,9 @@
 #include <Ogre.h>
 #include "Signal.h"
 #include "OISMouse.h"
-#include "ListenerMouse.h"
+#include "Application.h"
+
+class Application;
 
 
 /*!
@@ -36,6 +38,10 @@ class ListenerWindow :  public ClassRoot, public Ogre::WindowEventListener
 		 *  \brief Retourne une référence sur l'instance du singleton
 		 */		
 		static ListenerWindow & getSingleton();
+        /*!
+         * \brief Detruit le singleton
+         */
+        static void destroySingleton();
 	
 				
 		

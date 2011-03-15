@@ -30,14 +30,21 @@ ListenerWindow & ListenerWindow::getSingleton()
 	return *_instance;
 }
 
+void ListenerWindow::destroySingleton()
+{
+    if(_instance != NULL)
+    {
+        delete _instance;
+    }
+}
+
 
 ListenerWindow::ListenerWindow()
 {
 	if (_instance == NULL)
 	{
-		this->renderWindow = Application::getSingleton()->getRoot()->initialise(true, "Generic Window");
+		this->renderWindow = Application::getSingletonPtr()->getRoot()->initialise(true, "Generic Window");
 		Ogre::WindowEventUtilities::addWindowEventListener(this->renderWindow, this);
-		this->windowResized(this->renderWindow);
 		_instance = this;
 	}
 }
@@ -46,9 +53,9 @@ ListenerWindow::ListenerWindow(Ogre::String windowName)
 {
 	if (_instance == NULL)
 	{
-		this->renderWindow = Application::getSingleton()->getRoot()->initialise(true, windowName);
+		this->renderWindow = Application::getSingletonPtr()->getRoot()->
+		initialise(true, windowName);
 		Ogre::WindowEventUtilities::addWindowEventListener(this->renderWindow, this);
-		this->windowResized(this->renderWindow);
 		_instance = this;
 	}
 }

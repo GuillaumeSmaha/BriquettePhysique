@@ -10,6 +10,9 @@
 #include <OISMouse.h>
 #include "ClassRoot.h"
 #include "Signal.h"
+#include "Application.h"
+
+class Application;
 
 
 /*!
@@ -28,7 +31,7 @@ class ListenerMouse : public ClassRoot, public OIS::MouseListener
 		/*!
 		 *  \brief Retourne une référence sur l'instance du singleton
 		 */		
-		static void createSingleton(OIS::InputManager * inputManager);
+		static void createSingleton();
 		/*!
 		 *  \brief Retourne un pointeur sur l'instance du singleton
 		 */
@@ -37,14 +40,14 @@ class ListenerMouse : public ClassRoot, public OIS::MouseListener
 		 *  \brief Retourne une référence sur l'instance du singleton
 		 */		
 		static ListenerMouse & getSingleton();
+        /*!
+         * \brief Detruit le singleton
+         */
+        static void destroySingleton();
 		
 		
 		
 	private:
-		/*!
-		 *  \brief Gestionnaire d'événements
-		 */
-        OIS::InputManager * inputManager;
 		/*!
 		 *  \brief Capteur d'événements de la souris
 		 */
@@ -72,7 +75,7 @@ class ListenerMouse : public ClassRoot, public OIS::MouseListener
 		 * \brief Constructeur
 		 * \param inputManager Gestionnaire d'entrée
 		 */
-		ListenerMouse(OIS::InputManager * inputManager);
+		ListenerMouse();
         
 	public:
 		/*!

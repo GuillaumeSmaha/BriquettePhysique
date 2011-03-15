@@ -4,11 +4,14 @@
 
 ListenerKeyboard * ListenerKeyboard::_instance = NULL;
 
-void ListenerKeyboard::createSingleton(OIS::InputManager * inputManager)
+void ListenerKeyboard::createSingleton()
 {
 	if (_instance == NULL)
 	{
-		_instance = new ListenerKeyboard(inputManager);
+		if(Application::getSingletonPtr()->getInputManager() != NULL)
+		{
+			_instance = new ListenerKeyboard();
+		}
 	}
 }
 
@@ -16,7 +19,10 @@ ListenerKeyboard * ListenerKeyboard::getSingletonPtr()
 {
 	if (_instance == NULL)
 	{
-		return NULL;
+		if(Application::getSingletonPtr()->getInputManager() != NULL)
+		{
+			_instance = new ListenerKeyboard();
+		}
 	}
 	return _instance;
 }
@@ -25,21 +31,33 @@ ListenerKeyboard & ListenerKeyboard::getSingleton()
 {
 	if (_instance == NULL)
 	{
-		return NULL;
+		if(Application::getSingletonPtr()->getInputManager() != NULL)
+		{
+			_instance = new ListenerKeyboard();
+		}
 	}
 	return *_instance;
 }
 
-ListenerKeyboard::ListenerKeyboard(OIS::InputManager * inputManager)
+void ListenerKeyboard::destroySingleton()
 {
-    this->inputManager = inputManager;
+    if(_instance != NULL)
+    {
+        delete _instance;
+    }
+}
+
+
+ListenerKeyboard::ListenerKeyboard()
+{
+    OIS::InputManager * inputManager = Application::getSingletonPtr()->getInputManager();
 	this->keyboard = static_cast<OIS::Keyboard*>(inputManager->createInputObject(OIS::OISKeyboard, true));
 	this->keyboard->setEventCallback(this);
 }
 
 ListenerKeyboard::~ListenerKeyboard()
 {
-	this->inputManager->destroyInputObject(this->keyboard);
+	Application::getSingletonPtr()->getInputManager()->destroyInputObject(this->keyboard);
 }
 
 void ListenerKeyboard::capture(void *)

@@ -9,6 +9,9 @@
 #include <Ogre.h>
 #include "Signal.h"
 #include "ClassRoot.h"
+#include "Application.h"
+
+class Application;
 
 /*!
  * \class ListenerFrame
@@ -35,6 +38,10 @@ class ListenerFrame : public ClassRoot, public Ogre::FrameListener
 		 *  \brief Retourne une référence sur l'instance du singleton
 		 */		
 		static ListenerFrame & getSingleton();
+        /*!
+         * \brief Detruit le singleton
+         */
+        static void destroySingleton();
 		
 		
 		
