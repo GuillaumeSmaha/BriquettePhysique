@@ -44,7 +44,6 @@ void Application::destroySingleton()
 Application::Application(void)
 {
 	this->root = NULL;
-	this->sceneMgr = NULL;
 	this->debugOverlay = NULL;
 	
 #ifdef _DEBUG
@@ -57,9 +56,6 @@ Application::Application(void)
 
 	this->shutDown = false;
 	this->isStatsOn = false;
-    
-    //permet de réagir aux actions utilisateurs
-    PlayerControls::getSingletonPtr()->signalKeyPressed.add(&Application::onKeyPressed, this);
 }
 
 
@@ -67,6 +63,7 @@ Application::~Application(void)
 {
 	std::cout << "-" << std::endl << "Stop	application !!" << std::endl;
 	
+	PlayerControls::destroySingleton();
 	ListenerInputManager::destroySingleton();
 	ListenerFrame::destroySingleton();
 	ListenerWindow::destroySingleton();
@@ -90,7 +87,7 @@ bool Application::start(void)
 	ListenerWindow::createSingleton("Briquette Physique");
 
 	// get the generic SceneManager
-	this->sceneMgr = this->root->createSceneManager(Ogre::ST_GENERIC);
+	GestSceneManager::createSingleton(this->root);
 
 	// Initialisation des ressources
 	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
@@ -145,6 +142,12 @@ void Application::initListeners(void)
 	//Create InputManager Singleton
 	ListenerInputManager::createSingleton();
 	
+	//Create Keyboard Singleton
+	ListenerKeyboard::createSingleton();
+	
+	//Create Mouse Singleton
+	ListenerMouse::createSingleton();
+	
 	//Create Frame Singleton
 	ListenerFrame::createSingleton();
 	
@@ -153,27 +156,27 @@ void Application::initListeners(void)
 
 	//Add signals
 	ListenerWindow::getSingletonPtr()->signalWindowClosed.add(&ListenerFrame::shutdown, ListenerFrame::getSingletonPtr());
-	ListenerFrame::getSingletonPtr()->signalFrameRendering.add(&ListenerInputManager::capture, ListenerInputManager::getSingletonPtr());
-
+	ListenerFrame::getSingletonPtr()->signalFrameRendering.add(&ListenerKeyboard::capture, ListenerKeyboard::getSingletonPtr());
+	ListenerFrame::getSingletonPtr()->signalFrameRendering.add(&ListenerMouse::capture, ListenerMouse::getSingletonPtr());
 }
 
 void Application::initSceneGraph(void)
 {
-    Ogre::Entity* ogreHead = sceneMgr->createEntity("Head", "ogrehead.mesh");
+    Ogre::Entity* ogreHead = GestSceneManager::getSceneManager()->createEntity("Head", "ogrehead.mesh");
  
-    Ogre::SceneNode* headNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
+    Ogre::SceneNode* headNode = GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode();
     headNode->attachObject(ogreHead);
-    this->sceneMgr->setAmbientLight(Ogre::ColourValue(1.0, 1.0, 1.0));
-	this->sceneMgr->setAmbientLight(Ogre::ColourValue::White);
+    GestSceneManager::getSceneManager()->setAmbientLight(Ogre::ColourValue(1.0, 1.0, 1.0));
+	GestSceneManager::getSceneManager()->setAmbientLight(Ogre::ColourValue::White);
 
-    Ogre::Light* l = this->sceneMgr->createLight("MainLight");
+    Ogre::Light* l = GestSceneManager::getSceneManager()->createLight("MainLight");
     l->setPosition(0,0,0);
-    Ogre::SceneNode *nodeLight1 = sceneMgr->getRootSceneNode()->createChildSceneNode("NodeLight1");
+    Ogre::SceneNode *nodeLight1 = GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode("NodeLight1");
     nodeLight1->attachObject(l);
     
-    Ogre::Camera * camera = this->sceneMgr->createCamera("mainCam");
+    Ogre::Camera * camera = GestSceneManager::getSceneManager()->createCamera("mainCam");
     camera->setPosition(Ogre::Vector3(90, 25, 90));
-    camera->lookAt(this->sceneMgr->getRootSceneNode()->getPosition());
+    camera->lookAt(GestSceneManager::getSceneManager()->getRootSceneNode()->getPosition());
 
     Ogre::Viewport* viewPort = ListenerWindow::getSingletonPtr()->getRenderWindow()->addViewport(camera, 0);
     viewPort->setBackgroundColour(Ogre::ColourValue(0.0f, 0.0f, 0.0f));
@@ -227,19 +230,6 @@ void Application::showDebugOverlay(bool show)
 		else
 			this->debugOverlay->hide();
 	}
-}
-
-void Application::onKeyPressed(PlayerControls::Controls key)
-{
-    switch(key)
-    {
-        case PlayerControls::QUIT :
-            this->killApplication();
-            break;
-
-        default:
-            break;
-    }
 }
 
 void Application::killApplication()

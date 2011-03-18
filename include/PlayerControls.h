@@ -6,15 +6,12 @@
 #define __PLAYER_CONTROLS_H__
 
 #include <vector>
-#include <OISInputManager.h>
-#include <OISKeyboard.h>
+#include "Utils.h"
 #include "Signal.h"
-#include "ListenerMouse.h"
 #include "ClassRoot.h"
 #include "ListenerKeyboard.h"
+#include "ListenerMouse.h"
 
-class ListenerKeyboard;
-class ListenerMouse;
 
 /*!
 * \class PlayerControls
@@ -23,25 +20,14 @@ class ListenerMouse;
 * Par la suite il faudra donc écouter les évènements (signaux) de PlayerControls et non plus directement de mouse et keyboard
 */
 class PlayerControls: public ClassRoot
-{
+{	
 	private:
 		/*!
 		 *  \brief Instance de ListenerFrame pour le singleton
 		 */
-		static PlayerControls * _instance ;
-        /*!
-         * \brief Constructor
-         * \param mouse MouseListener
-         * \param keyboard KeyboardListener
-         */
-        PlayerControls();
-        /*!
-         * \brief Destructor
-         */
-        virtual ~PlayerControls();
-        
-
-    public:
+		static PlayerControls * _instance;
+		
+	public:
 		/// Définit les différents types de contrôles
 		enum Controls
 		{
@@ -56,13 +42,12 @@ class PlayerControls: public ClassRoot
 			QUIT = 8,
             SWITCH_NEXT_CAMERA = 9,
             SWITCH_PREV_CAMERA = 12,
-            SELECT = 12,    //permet de selectionner une briquette
+            SELECT = 12,    //permet de sélectionner une briquette
             UNDO = 14,
             SUPPR = 15,
             SAVE= 16
 		};
-		
-         /*!
+	     /*!
 		 * \brief Nombre maximum de touche clavier dans OIS
 		 */
 		const static int maxOISKeyControl = 0xED+1;
@@ -71,16 +56,7 @@ class PlayerControls: public ClassRoot
 		 */
 		const static int maxOISMouseControl = 7;
 
-         /*!
-		 * \brief Pointeur sur le controleur du clavier
-		 */
-        ListenerKeyboard * keyboard;
-         /*!
-		 * \brief Pointeur sur le controleur de la souris
-		 */
-        ListenerMouse * mouse;
-
-
+	public:
 		/*!
 		 *  \brief Retourne une référence sur l'instance du singleton
 		 */		
@@ -97,8 +73,7 @@ class PlayerControls: public ClassRoot
          * \brief Detruit le singleton
          */
         static void destroySingleton();
-
-
+	
 
 	private:
          /*!
@@ -140,7 +115,19 @@ class PlayerControls: public ClassRoot
         */
         void reprendre_ecoute();
 
+
+	
+	private:
+        /*!
+         * \brief Constructor
+         */
+        PlayerControls();
+        
     public:
+        /*!
+         * \brief Destructor
+         */
+        virtual ~PlayerControls();
 
         /*!
          * \brief Permet de remettre les touches par défaults
@@ -183,12 +170,12 @@ class PlayerControls: public ClassRoot
 		 * \brief Reçoit un dispatche lorsqu'une touche de la souris est pressée et le transmet à signalKeyPressed
 		 * \param evt Event OIS
 		 */
-        void mousePressed(OIS::MouseButtonID evt);
+        void mousePressed(const OIS::MouseButtonID evt);
         /*!
 		 * \brief Reçoit un dispatche lorsqu'une touche de la souris est relâchée et le transmet à signalKeyReleased
 		 * \param evt Event OIS
 		 */
-        void mouseReleased(OIS::MouseButtonID evt);
+        void mouseReleased(const OIS::MouseButtonID evt);
         /*!
 		 * \brief Convertit un évènement OIS::KeyEvent en PlayerControls::Controls pour se défaire du couplage aux touches physiques
 		 * \param evt Event OIS

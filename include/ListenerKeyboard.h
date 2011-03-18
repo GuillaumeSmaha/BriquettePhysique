@@ -10,7 +10,6 @@
 #include "Signal.h"
 #include "ListenerInputManager.h"
 
-class ListenerInputManager;
 
 /*!
  * \class ListenerKeyboard

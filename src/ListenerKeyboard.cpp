@@ -1,7 +1,6 @@
 #include "ListenerKeyboard.h"
 
 
-
 ListenerKeyboard * ListenerKeyboard::_instance = NULL;
 
 void ListenerKeyboard::createSingleton()

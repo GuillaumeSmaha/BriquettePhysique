@@ -8,15 +8,15 @@
 
 #include <Ogre.h>
 #include "Utils.h"
-
 #include "PlayerControls.h"
+#include "GestSceneManager.h"
 #include "ListenerWindow.h"
 #include "ListenerFrame.h"
 #include "ListenerInputManager.h"
 
 class ListenerWindow;
 class ListenerFrame;
-class PlayerControls;
+
 /*!
 * \class Application
 * \brief Class principale qui permet de démarrer le programme, d'afficher la fenêtre et de réagir aux évènements (ceux-ci sont ensuite dirigé vers les classes adaptés)
@@ -64,10 +64,6 @@ class Application : public ClassRoot
 		*/
 		Ogre::Root * root;
 		/*!
-		*  \brief Scène Manager
-		*/
-		Ogre::SceneManager * sceneMgr;
-		/*!
 		* \brief GUI pour afficher les stats
 		*/
 		Ogre::Overlay * debugOverlay;
@@ -100,17 +96,13 @@ class Application : public ClassRoot
          * \brief Constructeur
         */
         Application();
-        
-        /*!
-         * \brief Reagi aux actions émis par l'utilisateur
-         * Ici on regarde simplement si l'on doit quitter l'application
-        */
-        void onKeyPressed(PlayerControls::Controls key);
 
          /*!
          * \brief Permet de terminer le programme
         */
         void killApplication();
+        
+        
     public:
         /*!
          * \brief Destructeur
@@ -161,15 +153,6 @@ class Application : public ClassRoot
 		}
 		
 		/*!
-		* \brief [Getter] Returns a pointer on sceneMgr
-		* \return Get the value of sceneMgr
-		*/
-		Ogre::SceneManager * getSceneManager()
-		{
-			return this->sceneMgr;
-		}
-		
-		/*!
 		* \brief [Getter] Returns a pointer on debugOverlay
 		* \return Get the value of debugOverlay
 		*/		
@@ -177,11 +160,14 @@ class Application : public ClassRoot
 		{
 			return this->debugOverlay;
 		}
-        void setShutDown(bool shutDown){
+		
+        void setShutDown(bool shutDown)
+        {
             this->shutDown=shutDown;
         }
 
-        bool getShutDown(){
+        bool getShutDown()
+        {
             return shutDown;
         }
 
