@@ -1,7 +1,5 @@
 #include "PlayerControls.h"
 
-#include "Utils.h"
-
 PlayerControls * PlayerControls::_instance = NULL;
 
 
@@ -48,24 +46,21 @@ PlayerControls::PlayerControls()
 	this->setMouseMovedActif(true);
 
     this->setDefaultKeys();
-    
-    this->keyboard = ListenerKeyboard::getSingletonPtr();
-    this->mouse = ListenerMouse::getSingletonPtr();
 
-    this->keyboard->signalKeyPressed.add(&PlayerControls::keyboardPressed, this);
-    this->keyboard->signalKeyReleased.add(&PlayerControls::keyboardReleased, this);
-    this->mouse->signalMouseMoved.add(&PlayerControls::mouseMoved, this);
-    this->mouse->signalMousePressed.add(&PlayerControls::mousePressed, this);
-    this->mouse->signalMouseReleased.add(&PlayerControls::mouseReleased, this);
+    ListenerKeyboard::getSingletonPtr()->signalKeyPressed.add(&PlayerControls::keyboardPressed, this);
+    ListenerKeyboard::getSingletonPtr()->signalKeyReleased.add(&PlayerControls::keyboardReleased, this);
+    ListenerMouse::getSingletonPtr()->signalMouseMoved.add(&PlayerControls::mouseMoved, this);
+    ListenerMouse::getSingletonPtr()->signalMousePressed.add(&PlayerControls::mousePressed, this);
+    ListenerMouse::getSingletonPtr()->signalMouseReleased.add(&PlayerControls::mouseReleased, this);
 }
 
 PlayerControls::~PlayerControls()
 {
-    this->keyboard->signalKeyPressed.remove(&PlayerControls::keyboardPressed, this);
-    this->keyboard->signalKeyReleased.remove(&PlayerControls::keyboardReleased, this);
-    this->mouse->signalMouseMoved.remove(&PlayerControls::mouseMoved, this);
-    this->mouse->signalMousePressed.remove(&PlayerControls::mousePressed, this);
-    this->mouse->signalMouseReleased.remove(&PlayerControls::mouseReleased, this);
+    ListenerKeyboard::getSingletonPtr()->signalKeyPressed.remove(&PlayerControls::keyboardPressed, this);
+    ListenerKeyboard::getSingletonPtr()->signalKeyReleased.remove(&PlayerControls::keyboardReleased, this);
+    ListenerMouse::getSingletonPtr()->signalMouseMoved.remove(&PlayerControls::mouseMoved, this);
+    ListenerMouse::getSingletonPtr()->signalMousePressed.remove(&PlayerControls::mousePressed, this);
+    ListenerMouse::getSingletonPtr()->signalMouseReleased.remove(&PlayerControls::mouseReleased, this);
 }
 
 void PlayerControls::setDefaultKeys()
@@ -160,7 +155,7 @@ void PlayerControls::mouseMoved(Ogre::Vector3 vect)
 		this->signalMouseMoved.dispatch(vect);
 }
 
-void PlayerControls::mousePressed(OIS::MouseButtonID evt)
+void PlayerControls::mousePressed(const OIS::MouseButtonID evt)
 {
     Controls key = this->OISEventToControlKey(evt);
     if(key != PlayerControls::NONE)
@@ -169,7 +164,7 @@ void PlayerControls::mousePressed(OIS::MouseButtonID evt)
     }
 }
 
-void PlayerControls::mouseReleased(OIS::MouseButtonID evt)
+void PlayerControls::mouseReleased(const OIS::MouseButtonID evt)
 {
     Controls key = this->OISEventToControlKey(evt);
     if(key != NONE)
@@ -195,20 +190,20 @@ PlayerControls::Controls PlayerControls::OISEventToControlKey(const OIS::MouseBu
 
 void PlayerControls::suspendre_ecoute()
 {
-    this->keyboard->signalKeyPressed.remove(&PlayerControls::keyboardPressed, this);
-    this->keyboard->signalKeyReleased.remove(&PlayerControls::keyboardReleased, this);
-    this->mouse->signalMousePressed.remove(&PlayerControls::mousePressed, this);
-    this->mouse->signalMouseMoved.remove(&PlayerControls::mouseMoved, this);
-    this->mouse->signalMouseReleased.remove(&PlayerControls::mouseReleased, this);
+    ListenerKeyboard::getSingletonPtr()->signalKeyPressed.remove(&PlayerControls::keyboardPressed, this);
+    ListenerKeyboard::getSingletonPtr()->signalKeyReleased.remove(&PlayerControls::keyboardReleased, this);
+    ListenerMouse::getSingletonPtr()->signalMousePressed.remove(&PlayerControls::mousePressed, this);
+    ListenerMouse::getSingletonPtr()->signalMouseMoved.remove(&PlayerControls::mouseMoved, this);
+    ListenerMouse::getSingletonPtr()->signalMouseReleased.remove(&PlayerControls::mouseReleased, this);
 }
 
 void PlayerControls::reprendre_ecoute()
 {
-    this->keyboard->signalKeyPressed.add(&PlayerControls::keyboardPressed, this);
-    this->keyboard->signalKeyReleased.add(&PlayerControls::keyboardReleased, this);
-    this->mouse->signalMouseMoved.add(&PlayerControls::mouseMoved, this);
-    this->mouse->signalMousePressed.add(&PlayerControls::mousePressed, this);
-    this->mouse->signalMouseReleased.add(&PlayerControls::mouseReleased, this);
+    ListenerKeyboard::getSingletonPtr()->signalKeyPressed.add(&PlayerControls::keyboardPressed, this);
+    ListenerKeyboard::getSingletonPtr()->signalKeyReleased.add(&PlayerControls::keyboardReleased, this);
+    ListenerMouse::getSingletonPtr()->signalMouseMoved.add(&PlayerControls::mouseMoved, this);
+    ListenerMouse::getSingletonPtr()->signalMousePressed.add(&PlayerControls::mousePressed, this);
+    ListenerMouse::getSingletonPtr()->signalMouseReleased.add(&PlayerControls::mouseReleased, this);
 }
 
 bool PlayerControls::getMouseMovedActif()

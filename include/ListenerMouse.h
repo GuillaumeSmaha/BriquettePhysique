@@ -5,14 +5,10 @@
 #ifndef __LISTENER_MOUSE_H__
 #define __LISTENER_MOUSE_H__
 
-#include <Ogre.h>
-#include <OISInputManager.h>
 #include <OISMouse.h>
 #include "ClassRoot.h"
 #include "Signal.h"
-#include "Application.h"
-
-class Application;
+#include "ListenerInputManager.h"
 
 
 /*!
@@ -111,6 +107,7 @@ class ListenerMouse : public ClassRoot, public OIS::MouseListener
 		 * \return Si il y a une erreur durant l'événement
 		 */
         bool mouseReleased( const OIS::MouseEvent &evt, OIS::MouseButtonID id );
+        
         
         //Getter/Setter
 
