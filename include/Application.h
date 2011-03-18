@@ -14,6 +14,7 @@
 #include "ListenerMouse.h"
 #include "ListenerKeyboard.h"
 #include "ListenerFrame.h"
+#include "ListenerCollision.h"
 
 class ListenerWindow;
 class ListenerMouse;
