@@ -8,10 +8,7 @@ void ListenerCollision::createSingleton()
 {
 	if (_instance == NULL)
 	{
-		if(Application::getSingletonPtr()->getInputManager() != NULL)
-		{
-			_instance = new ListenerCollision();
-		}
+        _instance = new ListenerCollision();
 	}
 }
 
@@ -19,10 +16,7 @@ ListenerCollision * ListenerCollision::getSingletonPtr()
 {
 	if (_instance == NULL)
 	{
-		if(Application::getSingletonPtr()->getInputManager() != NULL)
-		{
-			_instance = new ListenerCollision();
-		}
+        _instance = new ListenerCollision();
 	}
 	return _instance;
 }
@@ -31,10 +25,7 @@ ListenerCollision & ListenerCollision::getSingleton()
 {
 	if (_instance == NULL)
 	{
-		if(Application::getSingletonPtr()->getInputManager() != NULL)
-		{
-			_instance = new ListenerCollision();
-		}
+        _instance = new ListenerCollision();
 	}
 	return *_instance;
 }

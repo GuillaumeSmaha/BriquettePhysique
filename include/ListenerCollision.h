@@ -33,6 +33,13 @@ class ListenerCollision : public ClassRoot
 		 */
 		OgreBulletCollisions::DebugDrawer * debugDrawer;
 
+		/*!
+		 *  \brief Instance de ListenerMouse pour le singleton
+		 */
+		static ListenerCollision * _instance ;
+	
+
+
 	public :
 		/*!
 		 * \brief Constructeur
