@@ -9,13 +9,10 @@
 #include <Ogre.h>
 #include "Utils.h"
 #include "ListenerWindow.h"
-#include "ListenerMouse.h"
-#include "ListenerKeyboard.h"
 #include "ListenerFrame.h"
+#include "ListenerInputManager.h"
 
 class ListenerWindow;
-class ListenerMouse;
-class ListenerKeyboard;
 class ListenerFrame;
 
 /*!
@@ -69,10 +66,6 @@ class Application
 		*  \brief Scène Manager
 		*/
 		Ogre::SceneManager * sceneMgr;
-		/*!
-		*  \brief Capteur d'événements
-		*/
-		OIS::InputManager * inputManager;
 		/*!
 		* \brief GUI pour afficher les stats
 		*/
@@ -166,14 +159,9 @@ class Application
 		}
 		
 		/*!
-		* \brief [Getter] Returns a pointer on inputManager
-		* \return Get the value of inputManager
-		*/
-		OIS::InputManager * getInputManager()
-		{
-			return this->inputManager;
-		}
-		
+		* \brief [Getter] Returns a pointer on debugOverlay
+		* \return Get the value of debugOverlay
+		*/		
 		Ogre::Overlay * getDebugOverlay()
 		{
 			return this->debugOverlay;

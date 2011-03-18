@@ -45,7 +45,6 @@ Application::Application(void)
 {
 	this->root = NULL;
 	this->sceneMgr = NULL;
-	this->inputManager = NULL;
 	this->debugOverlay = NULL;
 	
 #ifdef _DEBUG
@@ -65,8 +64,7 @@ Application::~Application(void)
 {
 	std::cout << "-" << std::endl << "Stop	application !!" << std::endl;
 	
-	ListenerMouse::destroySingleton();
-	ListenerKeyboard::destroySingleton();
+	ListenerInputManager::destroySingleton();
 	ListenerFrame::destroySingleton();
 	ListenerWindow::destroySingleton();
 }
@@ -141,32 +139,18 @@ void Application::loadRessources(void)
 
 void Application::initListeners(void)
 {	
-	// Init the input system manager
-	OIS::ParamList pl;
-	size_t windowHnd = 0;
-	std::ostringstream windowHndStr;
-	ListenerWindow::getSingletonPtr()->getRenderWindow()->getCustomAttribute("WINDOW", &windowHnd);
-	windowHndStr << windowHnd;
-	pl.insert(std::make_pair(std::string("WINDOW"), windowHndStr.str()));
-	this->inputManager = OIS::InputManager::createInputSystem(pl);
-
+	//Create InputManager Singleton
+	ListenerInputManager::createSingleton();
 	
 	//Create Frame Singleton
 	ListenerFrame::createSingleton();
-	
-	//Create Mouse Singleton
-	ListenerMouse::createSingleton();
-	
-	//Create Keyboard Singleton
-	ListenerKeyboard::createSingleton();
 	
 	//Update the size of window and mouse window size
 	ListenerWindow::getSingletonPtr()->windowResized(ListenerWindow::getSingletonPtr()->getRenderWindow());
 
 	//Add signals
-	ListenerWindow::getSingletonPtr()->signalWindowClosed.add(&ListenerFrame::shutdown, ListenerFrame::getSingletonPtr());	
-    ListenerFrame::getSingletonPtr()->signalFrameRendering.add(&ListenerMouse::capture, ListenerMouse::getSingletonPtr());
-	ListenerFrame::getSingletonPtr()->signalFrameRendering.add(&ListenerKeyboard::capture, ListenerKeyboard::getSingletonPtr());
+	ListenerWindow::getSingletonPtr()->signalWindowClosed.add(&ListenerFrame::shutdown, ListenerFrame::getSingletonPtr());
+	ListenerFrame::getSingletonPtr()->signalFrameRendering.add(&ListenerInputManager::capture, ListenerInputManager::getSingletonPtr());
 
 }
 

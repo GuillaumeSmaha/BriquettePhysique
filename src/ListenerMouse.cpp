@@ -7,9 +7,13 @@ void ListenerMouse::createSingleton()
 {
 	if (_instance == NULL)
 	{
-		if(Application::getSingletonPtr()->getInputManager() != NULL)
+		if(ListenerInputManager::getSingletonPtr()->getInputManager() != NULL)
 		{
 			_instance = new ListenerMouse();
+		}
+		else
+		{
+			std::cerr << "@ListenerMouse::createSingleton() : InputManager undefined" << std::endl;
 		}
 	}
 }
@@ -18,9 +22,13 @@ ListenerMouse * ListenerMouse::getSingletonPtr()
 {
 	if (_instance == NULL)
 	{
-		if(Application::getSingletonPtr()->getInputManager() != NULL)
+		if(ListenerInputManager::getSingletonPtr()->getInputManager() != NULL)
 		{
 			_instance = new ListenerMouse();
+		}
+		else
+		{
+			std::cerr << "@ListenerMouse::getSingletonPtr() : InputManager undefined" << std::endl;
 		}
 	}
 	return _instance;
@@ -30,9 +38,13 @@ ListenerMouse & ListenerMouse::getSingleton()
 {
 	if (_instance == NULL)
 	{
-		if(Application::getSingletonPtr()->getInputManager() != NULL)
+		if(ListenerInputManager::getSingletonPtr()->getInputManager() != NULL)
 		{
 			_instance = new ListenerMouse();
+		}
+		else
+		{
+			std::cerr << "@ListenerMouse::getSingleton() : InputManager undefined" << std::endl;
 		}
 	}
 	return *_instance;
@@ -49,14 +61,19 @@ void ListenerMouse::destroySingleton()
 
 ListenerMouse::ListenerMouse()
 {
-	OIS::InputManager * inputManager = Application::getSingletonPtr()->getInputManager();
+	OIS::InputManager * inputManager = ListenerInputManager::getSingletonPtr()->getInputManager();
 	this->mouse = static_cast<OIS::Mouse*>(inputManager->createInputObject(OIS::OISMouse, true));
 	this->mouse->setEventCallback(this);
 }
 
 ListenerMouse::~ListenerMouse()
 {
-	Application::getSingletonPtr()->getInputManager()->destroyInputObject(this->mouse);
+	ListenerInputManager::getSingletonPtr()->getInputManager()->destroyInputObject(this->mouse);
+}
+
+void ListenerMouse::capture()
+{
+    this->capture(NULL);
 }
 
 void ListenerMouse::capture(void *)

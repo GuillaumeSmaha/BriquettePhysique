@@ -5,14 +5,12 @@
 #ifndef __LISTENER_KEYBOARD_H__
 #define __LISTENER_KEYBOARD_H__
 
-#include <Ogre.h>
-#include <OISInputManager.h>
 #include <OISKeyboard.h>
 #include "ClassRoot.h"
 #include "Signal.h"
-#include "Application.h"
+#include "ListenerInputManager.h"
 
-class Application;
+class ListenerInputManager;
 
 /*!
  * \class ListenerKeyboard
