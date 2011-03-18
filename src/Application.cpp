@@ -57,6 +57,9 @@ Application::Application(void)
 
 	this->shutDown = false;
 	this->isStatsOn = false;
+    
+    //permet de réagir aux actions utilisateurs
+    PlayerControls::getSingletonPtr()->signalKeyPressed.add(&Application::onKeyPressed, this);
 }
 
 
@@ -224,4 +227,23 @@ void Application::showDebugOverlay(bool show)
 		else
 			this->debugOverlay->hide();
 	}
+}
+
+void Application::onKeyPressed(PlayerControls::Controls key)
+{
+    switch(key)
+    {
+        case PlayerControls::QUIT :
+            this->killApplication();
+            break;
+
+        default:
+            break;
+    }
+}
+
+void Application::killApplication()
+{
+    this->setShutDown(true);
+    ListenerFrame::getSingletonPtr()->shutdown();
 }
