@@ -172,7 +172,26 @@ void Application::initListeners(void)
 
 void Application::initSceneGraph(void)
 {
+    Ogre::Entity* ogreHead = sceneMgr->createEntity("Head", "ogrehead.mesh");
+ 
+    Ogre::SceneNode* headNode = sceneMgr->getRootSceneNode()->createChildSceneNode();
+    headNode->attachObject(ogreHead);
+    this->sceneMgr->setAmbientLight(Ogre::ColourValue(1.0, 1.0, 1.0));
 	this->sceneMgr->setAmbientLight(Ogre::ColourValue::White);
+
+    Ogre::Light* l = this->sceneMgr->createLight("MainLight");
+    l->setPosition(0,0,0);
+    Ogre::SceneNode *nodeLight1 = sceneMgr->getRootSceneNode()->createChildSceneNode("NodeLight1");
+    nodeLight1->attachObject(l);
+    
+    Ogre::Camera * camera = this->sceneMgr->createCamera("mainCam");
+    camera->setPosition(Ogre::Vector3(90, 25, 90));
+    camera->lookAt(this->sceneMgr->getRootSceneNode()->getPosition());
+
+    Ogre::Viewport* viewPort = ListenerWindow::getSingletonPtr()->getRenderWindow()->addViewport(camera, 0);
+    viewPort->setBackgroundColour(Ogre::ColourValue(0.0f, 0.0f, 0.0f));
+    camera->setAspectRatio(Ogre::Real(viewPort->getActualWidth()) / Ogre::Real(viewPort->getActualHeight()));
+
 }
 
 
