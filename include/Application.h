@@ -8,6 +8,8 @@
 
 #include <Ogre.h>
 #include "Utils.h"
+
+#include "PlayerControls.h"
 #include "ListenerWindow.h"
 #include "ListenerMouse.h"
 #include "ListenerKeyboard.h"
@@ -17,7 +19,7 @@ class ListenerWindow;
 class ListenerMouse;
 class ListenerKeyboard;
 class ListenerFrame;
-
+class PlayerControls;
 /*!
 * \class Application
 * \brief Class principale qui permet de démarrer le programme, d'afficher la fenêtre et de réagir aux évènements (ceux-ci sont ensuite dirigé vers les classes adaptés)
@@ -31,7 +33,7 @@ class ListenerFrame;
 *
 *   OIS::MouseListener
 */
-class Application 
+class Application : public ClassRoot
 {
 	private:
 		/*!
@@ -56,8 +58,7 @@ class Application
          * \brief Detruit le singleton
          */
         static void destroySingleton();
-		
-		
+	
 		
 		
 	private:
@@ -106,7 +107,17 @@ class Application
          * \brief Constructeur
         */
         Application();
+        
+        /*!
+         * \brief Reagi aux actions émis par l'utilisateur
+         * Ici on regarde simplement si l'on doit quitter l'application
+        */
+        void onKeyPressed(PlayerControls::Controls key);
 
+         /*!
+         * \brief Permet de terminer le programme
+        */
+        void killApplication();
     public:
         /*!
          * \brief Destructeur
@@ -178,7 +189,13 @@ class Application
 		{
 			return this->debugOverlay;
 		}
+        void setShutDown(bool shutDown){
+            this->shutDown=shutDown;
+        }
 
+        bool getShutDown(){
+            return shutDown;
+        }
 
 };
 
