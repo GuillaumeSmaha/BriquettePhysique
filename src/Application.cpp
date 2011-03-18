@@ -163,6 +163,9 @@ void Application::initListeners(void)
 	//Create Keyboard Singleton
 	ListenerKeyboard::createSingleton();
 	
+    //create the collision system
+    ListenerCollision::createSingleton();
+
 	//Update the size of window and mouse window size
 	ListenerWindow::getSingletonPtr()->windowResized(ListenerWindow::getSingletonPtr()->getRenderWindow());
 
