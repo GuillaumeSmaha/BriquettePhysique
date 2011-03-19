@@ -41,7 +41,7 @@ void Application::destroySingleton()
 
 
 
-Application::Application(void)
+Application::Application()
 {
 	this->root = NULL;
 	this->debugOverlay = NULL;
@@ -59,7 +59,7 @@ Application::Application(void)
 }
 
 
-Application::~Application(void)
+Application::~Application()
 {
 	std::cout << "-" << std::endl << "Stop	application !!" << std::endl;
 	
@@ -69,7 +69,7 @@ Application::~Application(void)
 	ListenerWindow::destroySingleton();
 }
 
-bool Application::start(void)
+bool Application::start()
 {
 	Utils::logFileInit("error.log");
 
@@ -85,6 +85,12 @@ bool Application::start(void)
 		
 	//Create Window Singleton
 	ListenerWindow::createSingleton("Briquette Physique");
+		
+	//Create Camera Singleton
+	GestCamera::createSingleton();
+		
+	//Create Viewport Singleton
+	GestViewport::createSingleton();
 
 	// get the generic SceneManager
 	GestSceneManager::createSingleton(this->root);
@@ -92,11 +98,14 @@ bool Application::start(void)
 	// Initialisation des ressources
 	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
+	// init the input manager and create the listeners
+	this->initListeners();
+
 	// create the scene graph
 	this->initSceneGraph();
 
-	// init the input manager and create the listeners
-	this->initListeners();
+	// init the scene
+	this->initScene();
 
 	// activate debugging overlay
 	this->debugOverlay = OverlayManager::getSingleton().getByName("Core/DebugOverlay");
@@ -104,14 +113,13 @@ bool Application::start(void)
 	// On affiche l'overlay
 	this->showDebugOverlay(false);
 
-
 	// start the scene rendering (main loop)
 	this->root->startRendering();
 
 	return true;
 }
 
-void Application::loadRessources(void)
+void Application::loadRessources()
 {
 	// setup resources
 	// Load resource paths from config file
@@ -137,7 +145,7 @@ void Application::loadRessources(void)
 }
 
 
-void Application::initListeners(void)
+void Application::initListeners()
 {	
 	//Create InputManager Singleton
 	ListenerInputManager::createSingleton();
@@ -163,28 +171,29 @@ void Application::initListeners(void)
 	ListenerFrame::getSingletonPtr()->signalFrameRendering.add(&ListenerMouse::capture, ListenerMouse::getSingletonPtr());
 }
 
-void Application::initSceneGraph(void)
+void Application::initSceneGraph()
 {
-    Ogre::Entity* ogreHead = GestSceneManager::getSceneManager()->createEntity("Head", "ogrehead.mesh");
+	
+	
+}
+
+void Application::initScene()
+{
+    Ogre::Entity * ogreHead = GestSceneManager::getSceneManager()->createEntity("Head", "ogrehead.mesh");
  
-    Ogre::SceneNode* headNode = GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode();
+    Ogre::SceneNode * headNode = GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode();
     headNode->attachObject(ogreHead);
     GestSceneManager::getSceneManager()->setAmbientLight(Ogre::ColourValue(1.0, 1.0, 1.0));
 	GestSceneManager::getSceneManager()->setAmbientLight(Ogre::ColourValue::White);
 
-    Ogre::Light* l = GestSceneManager::getSceneManager()->createLight("MainLight");
+    Ogre::Light * l = GestSceneManager::getSceneManager()->createLight("MainLight");
     l->setPosition(0,0,0);
     Ogre::SceneNode *nodeLight1 = GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode("NodeLight1");
     nodeLight1->attachObject(l);
     
-    Ogre::Camera * camera = GestSceneManager::getSceneManager()->createCamera("mainCam");
-    camera->setPosition(Ogre::Vector3(90, 25, 90));
-    camera->lookAt(GestSceneManager::getSceneManager()->getRootSceneNode()->getPosition());
-
-    Ogre::Viewport* viewPort = ListenerWindow::getSingletonPtr()->getRenderWindow()->addViewport(camera, 0);
-    viewPort->setBackgroundColour(Ogre::ColourValue(0.0f, 0.0f, 0.0f));
-    camera->setAspectRatio(Ogre::Real(viewPort->getActualWidth()) / Ogre::Real(viewPort->getActualHeight()));
-
+    CameraFree * gestCamera = new CameraFree("mainCam", GestSceneManager::getSceneManager()->getRootSceneNode());
+    this->idViewport = GestViewport::getSingletonPtr()->addViewport(gestCamera);
+    GestCamera::getSingletonPtr()->addCamera(gestCamera);
 }
 
 

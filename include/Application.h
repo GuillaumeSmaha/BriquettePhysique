@@ -8,12 +8,15 @@
 
 #include <Ogre.h>
 #include "Utils.h"
-#include "PlayerControls.h"
 #include "GestSceneManager.h"
+#include "GestViewport.h"
+#include "GestCamera.h"
 #include "ListenerWindow.h"
 #include "ListenerFrame.h"
 #include "ListenerCollision.h"
 #include "ListenerInputManager.h"
+#include "PlayerControls.h"
+#include "CameraFree.h"
 
 class ListenerWindow;
 class ListenerFrame;
@@ -92,6 +95,12 @@ class Application : public ClassRoot
 		bool shutDown;
 		
 		
+    	/*!
+		*  \brief Identifiant du viewport
+		*/
+		int idViewport;	
+		
+		
 	private:
         /*!
          * \brief Constructeur
@@ -129,6 +138,11 @@ class Application : public ClassRoot
          * \brief Charge le graphe de scene
         */
         void initSceneGraph();
+
+         /*!
+         * \brief charge la scène
+        */
+        void initScene();
 
         /*!
          * \brief mise à jour des statistiques (nb frames...)
