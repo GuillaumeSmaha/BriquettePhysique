@@ -56,6 +56,7 @@ Application::Application()
 
 	this->shutDown = false;
 	this->isStatsOn = false;
+
 }
 
 
@@ -169,6 +170,8 @@ void Application::initListeners()
 	ListenerWindow::getSingletonPtr()->signalWindowClosed.add(&ListenerFrame::shutdown, ListenerFrame::getSingletonPtr());
 	ListenerFrame::getSingletonPtr()->signalFrameRendering.add(&ListenerKeyboard::capture, ListenerKeyboard::getSingletonPtr());
 	ListenerFrame::getSingletonPtr()->signalFrameRendering.add(&ListenerMouse::capture, ListenerMouse::getSingletonPtr());
+
+    PlayerControls::getSingletonPtr()->signalKeyPressed.add(&Application::onKeyPressed, this);
 }
 
 void Application::initSceneGraph()
@@ -247,4 +250,18 @@ void Application::killApplication()
 {
     this->setShutDown(true);
     ListenerFrame::getSingletonPtr()->shutdown();
+}
+
+
+
+void Application::onKeyPressed(Controls::Controls key){
+    switch(key)
+    {
+        case Controls::QUIT :
+            this->killApplication();
+            break;
+
+        default:
+            break;
+    }
 }

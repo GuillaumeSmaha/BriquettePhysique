@@ -11,6 +11,7 @@
 #include "ClassRoot.h"
 #include "ListenerKeyboard.h"
 #include "ListenerMouse.h"
+#include "Controls.h"
 
 
 /*!
@@ -28,25 +29,6 @@ class PlayerControls: public ClassRoot
 		static PlayerControls * _instance;
 		
 	public:
-		/// Définit les différents types de contrôles
-		enum Controls
-		{
-			NONE = 0,
-			CAM_MOVE_RIGHT= 1,
-			CAM_MOVE_LEFT= 2,
-			CAM_MOVE_UP= 3,
-			CAM_MOVE_DOWN= 4,
-			CAM_ZOOM_IN= 5,
-			CAM_ZOOM_OUT= 6,
-            OPEN_MENU= 7,
-			QUIT = 8,
-            SWITCH_NEXT_CAMERA = 9,
-            SWITCH_PREV_CAMERA = 12,
-            SELECT = 12,    //permet de sélectionner une briquette
-            UNDO = 14,
-            SUPPR = 15,
-            SAVE= 16
-		};
 	     /*!
 		 * \brief Nombre maximum de touche clavier dans OIS
 		 */
@@ -80,11 +62,11 @@ class PlayerControls: public ClassRoot
 		 * \brief Lie une touche à un contrôle (déplacement, tir). 
          * par exemple listKeyControl[25]=SHOOT1 position la touche repéré par le code 25 sur l'action SHOOT1
 		 */
-        std::vector<PlayerControls::Controls> listKeyControl;
+        std::vector<Controls::Controls> listKeyControl;
          /*!
 		 * \brief Lie un bouton de souris à un contrôle.
 		 */
-        std::vector<PlayerControls::Controls> listMouseControl;
+        std::vector<Controls::Controls> listMouseControl;
          /*!
 		 * \brief Indique si le mouseMove est pris en compte pour les mouvements du vaisseau
 		 */
@@ -92,13 +74,13 @@ class PlayerControls: public ClassRoot
         
 	public:
 		/*!
-		 * \brief Emet un dispatche lorsqu'une touche est préssée  Signal(PlayerControls::Controls key)
+		 * \brief Emet un dispatche lorsqu'une touche est préssée  Signal(Controls key)
 		 */
-        Signal<PlayerControls::Controls> signalKeyPressed;
+        Signal<Controls::Controls> signalKeyPressed;
         /*!
-		 * \brief Emet un dispatche lorsqu'une touche est relâchée  Signal(PlayerControls::Controls key)
+		 * \brief Emet un dispatche lorsqu'une touche est relâchée  Signal(Controls::Controls key)
 		 */
-        Signal<PlayerControls::Controls> signalKeyReleased;
+        Signal<Controls::Controls> signalKeyReleased;
          /*!
 		 * \brief Emet un dispatche lorsque la souris est bougée  Signal(Ogre::Vector3)
 		 */
@@ -142,13 +124,13 @@ class PlayerControls: public ClassRoot
          * \param keyControl Action à effectuer
          * \param key Touche correspondante
          */
-        void setKeyControl(const PlayerControls::Controls keyControl, const OIS::KeyCode key);
+        void setKeyControl(const Controls::Controls keyControl, const OIS::KeyCode key);
         /*!
          * \brief Définit une touche de la souris pour une action donnée
          * \param keyControl Action à effectuer
          * \param mouseId Touche correspondante
          */
-        void setMouseControl(const PlayerControls::Controls keyControl, const OIS::MouseButtonID mouseId);
+        void setMouseControl(const Controls::Controls keyControl, const OIS::MouseButtonID mouseId);
         
     private:
          /*!
@@ -177,17 +159,17 @@ class PlayerControls: public ClassRoot
 		 */
         void mouseReleased(const OIS::MouseButtonID evt);
         /*!
-		 * \brief Convertit un évènement OIS::KeyEvent en PlayerControls::Controls pour se défaire du couplage aux touches physiques
+		 * \brief Convertit un évènement OIS::KeyEvent en Controls::Controls pour se défaire du couplage aux touches physiques
 		 * \param evt Event OIS
-		 * \return PlayerControls::Controls key correspondante
+		 * \return Controls::Controls key correspondante
 		 */
-        PlayerControls::Controls OISEventToControlKey(const OIS::KeyEvent &evt);
+        Controls::Controls OISEventToControlKey(const OIS::KeyEvent &evt);
         /*!
-		 * \brief Convertit un id IS::MouseButtonID en PlayerControls::Controls pour se défaire du couplage aux touches physiques
+		 * \brief Convertit un id IS::MouseButtonID en Controls::Controls pour se défaire du couplage aux touches physiques
 		 * \param evt Mouse button ID (OIS)
-		 * \return PlayerControls::Controls key correspondante
+		 * \return Controls::Controls key correspondante
 		 */
-        PlayerControls::Controls OISEventToControlKey(const OIS::MouseButtonID evt);
+        Controls::Controls OISEventToControlKey(const OIS::MouseButtonID evt);
          /*!
 		 * \brief [Getter] Recupère la valeur de mouseMovedActif
 		 * \return Indique si le mouvement de la souris est actif pour le vaisseau

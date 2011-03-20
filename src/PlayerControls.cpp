@@ -65,21 +65,21 @@ PlayerControls::~PlayerControls()
 
 void PlayerControls::setDefaultKeys()
 {
-	this->setMouseControl(PlayerControls::SELECT, OIS::MB_Left);
+	this->setMouseControl(Controls::SELECT, OIS::MB_Left);
 	
-	this->setKeyControl(PlayerControls::CAM_MOVE_RIGHT, OIS::KC_RIGHT);
-	this->setKeyControl(PlayerControls::CAM_MOVE_LEFT, OIS::KC_LEFT);
-	this->setKeyControl(PlayerControls::CAM_MOVE_UP, OIS::KC_UP);
-	this->setKeyControl(PlayerControls::CAM_MOVE_DOWN, OIS::KC_DOWN);
-	this->setKeyControl(PlayerControls::CAM_ZOOM_IN, OIS::KC_H);
-	this->setKeyControl(PlayerControls::CAM_ZOOM_OUT, OIS::KC_N);
-	this->setKeyControl(PlayerControls::OPEN_MENU, OIS::KC_ESCAPE);
-	this->setKeyControl(PlayerControls::QUIT, OIS::KC_F10);
-	this->setKeyControl(PlayerControls::UNDO, OIS::KC_U);
-	this->setKeyControl(PlayerControls::SAVE, OIS::KC_S);
-	this->setKeyControl(PlayerControls::SUPPR, OIS::KC_DELETE);
+	this->setKeyControl(Controls::CAM_MOVE_RIGHT, OIS::KC_RIGHT);
+	this->setKeyControl(Controls::CAM_MOVE_LEFT, OIS::KC_LEFT);
+	this->setKeyControl(Controls::CAM_MOVE_UP, OIS::KC_UP);
+	this->setKeyControl(Controls::CAM_MOVE_DOWN, OIS::KC_DOWN);
+	this->setKeyControl(Controls::CAM_ZOOM_IN, OIS::KC_H);
+	this->setKeyControl(Controls::CAM_ZOOM_OUT, OIS::KC_N);
+	this->setKeyControl(Controls::OPEN_MENU, OIS::KC_ESCAPE);
+	this->setKeyControl(Controls::QUIT, OIS::KC_F10);
+	this->setKeyControl(Controls::UNDO, OIS::KC_U);
+	this->setKeyControl(Controls::SAVE, OIS::KC_S);
+	this->setKeyControl(Controls::SUPPR, OIS::KC_DELETE);
 	
-	this->setKeyControl(PlayerControls::OPEN_MENU, OIS::KC_ESCAPE);
+	this->setKeyControl(Controls::OPEN_MENU, OIS::KC_ESCAPE);
 }
 
 void PlayerControls::resetControls(void)
@@ -88,44 +88,44 @@ void PlayerControls::resetControls(void)
 	
 	this->listKeyControl.resize(PlayerControls::maxOISKeyControl);
 	for(unsigned int i = 0 ; i < this->listKeyControl.size() ; i++)
-		this->listKeyControl[i] = PlayerControls::NONE;
+		this->listKeyControl[i] = Controls::NONE;
 		
 	this->listMouseControl.resize(PlayerControls::maxOISMouseControl);
 	for(unsigned int i = 0 ; i < this->listMouseControl.size() ; i++)
-		this->listMouseControl[i] = PlayerControls::NONE;
+		this->listMouseControl[i] = Controls::NONE;
 }
 
-void PlayerControls::setKeyControl(const PlayerControls::Controls keyControl, const OIS::KeyCode key)
+void PlayerControls::setKeyControl(const Controls::Controls keyControl, const OIS::KeyCode key)
 {
 	if(key <= PlayerControls::maxOISKeyControl)
 	{
 		for(unsigned int i = 0 ; i < this->listMouseControl.size() ; i++)
 		{
 			if(this->listMouseControl[i] == keyControl)
-				this->listMouseControl[i] = PlayerControls::NONE;
+				this->listMouseControl[i] = Controls::NONE;
 		}
 		for(unsigned int i = 0 ; i < this->listKeyControl.size() ; i++)
 		{
 			if(this->listKeyControl[i] == keyControl)
-				this->listKeyControl[i] = PlayerControls::NONE;
+				this->listKeyControl[i] = Controls::NONE;
 		}		
 		this->listKeyControl[key] = keyControl;
 	}
 }
 
-void PlayerControls::setMouseControl(const PlayerControls::Controls keyControl, const OIS::MouseButtonID mouseId)
+void PlayerControls::setMouseControl(const Controls::Controls keyControl, const OIS::MouseButtonID mouseId)
 {
 	if(mouseId <= PlayerControls::maxOISMouseControl)
 	{
 		for(unsigned int i = 0 ; i < this->listMouseControl.size() ; i++)
 		{
 			if(this->listMouseControl[i] == keyControl)
-				this->listMouseControl[i] = PlayerControls::NONE;
+				this->listMouseControl[i] = Controls::NONE;
 		}
 		for(unsigned int i = 0 ; i < this->listKeyControl.size() ; i++)
 		{
 			if(this->listKeyControl[i] == keyControl)
-				this->listKeyControl[i] = PlayerControls::NONE;
+				this->listKeyControl[i] = Controls::NONE;
 		}		
 		this->listMouseControl[mouseId] = keyControl;
 	}
@@ -133,8 +133,8 @@ void PlayerControls::setMouseControl(const PlayerControls::Controls keyControl, 
 
 void PlayerControls::keyboardPressed(const OIS::KeyEvent &evt)
 {
-    Controls key = this->OISEventToControlKey(evt);
-    if(key != PlayerControls::NONE)
+    Controls::Controls key = this->OISEventToControlKey(evt);
+    if(key != Controls::NONE)
     {
          this->signalKeyPressed.dispatch(key);
     }
@@ -142,8 +142,8 @@ void PlayerControls::keyboardPressed(const OIS::KeyEvent &evt)
 
 void PlayerControls::keyboardReleased(const OIS::KeyEvent &evt)
 {
-    Controls key = this->OISEventToControlKey(evt);
-    if(key != PlayerControls::NONE)
+    Controls::Controls key = this->OISEventToControlKey(evt);
+    if(key != Controls::NONE)
     {
         this->signalKeyReleased.dispatch(key);
     }
@@ -157,8 +157,8 @@ void PlayerControls::mouseMoved(Ogre::Vector3 vect)
 
 void PlayerControls::mousePressed(const OIS::MouseButtonID evt)
 {
-    Controls key = this->OISEventToControlKey(evt);
-    if(key != PlayerControls::NONE)
+    Controls::Controls key = this->OISEventToControlKey(evt);
+    if(key != Controls::NONE)
     {
          this->signalKeyPressed.dispatch(key);
     }
@@ -166,24 +166,24 @@ void PlayerControls::mousePressed(const OIS::MouseButtonID evt)
 
 void PlayerControls::mouseReleased(const OIS::MouseButtonID evt)
 {
-    Controls key = this->OISEventToControlKey(evt);
-    if(key != NONE)
+    Controls::Controls key = this->OISEventToControlKey(evt);
+    if(key != Controls::NONE)
     {
          this->signalKeyReleased.dispatch(key);
     }
 }
 
-PlayerControls::Controls PlayerControls::OISEventToControlKey(const OIS::KeyEvent &evt)
+Controls::Controls PlayerControls::OISEventToControlKey(const OIS::KeyEvent &evt)
 {
-	PlayerControls::Controls key = this->listKeyControl[evt.key];
+	Controls::Controls key = this->listKeyControl[evt.key];
 	
 	return key;
 }
 
 
-PlayerControls::Controls PlayerControls::OISEventToControlKey(const OIS::MouseButtonID evt)
+Controls::Controls PlayerControls::OISEventToControlKey(const OIS::MouseButtonID evt)
 {
-	PlayerControls::Controls key = this->listMouseControl[evt];
+	Controls::Controls key = this->listMouseControl[evt];
 	
 	return key;
 }

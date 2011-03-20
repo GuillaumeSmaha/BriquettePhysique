@@ -17,6 +17,10 @@ class ObjTable
 {
 
 public:
+
+    /*!
+     * Constructeur: crée un objet table intégré au projet et doté d'un comportement physique 
+    */
     ObjTable();
 
     ~ObjTable();  

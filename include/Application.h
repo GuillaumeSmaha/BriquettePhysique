@@ -15,13 +15,12 @@
 #include "ListenerFrame.h"
 #include "ListenerCollision.h"
 #include "ListenerInputManager.h"
-#include "PlayerControls.h"
 #include "CameraFree.h"
 #include "ObjTable.h"
-
+#include "PlayerControls.h"
+#include "Controls.h"
 class ListenerWindow;
 class ListenerFrame;
-
 /*!
 * \class Application
 * \brief Class principale qui permet de démarrer le programme, d'afficher la fenêtre et de réagir aux évènements (ceux-ci sont ensuite dirigé vers les classes adaptés)
@@ -38,6 +37,7 @@ class ListenerFrame;
 class Application : public ClassRoot
 {
 	private:
+
 		/*!
 		 *  \brief Instance de Application pour le singleton
 		 */
@@ -100,7 +100,12 @@ class Application : public ClassRoot
 		*  \brief Identifiant du viewport
 		*/
 		int idViewport;	
-		
+
+	    /*!
+		*  \brief Permet de recevoir un evènement quand une touche est appuyé
+        *   Ici, permet de fermer l'application
+		*/	
+        void onKeyPressed(Controls::Controls key);
 		
 	private:
         /*!
