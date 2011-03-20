@@ -13,6 +13,11 @@
 
 #include "GestSceneManager.h"
 #include "ListenerCollision.h"
+
+/*!
+* \class ObjTable
+* \brief Gere la table du monde, qui correspond à l'objet statique sur lequelle on pose nos briques.
+*/
 class ObjTable
 {
 
@@ -22,7 +27,9 @@ public:
      * Constructeur: crée un objet table intégré au projet et doté d'un comportement physique 
     */
     ObjTable();
-
+    /*!
+     * Destructeur: permet de nettoyer les objs alloués
+    */
     ~ObjTable();  
 
 

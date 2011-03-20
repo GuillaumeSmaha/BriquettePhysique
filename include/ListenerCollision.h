@@ -43,7 +43,6 @@ class ListenerCollision : public ClassRoot
 	public :
 		/*!
 		 * \brief Constructeur
-		 * \param listenerFrame Pointeur sur le controlleur de frame
 		 */
 		ListenerCollision();
 		/*!

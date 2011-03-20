@@ -68,6 +68,7 @@ Application::~Application()
 	ListenerInputManager::destroySingleton();
 	ListenerFrame::destroySingleton();
 	ListenerWindow::destroySingleton();
+    ListenerCollision::destroySingleton();
 }
 
 bool Application::start()
