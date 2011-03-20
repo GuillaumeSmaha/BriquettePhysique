@@ -3,7 +3,7 @@
 ObjTable::ObjTable()
 {
     this->entTable = GestSceneManager::getSingletonPtr()->createEntity("Table", "Table.mesh");
-    this->entTable->setMaterialName("Table.material");
+    this->entTable->setMaterialName("Table");
     this->tableNode= GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode();
     this->tableNode->attachObject(entTable);
 

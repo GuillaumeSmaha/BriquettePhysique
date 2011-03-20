@@ -179,6 +179,15 @@ void Application::initSceneGraph()
 
 void Application::initScene()
 {
+    GestSceneManager::getSceneManager()->setAmbientLight(Ogre::ColourValue(1.0, 1.0, 1.0));
+	GestSceneManager::getSceneManager()->setAmbientLight(Ogre::ColourValue::White);
+
+    Ogre::Light * l = GestSceneManager::getSceneManager()->createLight("MainLight");
+    l->setPosition(0,0,0);
+    Ogre::SceneNode *nodeLight1 = GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode("NodeLight1");
+    nodeLight1->attachObject(l);
+
+
     ObjTable * table= new ObjTable();
     
     CameraFree * gestCamera = new CameraFree("mainCam", GestSceneManager::getSceneManager()->getRootSceneNode());
