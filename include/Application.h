@@ -17,6 +17,7 @@
 #include "ListenerInputManager.h"
 #include "PlayerControls.h"
 #include "CameraFree.h"
+#include "ObjTable.h"
 
 class ListenerWindow;
 class ListenerFrame;

@@ -179,17 +179,7 @@ void Application::initSceneGraph()
 
 void Application::initScene()
 {
-    Ogre::Entity * ogreHead = GestSceneManager::getSceneManager()->createEntity("Head", "ogrehead.mesh");
- 
-    Ogre::SceneNode * headNode = GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode();
-    headNode->attachObject(ogreHead);
-    GestSceneManager::getSceneManager()->setAmbientLight(Ogre::ColourValue(1.0, 1.0, 1.0));
-	GestSceneManager::getSceneManager()->setAmbientLight(Ogre::ColourValue::White);
-
-    Ogre::Light * l = GestSceneManager::getSceneManager()->createLight("MainLight");
-    l->setPosition(0,0,0);
-    Ogre::SceneNode *nodeLight1 = GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode("NodeLight1");
-    nodeLight1->attachObject(l);
+    ObjTable * table= new ObjTable();
     
     CameraFree * gestCamera = new CameraFree("mainCam", GestSceneManager::getSceneManager()->getRootSceneNode());
     this->idViewport = GestViewport::getSingletonPtr()->addViewport(gestCamera);

@@ -43,7 +43,13 @@ class GestSceneManager
 		*/
 		static Ogre::SceneManager * getSceneManager();
 	
-				
+    public:
+
+        /*!
+         * \brief Permet de créer une nouvelle entité
+        */
+        Ogre::Entity * createEntity(const Ogre::String &name, const Ogre::String meshName);
+
 		
 	private:
 		/*!
