@@ -1,6 +1,6 @@
 /*!
 *  \file  ClassRoot.h
-*  \brief Ce fichier contient la déclaration de la classe ClassRoot. 
+* \brief Ce fichier contient la déclaration de la classe ClassRoot. 
 */
 #ifndef __CLASS_ROOT_H__
 #define __CLASS_ROOT_H__
@@ -11,22 +11,20 @@
  * Permet de faire des casts pour des méthodes de classes.
  */
 class ClassRoot
-{
+{        
 	protected:
         /*!
 		* \brief Constructor
 		*/
         ClassRoot()
         {
-
-        }        
+		}
         /*!
          * \brief Destructor
          */
         virtual ~ClassRoot()
         {
-
-        }
+		}
 };
 
 #endif // __CLASS_ROOT_H__

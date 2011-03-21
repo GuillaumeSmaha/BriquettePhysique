@@ -1,6 +1,6 @@
 /*!
  *  \file  Utils.h
- *  \brief Utilities file
+ * \brief Utilities file
  */
 #ifndef __UTILS_H__
 #define __UTILS_H__

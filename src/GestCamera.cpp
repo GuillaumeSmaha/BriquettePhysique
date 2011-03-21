@@ -1,56 +1,15 @@
 #include "GestCamera.h"
 
+template<> GestCamera * ClassRootSingleton<GestCamera>::_instance = NULL;
 
-GestCamera * GestCamera::_instance = NULL;
-
-
-void GestCamera::createSingleton()
+GestCamera::GestCamera() : ClassRootSingleton<GestCamera>()
 {
-	if (_instance == NULL)
-	{
-		_instance = new GestCamera();
-	}
-}
-
-GestCamera * GestCamera::getSingletonPtr()
-{
-	if (_instance == NULL)
-	{
-		_instance = new GestCamera();
-	}
-	return _instance;
-}
-
-GestCamera & GestCamera::getSingleton()
-{
-	if (_instance == NULL)
-	{
-		_instance = new GestCamera();
-	}
-	return *_instance;
-}
-
-void GestCamera::destroySingleton()
-{
-    if(_instance != NULL)
-    {
-		while(_instance->removeCamera(0)) {};
-        delete _instance;
-    }
-}
-
-GestCamera::GestCamera()
-{
-	if (_instance == NULL)
-	{
-		_instance = this;
-	}
 }
 
 GestCamera::~GestCamera()
 {
+	while(this->removeCamera(0)) {};
 }
-
 
 void GestCamera::addCamera(CameraAbstract * camera)
 {

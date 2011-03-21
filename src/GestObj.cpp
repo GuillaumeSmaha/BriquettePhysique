@@ -1,47 +1,16 @@
 #include "GestObj.h"
 
+template<> GestObj * ClassRootSingleton<GestObj>::_instance = NULL;
 
-GestObj * GestObj::_instance = NULL;
 
-
-void GestObj::createSingleton()
+GestObj::GestObj() : ClassRootSingleton<GestObj>()
 {
-	if (_instance == NULL)
-	{
-		_instance = new GestObj();
-	}
+    this->table = NULL;
 }
 
-GestObj * GestObj::getSingletonPtr()
+
+GestObj::~GestObj()
 {
-	if (_instance == NULL)
-	{
-		_instance = new GestObj();
-	}
-	return _instance;
-}
-
-GestObj & GestObj::getSingleton()
-{
-	if (_instance == NULL)
-	{
-		_instance = new GestObj();
-	}
-	return *_instance;
-}
-
-void GestObj::destroySingleton()
-{
-    if(_instance != NULL)
-    {
-        delete _instance;
-    }
-}
-
-GestObj::GestObj(){
-    this->table=NULL;
-}
-GestObj::~GestObj(){
 
 }
 
@@ -54,6 +23,7 @@ void GestObj::setTable(ObjTable * table)
        std::cerr << "@GestObj::setTable: object table already given" << std::endl;
 }
 
-void GestObj::addBriquette(ObjBriquette* briquette){
+void GestObj::addBriquette(ObjBriquette* briquette)
+{
     this->lstBriquettes.push_back(briquette);
 }

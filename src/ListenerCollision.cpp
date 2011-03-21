@@ -1,44 +1,10 @@
 #include "ListenerCollision.h"
 
+template<> ListenerCollision * ClassRootSingleton<ListenerCollision>::_instance = NULL;
 
 
-ListenerCollision * ListenerCollision::_instance = NULL;
 
-void ListenerCollision::createSingleton()
-{
-	if (_instance == NULL)
-	{
-        _instance = new ListenerCollision();
-	}
-}
-
-ListenerCollision * ListenerCollision::getSingletonPtr()
-{
-	if (_instance == NULL)
-	{
-        _instance = new ListenerCollision();
-	}
-	return _instance;
-}
-
-ListenerCollision & ListenerCollision::getSingleton()
-{
-	if (_instance == NULL)
-	{
-        _instance = new ListenerCollision();
-	}
-	return *_instance;
-}
-
-void ListenerCollision::destroySingleton()
-{
-    if(_instance != NULL)
-    {
-        delete _instance;
-    }
-}
-
-ListenerCollision::ListenerCollision()
+ListenerCollision::ListenerCollision() : ClassRootSingleton<ListenerCollision>()
 {	
     //Start Bullet
     mWorld = new OgreBulletDynamics::DynamicsWorld(GestSceneManager::getSceneManager(), Ogre::AxisAlignedBox(Ogre::Vector3 (-1, -1, -1), Ogre::Vector3 (1,  1,  1)), Ogre::Vector3(0,0,0));

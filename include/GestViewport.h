@@ -1,12 +1,13 @@
 /*!
  *  \file  GestViewport.h
- *  \brief Ce fichier contient la déclaration de la classe GestViewport. C'est la classe gérant les événements de la fenêtre.
+ * \brief Ce fichier contient la déclaration de la classe GestViewport. C'est la classe gérant les événements de la fenêtre.
  */
 #ifndef __GEST_VIEWPORT_H__
 #define __GEST_VIEWPORT_H__
 
 #include <vector>
 #include <Ogre.h>
+#include "ClassRootSingleton.h"
 #include "ListenerWindow.h"
 #include "CameraAbstract.h"
 
@@ -15,47 +16,20 @@
  * \class GestViewport
  * \brief Classe permettant de gérer les viewports.
  */
-class GestViewport
+class GestViewport : public ClassRootSingleton<GestViewport>
 {
 	private:
-		/*!
-		 *  \brief Instance de GestViewport pour le singleton
-		 */
-		static GestViewport * _instance ;
-		
-	public:
-		/*!
-		 *  \brief Retourne une référence sur l'instance du singleton
-		 */		
-		static void createSingleton();
-		/*!
-		 *  \brief Retourne un pointeur sur l'instance du singleton
-		 */
-		static GestViewport * getSingletonPtr();
-		/*!
-		 *  \brief Retourne une référence sur l'instance du singleton
-		 */		
-		static GestViewport & getSingleton();
         /*!
-         * \brief Detruit le singleton
-         */
-        static void destroySingleton();
-	
-				
-		
-	private:
-        /*!
-		 *  \brief Liste des viewports
+		 * \brief Liste des viewports
 		 */
 		std::vector<Ogre::Viewport *> listViewport;
 		
-	private:
+		
+	public:
 		/*!
 		 * \brief Constructor
 		 */
 		GestViewport();
-		
-	public:
 		/*!
 		 * \brief Destructeur
 		 */

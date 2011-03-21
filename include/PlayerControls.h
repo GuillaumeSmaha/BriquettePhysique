@@ -1,6 +1,6 @@
 /*!
 *  \file  PlayerControls.h
-*  \brief Ce fichier contient la déclaration de la classe PlayerControls. 
+* \brief Ce fichier contient la déclaration de la classe PlayerControls. 
 */
 #ifndef __PLAYER_CONTROLS_H__
 #define __PLAYER_CONTROLS_H__
@@ -8,10 +8,10 @@
 #include <vector>
 #include "Utils.h"
 #include "Signal.h"
-#include "ClassRoot.h"
+#include "ClassRootSingleton.h"
 #include "ListenerKeyboard.h"
 #include "ListenerMouse.h"
-#include "Controls.h"
+#include "controls.h"
 
 
 /*!
@@ -20,13 +20,8 @@
 * Permettra par la suite de facilemet modifier les contrôles pour chaque joueur (enregistrés dans un fichier par exemple)
 * Par la suite il faudra donc écouter les évènements (signaux) de PlayerControls et non plus directement de mouse et keyboard
 */
-class PlayerControls: public ClassRoot
-{	
-	private:
-		/*!
-		 *  \brief Instance de ListenerFrame pour le singleton
-		 */
-		static PlayerControls * _instance;
+class PlayerControls: public ClassRootSingleton<PlayerControls>
+{
 		
 	public:
 	     /*!
@@ -37,24 +32,6 @@ class PlayerControls: public ClassRoot
 		 * \brief Nombre maximum de touche souris dans OIS
 		 */
 		const static int maxOISMouseControl = 7;
-
-	public:
-		/*!
-		 *  \brief Retourne une référence sur l'instance du singleton
-		 */		
-		static void createSingleton();
-		/*!
-		 *  \brief Retourne un pointeur sur l'instance du singleton
-		 */
-		static PlayerControls * getSingletonPtr();
-		/*!
-		 *  \brief Retourne une référence sur l'instance du singleton
-		 */		
-		static PlayerControls & getSingleton();
-        /*!
-         * \brief Detruit le singleton
-         */
-        static void destroySingleton();
 	
 
 	private:
@@ -97,15 +74,11 @@ class PlayerControls: public ClassRoot
         */
         void reprendre_ecoute();
 
-
-	
-	private:
+    public:
         /*!
          * \brief Constructor
          */
         PlayerControls();
-        
-    public:
         /*!
          * \brief Destructor
          */

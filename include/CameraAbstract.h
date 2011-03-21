@@ -1,6 +1,6 @@
 /*!
  *  \file  CameraAbstract.h
- *  \brief Ce fichier contient la déclaration de la classe CameraAbstract. C'est la classe une classe abstraite qui permet d'utiliser différents types de caméras fixes.
+ * \brief Ce fichier contient la déclaration de la classe CameraAbstract. C'est la classe une classe abstraite qui permet d'utiliser différents types de caméras fixes.
  */
 #ifndef __CAMERA_ABSTRACT_H__
 #define __CAMERA_ABSTRACT_H__
@@ -41,7 +41,6 @@ class CameraAbstract
 	public:		 
 		/*!
 		 * \brief Constructeur
-		 * \param sceneMgr Pointeur sur le manager de la scène
 		 * \param cameraName Nom de la nouvelle caméra
 		 */
 		CameraAbstract(Ogre::String cameraName);
@@ -62,31 +61,31 @@ class CameraAbstract
 		virtual void update_camera() = 0;
 
 		/*!
-		 *  \brief Direction de la caméra
+		 * \brief Direction de la caméra
 		 * 	\param x Coordonnée en X
 		 * 	\param y Coordonnée en Y
 		 * 	\param z Coordonnée en Z
 		 */
         virtual void setDirection( Ogre::Real x, Ogre::Real y, Ogre::Real z );
 		/*!
-		 *  \brief Direction de la caméra
+		 * \brief Direction de la caméra
 		 * 	\param direction Direction
 		 */
         virtual void setDirection( Ogre::Vector3 direction );
 		/*!
-		 *  \brief Direction de la caméra
+		 * \brief Direction de la caméra
 		 * 	\param nodeDirection Direction
 		 */
         virtual void setDirection( Ogre::SceneNode * nodeDirection );
 		/*!
-		 *  \brief Position de la caméra
+		 * \brief Position de la caméra
 		 * 	\param x Coordonnée en X
 		 * 	\param y Coordonnée en Y
 		 * 	\param z Coordonnée en Z
 		 */
         virtual void setPosition( Ogre::Real x, Ogre::Real y, Ogre::Real z );
 		/*!
-		 *  \brief Position de la caméra
+		 * \brief Position de la caméra
 		 * 	\param position Position
 		 */
         virtual void setPosition( Ogre::Vector3 position );

@@ -1,18 +1,18 @@
 /*!
  *  \file  ListenerCollision.h
- *  \brief Ce fichier contient la déclaration de la classe ListenerCollision. C'est la classe gérant les collisions. On utilise la librairie OgreBullet
+ * \brief Ce fichier contient la déclaration de la classe ListenerCollision. C'est la classe gérant les collisions. On utilise la librairie OgreBullet
  */
 #ifndef __LISTENER_COLLISION_H__
 #define __LISTENER_COLLISION_H__
 
 #include <Ogre.h>
-#include "OgreBulletCollisionsPreRequisites.h"
-#include "OgreBulletCollisionsRay.h"
-#include "OgreBulletDynamicsPreRequisites.h"
-#include "OgreBulletDynamicsRigidBody.h"
-#include "Shapes/OgreBulletCollisionsSphereShape.h"
+#include <OgreBulletCollisionsPreRequisites.h>
+#include <OgreBulletCollisionsRay.h>
+#include <OgreBulletDynamicsPreRequisites.h>
+#include <OgreBulletDynamicsRigidBody.h>
+#include <Shapes/OgreBulletCollisionsSphereShape.h>
 
-#include "ClassRoot.h"
+#include "ClassRootSingleton.h"
 #include "ListenerFrame.h"
 
 class ObjectRoot;
@@ -21,9 +21,9 @@ class ObjectRoot;
  * \class ListenerCollision
  * \brief Classe permettant de gérer les événements de collision
  */
-class ListenerCollision : public ClassRoot
-{
-	private :
+class ListenerCollision : public ClassRootSingleton<ListenerCollision>
+{		
+	private:
 		/*!
 		 * \brief Définit le monde pour OgreBullet
 		 */
@@ -33,14 +33,8 @@ class ListenerCollision : public ClassRoot
 		 */
 		OgreBulletCollisions::DebugDrawer * debugDrawer;
 
-		/*!
-		 *  \brief Instance de ListenerMouse pour le singleton
-		 */
-		static ListenerCollision * _instance ;
-	
 
-
-	public :
+	public:
 		/*!
 		 * \brief Constructeur
 		 */
@@ -49,26 +43,6 @@ class ListenerCollision : public ClassRoot
 		 * \brief Constructeur
 		 */
 		~ListenerCollision();
-
-		/*!
-		 *  \brief Retourne une référence sur l'instance du singleton
-		 */		
-		static void createSingleton();
-		/*!
-		 *  \brief Retourne un pointeur sur l'instance du singleton
-		 */
-		static ListenerCollision * getSingletonPtr();
-		/*!
-		 *  \brief Retourne une référence sur l'instance du singleton
-		 */		
-		static ListenerCollision & getSingleton();
-        /*!
-         * \brief Detruit le singleton
-         */
-        static void destroySingleton();
-		
-		
-
 
 
 		/*!

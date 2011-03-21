@@ -3,8 +3,11 @@
 
 int main(void)
 {
+	std::cout << "\t\tApplication..." << std::endl;
 	Application::createSingleton();
 
+	std::cout << "pointeur Application::getSingletonPtr() = " << Application::getSingletonPtr() << std::endl;
+	
 	try
 	{
 	    Application::getSingletonPtr()->start();

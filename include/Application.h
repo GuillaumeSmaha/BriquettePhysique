@@ -1,12 +1,13 @@
 /*!
 *  \file  Application.h
-*  \brief Ce fichier contient la déclaration de la classe Application. C'est la classe qui permet d'initialiser le logiciel en partie en gérant les aspecs graphiques et évènement
+* \brief Ce fichier contient la déclaration de la classe Application. C'est la classe qui permet d'initialiser le logiciel en partie en gérant les aspecs graphiques et évènement
 */
 #ifndef __APPLICATION_H__
 #define __APPLICATION_H__
 
 
 #include <Ogre.h>
+#include "ClassRootSingleton.h"
 #include "Utils.h"
 #include "GestSceneManager.h"
 #include "GestViewport.h"
@@ -18,9 +19,12 @@
 #include "CameraFree.h"
 #include "ObjTable.h"
 #include "PlayerControls.h"
-#include "Controls.h"
+#include "controls.h"
+#include "nodeName.h"
+
 class ListenerWindow;
 class ListenerFrame;
+
 /*!
 * \class Application
 * \brief Class principale qui permet de démarrer le programme, d'afficher la fenêtre et de réagir aux évènements (ceux-ci sont ensuite dirigé vers les classes adaptés)
@@ -34,38 +38,11 @@ class ListenerFrame;
 *
 *   OIS::MouseListener
 */
-class Application : public ClassRoot
+class Application : public ClassRootSingleton<Application>
 {
 	private:
-
 		/*!
-		 *  \brief Instance de Application pour le singleton
-		 */
-		static Application * _instance ;
-		
-	public:
-		/*!
-		 *  \brief Retourne une référence sur l'instance du singleton
-		 */		
-		static void createSingleton();
-		/*!
-		 *  \brief Retourne un pointeur sur l'instance du singleton
-		 */
-		static Application * getSingletonPtr();
-		/*!
-		 *  \brief Retourne une référence sur l'instance du singleton
-		 */		
-		static Application & getSingleton();
-        /*!
-         * \brief Detruit le singleton
-         */
-        static void destroySingleton();
-	
-		
-		
-	private:
-		/*!
-		*  \brief Ogre Root
+		* \brief Ogre Root
 		*/
 		Ogre::Root * root;
 		/*!
@@ -74,11 +51,11 @@ class Application : public ClassRoot
 		Ogre::Overlay * debugOverlay;
 		
 		/*!
-		*  \brief Chemin du fichier resources.cfg
+		* \brief Chemin du fichier resources.cfg
 		*/
 		Ogre::String resourcesCfg;
 		/*!
-		*  \brief Chemin du fichier plugins.cfg
+		* \brief Chemin du fichier plugins.cfg
 		*/
 		Ogre::String pluginsCfg;
 
@@ -87,32 +64,27 @@ class Application : public ClassRoot
 		*/
 		Ogre::String debugText;
     	/*!
-		*  \brief Définit si on affiche les stats
+		* \brief Définit si on affiche les stats
 		*/
 		bool isStatsOn;
     	/*!
-		*  \brief Définit si on arrête le jeu
+		* \brief Définit si on arrête le jeu
 		*/
 		bool shutDown;
 		
 		
     	/*!
-		*  \brief Identifiant du viewport
+		* \brief Identifiant du viewport
 		*/
 		int idViewport;	
 
 	    /*!
-		*  \brief Permet de recevoir un evènement quand une touche est appuyé
+		* \brief Permet de recevoir un evènement quand une touche est appuyé
         *   Ici, permet de fermer l'application
 		*/	
         void onKeyPressed(Controls::Controls key);
 		
 	private:
-        /*!
-         * \brief Constructeur
-        */
-        Application();
-
          /*!
          * \brief Permet de terminer le programme
         */
@@ -120,6 +92,10 @@ class Application : public ClassRoot
         
         
     public:
+        /*!
+         * \brief Constructeur
+        */
+        Application();
         /*!
          * \brief Destructeur
         */
@@ -182,11 +158,19 @@ class Application : public ClassRoot
 			return this->debugOverlay;
 		}
 		
+		/*!
+		* \brief [Setter] Define if the application die
+		* \return Set the value of shutdown
+		*/	
         void setShutDown(bool shutDown)
         {
             this->shutDown=shutDown;
         }
 
+		/*!
+		* \brief [Getter] Returns if the application die
+		* \return Get the value of shutdown
+		*/	
         bool getShutDown()
         {
             return shutDown;

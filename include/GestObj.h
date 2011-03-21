@@ -1,12 +1,13 @@
 /*!
  *  \file  GestObj.h
- *  \brief Ce fichier contient la déclaration de la classe GestObj. Permet de gérer les différents objets du monde, création, utilisation, destruction
+ * \brief Ce fichier contient la déclaration de la classe GestObj. Permet de gérer les différents objets du monde, création, utilisation, destruction
  */
 
 #ifndef __GEST_OBJ_H__
 #define __GEST_OBJ_H__
 
 
+#include "ClassRootSingleton.h"
 #include "ObjTable.h"
 #include "ObjBriquette.h"
 
@@ -14,50 +15,24 @@
 * \class GestObj
 * \brief Permet de gérer les différents objets du monde, création, utilisation, destruction. Contient l'objet Table utilité et une liste des briquettes
 */
-class GestObj
+class GestObj : public ClassRootSingleton<GestObj>
 {
 	private:
 		/*!
-		 *  \brief Instance de ListenerFrame pour le singleton
-		 */
-		static GestObj * _instance;
-
-		/*!
-		 *  \brief La table active dans le jeux
+		 * \brief La table active dans le jeux
 		 */
         ObjTable * table;
  		/*!
-		 *  \brief La liste des briquettes
+		 * \brief La liste des briquettes
 		 */
         std::vector<ObjBriquette *> lstBriquettes;
-               
-
-	public:
-		/*!
-		 *  \brief Retourne une référence sur l'instance du singleton
-		 */		
-		static void createSingleton();
-		/*!
-		 *  \brief Retourne un pointeur sur l'instance du singleton
-		 */
-		static GestObj * getSingletonPtr();
-		/*!
-		 *  \brief Retourne une référence sur l'instance du singleton
-		 */		
-		static GestObj & getSingleton();
-        /*!
-         * \brief Detruit le singleton
-         */
-        static void destroySingleton();
        
-	
-	private:
+	        
+    public:
         /*!
          * \brief Constructor
          */
         GestObj();
-        
-    public:
         /*!
          * \brief Destructor
          */

@@ -2,46 +2,10 @@
 
 using namespace Ogre;
 
-
-Application * Application::_instance = NULL;
-
-void Application::createSingleton()
-{
-	if (_instance == NULL)
-	{
-		_instance = new Application();
-	}
-}
-
-Application * Application::getSingletonPtr()
-{
-	if (_instance == NULL)
-	{
-		_instance = new Application();
-	}
-	return _instance;
-}
-
-Application & Application::getSingleton()
-{
-	if (_instance == NULL)
-	{
-		_instance = new Application();
-	}
-	return *_instance;
-}
-
-void Application::destroySingleton()
-{
-    if(_instance != NULL)
-    {
-        delete _instance;
-    }
-}
+template<> Application * ClassRootSingleton<Application>::_instance = NULL;
 
 
-
-Application::Application()
+Application::Application() : ClassRootSingleton<Application>()
 {
 	this->root = NULL;
 	this->debugOverlay = NULL;
@@ -177,7 +141,8 @@ void Application::initListeners()
 
 void Application::initSceneGraph()
 {
-	
+	GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode(NODE_NAME_GROUPE_TABLE);
+	GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode(NODE_NAME_GROUPE_BRIQUETTES);
 	
 }
 
@@ -192,7 +157,7 @@ void Application::initScene()
     nodeLight1->attachObject(l);
 
 
-    ObjTable * table= new ObjTable();
+    ObjTable * table = new ObjTable();
     
     CameraFree * gestCamera = new CameraFree("mainCam", GestSceneManager::getSceneManager()->getRootSceneNode());
     this->idViewport = GestViewport::getSingletonPtr()->addViewport(gestCamera);

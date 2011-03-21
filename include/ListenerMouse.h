@@ -1,12 +1,12 @@
 /*!
  *  \file  ListenerMouse.h
- *  \brief Ce fichier contient la déclaration de la classe ListenerKeyboard. C'est la classe gérant les événements de la souris.
+ * \brief Ce fichier contient la déclaration de la classe ListenerKeyboard. C'est la classe gérant les événements de la souris.
  */
 #ifndef __LISTENER_MOUSE_H__
 #define __LISTENER_MOUSE_H__
 
 #include <OISMouse.h>
-#include "ClassRoot.h"
+#include "ClassRootSingleton.h"
 #include "Signal.h"
 #include "ListenerInputManager.h"
 
@@ -15,37 +15,17 @@
  * \class ListenerMouse
  * \brief Classe permettant de gérer les événements de la souris.
  */
-class ListenerMouse : public ClassRoot, public OIS::MouseListener 
+class ListenerMouse : public ClassRootSingleton<ListenerMouse>, public OIS::MouseListener 
 {
-	private:
-		/*!
-		 *  \brief Instance de ListenerMouse pour le singleton
-		 */
-		static ListenerMouse * _instance ;
-		
 	public:
 		/*!
-		 *  \brief Retourne une référence sur l'instance du singleton
+		 * \brief Créé le singleton
 		 */		
 		static void createSingleton();
-		/*!
-		 *  \brief Retourne un pointeur sur l'instance du singleton
-		 */
-		static ListenerMouse * getSingletonPtr();
-		/*!
-		 *  \brief Retourne une référence sur l'instance du singleton
-		 */		
-		static ListenerMouse & getSingleton();
-        /*!
-         * \brief Detruit le singleton
-         */
-        static void destroySingleton();
-		
-		
 		
 	private:
 		/*!
-		 *  \brief Capteur d'événements de la souris
+		 * \brief Capteur d'événements de la souris
 		 */
         OIS::Mouse * mouse;
 
@@ -63,17 +43,11 @@ class ListenerMouse : public ClassRoot, public OIS::MouseListener
 		 */
         Signal<OIS::MouseButtonID> signalMouseReleased;
         
-        
-        
-        
-	private:
+	public:
 		/*!
 		 * \brief Constructeur
-		 * \param inputManager Gestionnaire d'entrée
 		 */
 		ListenerMouse();
-        
-	public:
 		/*!
 		 * \brief Destructeur
 		 */

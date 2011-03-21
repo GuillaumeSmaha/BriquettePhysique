@@ -1,45 +1,8 @@
 #include "PlayerControls.h"
 
-PlayerControls * PlayerControls::_instance = NULL;
+template<> PlayerControls * ClassRootSingleton<PlayerControls>::_instance = NULL;
 
-
-void PlayerControls::createSingleton()
-{
-	if (_instance == NULL)
-	{
-		_instance = new PlayerControls();
-	}
-}
-
-PlayerControls * PlayerControls::getSingletonPtr()
-{
-	if (_instance == NULL)
-	{
-		_instance = new PlayerControls();
-	}
-	return _instance;
-}
-
-PlayerControls & PlayerControls::getSingleton()
-{
-	if (_instance == NULL)
-	{
-		_instance = new PlayerControls();
-	}
-	return *_instance;
-}
-
-void PlayerControls::destroySingleton()
-{
-    if(_instance != NULL)
-    {
-        delete _instance;
-    }
-}
-
-
-
-PlayerControls::PlayerControls()
+PlayerControls::PlayerControls() : ClassRootSingleton<PlayerControls>()
 {    
 	this->resetControls();
 	

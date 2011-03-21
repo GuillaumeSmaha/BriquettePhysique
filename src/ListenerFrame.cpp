@@ -1,44 +1,8 @@
 #include "ListenerFrame.h"
 
+template<> ListenerFrame * ClassRootSingleton<ListenerFrame>::_instance = NULL;
 
-ListenerFrame * ListenerFrame::_instance = NULL;
-
-void ListenerFrame::createSingleton()
-{
-	if (_instance == NULL)
-	{
-		_instance = new ListenerFrame();
-	}
-}
-
-ListenerFrame * ListenerFrame::getSingletonPtr()
-{
-	if (_instance == NULL)
-	{
-		_instance = new ListenerFrame();
-	}
-	return _instance;
-}
-
-ListenerFrame & ListenerFrame::getSingleton()
-{
-	if (_instance == NULL)
-	{
-		_instance = new ListenerFrame();
-	}
-	return *_instance;
-}
-
-void ListenerFrame::destroySingleton()
-{
-    if(_instance != NULL)
-    {
-        delete _instance;
-    }
-}
-
-
-ListenerFrame::ListenerFrame(): closed(false)
+ListenerFrame::ListenerFrame() : ClassRootSingleton<ListenerFrame>(), closed(false)
 {
    	Application::getSingletonPtr()->getRoot()->addFrameListener(this);
 }

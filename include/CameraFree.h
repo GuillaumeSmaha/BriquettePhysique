@@ -1,6 +1,6 @@
 /*!
  *  \file  CameraFree.h
- *  \brief Ce fichier contient la déclaration de la classe CameraFree. C'est la classe gérant une caméra fixe.
+ * \brief Ce fichier contient la déclaration de la classe CameraFree. C'est la classe gérant une caméra fixe.
  */
 #ifndef __CAMERA_FREE_H__
 #define __CAMERA_FREE_H__
@@ -18,7 +18,6 @@ class CameraFree : public CameraAbstract
 	public:
 		/*!
 		 * \brief Constructeur
-		 * \param sceneMgr Pointeur sur le manager de la scène
 		 * \param cameraName Nom de la nouvelle caméra
 		 * \param nodeInit Position initiale de la caméra
 		 */

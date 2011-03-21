@@ -1,55 +1,16 @@
 #include "GestViewport.h"
 
+template<> GestViewport * ClassRootSingleton<GestViewport>::_instance = NULL;
 
-GestViewport * GestViewport::_instance = NULL;
 
-
-void GestViewport::createSingleton()
+GestViewport::GestViewport() : ClassRootSingleton<GestViewport>()
 {
-	if (_instance == NULL)
-	{
-		_instance = new GestViewport();
-	}
-}
-
-GestViewport * GestViewport::getSingletonPtr()
-{
-	if (_instance == NULL)
-	{
-		_instance = new GestViewport();
-	}
-	return _instance;
-}
-
-GestViewport & GestViewport::getSingleton()
-{
-	if (_instance == NULL)
-	{
-		_instance = new GestViewport();
-	}
-	return *_instance;
-}
-
-void GestViewport::destroySingleton()
-{
-    if(_instance != NULL)
-    {
-		ListenerWindow::getSingletonPtr()->getRenderWindow()->removeAllViewports();
-		while(_instance->removeViewport(0)) {};
-        delete _instance;
-    }
-}
-
-GestViewport::GestViewport()
-{
-	if (_instance == NULL)
-	{
-		_instance = this;
-	}
 }
 
 GestViewport::~GestViewport()
 {
+	ListenerWindow::getSingletonPtr()->getRenderWindow()->removeAllViewports();
+	while(this->removeViewport(0)) {};
 }
 
 int GestViewport::addViewport(CameraAbstract * gestCamera)

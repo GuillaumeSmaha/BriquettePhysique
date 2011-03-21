@@ -1,6 +1,6 @@
 /*!
  *  \file  ListenerFrame.h
- *  \brief Ce fichier contient la déclaration de la classe ListenerFrame. C'est la classe gérant les événements de la mise à jour du rendu.
+ * \brief Ce fichier contient la déclaration de la classe ListenerFrame. C'est la classe gérant les événements de la mise à jour du rendu.
  */
 #ifndef __LISTENER_FRAME_H__
 #define __LISTENER_FRAME_H__
@@ -8,7 +8,7 @@
 #include <iostream>
 #include <Ogre.h>
 #include "Signal.h"
-#include "ClassRoot.h"
+#include "ClassRootSingleton.h"
 #include "Application.h"
 
 class Application;
@@ -17,35 +17,8 @@ class Application;
  * \class ListenerFrame
  * \brief Classe permettant de gérer les événements de la mise à jour du rendu.
  */
-class ListenerFrame : public ClassRoot, public Ogre::FrameListener
+class ListenerFrame : public ClassRootSingleton<ListenerFrame>, public Ogre::FrameListener
 {
-	private:
-		/*!
-		 *  \brief Instance de ListenerFrame pour le singleton
-		 */
-		static ListenerFrame * _instance ;
-		
-	public:
-		/*!
-		 *  \brief Retourne une référence sur l'instance du singleton
-		 */		
-		static void createSingleton();
-		/*!
-		 *  \brief Retourne un pointeur sur l'instance du singleton
-		 */
-		static ListenerFrame * getSingletonPtr();
-		/*!
-		 *  \brief Retourne une référence sur l'instance du singleton
-		 */		
-		static ListenerFrame & getSingleton();
-        /*!
-         * \brief Detruit le singleton
-         */
-        static void destroySingleton();
-		
-		
-		
-		
     private :
         /*!
          * \brief Indique si l'application est fermée
@@ -66,14 +39,12 @@ class ListenerFrame : public ClassRoot, public Ogre::FrameListener
          */
         Signal<const Ogre::FrameEvent&> signalFrameEnded;
         
-        
-	private:
+        		
+	public:
 		/*!
 		 * \brief Constructeur
 		 */
 		ListenerFrame();
-		
-	public:
 		/*!
 		 * \brief Destructeur
 		 */

@@ -1,42 +1,22 @@
 #include "GestSceneManager.h"
 
+template<> GestSceneManager * ClassRootSingleton<GestSceneManager>::_instance = NULL;
 
-GestSceneManager * GestSceneManager::_instance = NULL;
-
+void GestSceneManager::createSingleton()
+{
+	GestSceneManager::GestSceneManager(NULL);
+}
 
 void GestSceneManager::createSingleton(Ogre::Root * root)
 {
-	if (_instance == NULL)
+	if (root != NULL)
 	{
-		_instance = new GestSceneManager(root);
+		new GestSceneManager(root);
 	}
-}
-
-GestSceneManager * GestSceneManager::getSingletonPtr()
-{
-	if (_instance == NULL)
+	else
 	{
-		std::cerr << "@GestSceneManager::getSingletonPtr() : _instance is NULL" << std::endl;
-		return NULL;
+		std::cerr << "@GestSceneManager::createSingleton() : root is NULL" << std::endl;
 	}
-	return _instance;
-}
-
-GestSceneManager & GestSceneManager::getSingleton()
-{
-	if (_instance == NULL)
-	{
-		std::cerr << "@GestSceneManager::getSingleton() : _instance is NULL" << std::endl;
-	}
-	return *_instance;
-}
-
-void GestSceneManager::destroySingleton()
-{
-    if(_instance != NULL)
-    {
-        delete _instance;
-    }
 }
 
 Ogre::SceneManager * GestSceneManager::getSceneManager()
@@ -44,13 +24,9 @@ Ogre::SceneManager * GestSceneManager::getSceneManager()
 	return GestSceneManager::getSingletonPtr()->sceneMgr;
 }
 
-GestSceneManager::GestSceneManager(Ogre::Root * root)
+GestSceneManager::GestSceneManager(Ogre::Root * root) : ClassRootSingleton<GestSceneManager>()
 {
-	if (_instance == NULL)
-	{
-		this->sceneMgr = root->createSceneManager(Ogre::ST_GENERIC);
-		_instance = this;
-	}
+	this->sceneMgr = root->createSceneManager(Ogre::ST_GENERIC);
 }
 
 GestSceneManager::~GestSceneManager()

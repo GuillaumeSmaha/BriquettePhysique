@@ -1,6 +1,6 @@
 /*!
 *  \file main.h
-*  \brief This file contains the decleration of the main function.
+* \brief This file contains the decleration of the main function.
 */
 
 #ifndef __MAIN_H__

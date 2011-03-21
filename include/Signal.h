@@ -1,6 +1,6 @@
 /*!
 *  \file  Signal.h
-*  \brief Ce fichier contient la déclaration de la classe Signal.
+* \brief Ce fichier contient la déclaration de la classe Signal.
 */
 #ifndef __SIGNAL_H__
 #define __SIGNAL_H__

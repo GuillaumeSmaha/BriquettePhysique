@@ -1,12 +1,12 @@
 /*!
  *  \file  ListenerKeyboard.h
- *  \brief Ce fichier contient la déclaration de la classe ListenerKeyboard. C'est la classe gérant les événements du clavier.
+ * \brief Ce fichier contient la déclaration de la classe ListenerKeyboard. C'est la classe gérant les événements du clavier.
  */
 #ifndef __LISTENER_KEYBOARD_H__
 #define __LISTENER_KEYBOARD_H__
 
 #include <OISKeyboard.h>
-#include "ClassRoot.h"
+#include "ClassRootSingleton.h"
 #include "Signal.h"
 #include "ListenerInputManager.h"
 
@@ -15,38 +15,17 @@
  * \class ListenerKeyboard
  * \brief Classe permettant de gérer les événements du clavier.
  */
-class ListenerKeyboard : public ClassRoot , public OIS::KeyListener
+class ListenerKeyboard : public ClassRootSingleton<ListenerKeyboard> , public OIS::KeyListener
 {
-	private:
-		/*!
-		 *  \brief Instance de ListenerKeyboard pour le singleton
-		 */
-		static ListenerKeyboard * _instance ;
-		
 	public:
 		/*!
-		 *  \brief Retourne une référence sur l'instance du singleton
+		 * \brief Créé le singleton
 		 */		
 		static void createSingleton();
-		/*!
-		 *  \brief Retourne un pointeur sur l'instance du singleton
-		 */
-		static ListenerKeyboard * getSingletonPtr();
-		/*!
-		 *  \brief Retourne une référence sur l'instance du singleton
-		 */		
-		static ListenerKeyboard & getSingleton();
-        /*!
-         * \brief Detruit le singleton
-         */
-        static void destroySingleton();
-		
-		
-		
 		
 	private:
 		/*!
-		 *  \brief Capteur d'événements du clavier
+		 * \brief Capteur d'événements du clavier
 		 */
         OIS::Keyboard * keyboard;
 
@@ -60,15 +39,12 @@ class ListenerKeyboard : public ClassRoot , public OIS::KeyListener
          */
         Signal<const OIS::KeyEvent&> signalKeyReleased;
                 
-        
-	private:
+       
+	public:
 		/*!
 		 * \brief Constructeur
-		 * \param inputManager Gestionnaire d'entrée
 		 */
 		ListenerKeyboard();
-		
-	public:
 		/*!
 		 * \brief Destructeur
 		 */

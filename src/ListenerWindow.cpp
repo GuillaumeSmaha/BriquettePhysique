@@ -1,63 +1,21 @@
 #include "ListenerWindow.h"
 
+template<> ListenerWindow * ClassRootSingleton<ListenerWindow>::_instance = NULL;
 
-ListenerWindow * ListenerWindow::_instance = NULL;
-
+void ListenerWindow::createSingleton()
+{
+	ListenerWindow::createSingleton("Generic Window");
+}
 
 void ListenerWindow::createSingleton(Ogre::String windowName)
 {
-	if (_instance == NULL)
-	{
-		_instance = new ListenerWindow(windowName);
-	}
+	new ListenerWindow(windowName);
 }
 
-ListenerWindow * ListenerWindow::getSingletonPtr()
+ListenerWindow::ListenerWindow(Ogre::String windowName) : ClassRootSingleton<ListenerWindow>()
 {
-	if (_instance == NULL)
-	{
-		_instance = new ListenerWindow();
-	}
-	return _instance;
-}
-
-ListenerWindow & ListenerWindow::getSingleton()
-{
-	if (_instance == NULL)
-	{
-		_instance = new ListenerWindow();
-	}
-	return *_instance;
-}
-
-void ListenerWindow::destroySingleton()
-{
-    if(_instance != NULL)
-    {
-        delete _instance;
-    }
-}
-
-
-ListenerWindow::ListenerWindow()
-{
-	if (_instance == NULL)
-	{
-		this->renderWindow = Application::getSingletonPtr()->getRoot()->initialise(true, "Generic Window");
-		Ogre::WindowEventUtilities::addWindowEventListener(this->renderWindow, this);
-		_instance = this;
-	}
-}
-
-ListenerWindow::ListenerWindow(Ogre::String windowName)
-{
-	if (_instance == NULL)
-	{
-		this->renderWindow = Application::getSingletonPtr()->getRoot()->
-		initialise(true, windowName);
-		Ogre::WindowEventUtilities::addWindowEventListener(this->renderWindow, this);
-		_instance = this;
-	}
+	this->renderWindow = Application::getSingletonPtr()->getRoot()->initialise(true, windowName);
+	Ogre::WindowEventUtilities::addWindowEventListener(this->renderWindow, this);
 }
 
 ListenerWindow::~ListenerWindow()
