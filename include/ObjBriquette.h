@@ -21,29 +21,15 @@
 */
 class ObjBriquette
 {
-	public:
-
-		/*!
-		 * \brief Constructeur: crée un objet table intégré au projet et doté d'un comportement physique 
-		*/
-		ObjBriquette();
-		/*!
-		 * \brief Destructor
-		*/
-		~ObjBriquette();  
-
-
-	private:
-		
+	private:		
 		/*!
 		 * \brief l'entité Ogre 
 		*/
 		Ogre::Entity * entTable;
 		/*!
-		 * \brief le noeud de l'objet table
+		 * \brief le noeud de l'objet briquette
 		*/
 		Ogre::SceneNode * tableNode;
-
 		/*!
 		 * \brief La forme de l'objet physique
 		*/
@@ -52,9 +38,24 @@ class ObjBriquette
 		 * \brief le corps de l'objet physique
 		*/
 		OgreBulletDynamics::RigidBody * bodyTable;
+		
+		
+	public:
+		/*!
+		 * \brief Constructeur: crée un objet table intégré au projet et doté d'un comportement physique 
+		*/
+		ObjBriquette();
+		/*!
+		 * \brief Constructeur de recopie
+		*/
+		ObjBriquette(const ObjBriquette& briquette);
+		/*!
+		 * \brief Destructor
+		*/
+		~ObjBriquette();  
 };
 
 
-#endif//__OBJ_BRIQUETTE_H__
+#endif //__OBJ_BRIQUETTE_H__
 
 

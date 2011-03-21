@@ -20,20 +20,7 @@
 */
 class ObjTable
 {
-	public:
-
-		/*!
-		 * Constructeur: crée un objet table intégré au projet et doté d'un comportement physique 
-		*/
-		ObjTable();
-		/*!
-		 * Destructeur: permet de nettoyer les objs alloués
-		*/
-		~ObjTable();  
-
-
-	private:
-		
+	private:		
 		/*!
 		 * \brief l'entité Ogre 
 		*/
@@ -51,6 +38,17 @@ class ObjTable
 		 * \brief le corps de l'objet physique
 		*/
 		OgreBulletDynamics::RigidBody * bodyTable;
+		
+		
+	public:
+		/*!
+		 * Constructeur: crée un objet table intégré au projet et doté d'un comportement physique 
+		*/
+		ObjTable();
+		/*!
+		 * Destructeur: permet de nettoyer les objs alloués
+		*/
+		~ObjTable(); 
 };
 
 
