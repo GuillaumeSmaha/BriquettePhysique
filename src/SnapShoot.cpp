@@ -1,24 +1,30 @@
 #include "SnapShoot.h"
 
-SnapShoot::SnapShoot(ObjBriquette * object, Ogre::Vector3 diffPosition)
+SnapShoot::SnapShoot(Ogre::SceneNode * node, ObjBriquette * object, Ogre::Vector3 diffPosition)
 {
-    this->objectCloned = false;
+    this->objectCreate = false;
+    this->objectDelete = false;
+    this->node = node;
     this->object = object;
     this->diffPosition = diffPosition;
     this->diffOrientation = Ogre::Quaternion(0.0, 0.0, 0.0, 1.0);
 }
 
-SnapShoot::SnapShoot(ObjBriquette * object, Ogre::Quaternion diffOrientation)
+SnapShoot::SnapShoot(Ogre::SceneNode * node, ObjBriquette * object, Ogre::Quaternion diffOrientation)
 {
-    this->objectCloned = false;
+    this->objectCreate = false;
+    this->objectDelete = false;
+    this->node = node;
     this->object = object;
     this->diffPosition = Ogre::Vector3(0.0, 0.0, 0.0);
     this->diffOrientation = diffOrientation;
 }
 
-SnapShoot::SnapShoot(ObjBriquette * object, Ogre::Vector3 diffPosition, Ogre::Quaternion diffOrientation)
+SnapShoot::SnapShoot(Ogre::SceneNode * node, ObjBriquette * object, Ogre::Vector3 diffPosition, Ogre::Quaternion diffOrientation)
 {
-    this->objectCloned = false;
+    this->objectCreate = false;
+    this->objectDelete = false;
+    this->node = node;
     this->object = object;
     this->diffPosition = diffPosition;
     this->diffOrientation = diffOrientation;
@@ -26,6 +32,6 @@ SnapShoot::SnapShoot(ObjBriquette * object, Ogre::Vector3 diffPosition, Ogre::Qu
 
 SnapShoot::~SnapShoot()
 {
-	if(objectCloned == true)
+	if(this->objectCreate || this->objectDelete)
 		delete object;
 }

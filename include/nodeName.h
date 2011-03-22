@@ -1,5 +1,5 @@
 /*!
-*  \file nodeName.h
+* \file nodeName.h
 * \brief Ce fichier contient la définition des noeuds globaux
 */
 #ifndef __NODE_NAME_H__

@@ -18,13 +18,21 @@ class SnapShoot
 {
 	private:
 		/*!
+		 * \brief Noeud contenant l'objet concerné par la modification
+		*/
+		Ogre::SceneNode * node;
+		/*!
 		 * \brief Objet concerné par la modification
 		*/
 		ObjBriquette * object;
 		/*!
-		 * \brief Indique si l'objet a été cloné
+		 * \brief Indique si l'objet a été créé
 		*/
-		bool objectCloned;
+		bool objectCreate;
+		/*!
+		 * \brief Indique si l'objet a été supprimé
+		*/
+		bool objectDelete;
 		/*!
 		 * \brief Différence de position par rapport à l'étape précédente
 		*/
@@ -40,20 +48,20 @@ class SnapShoot
 		 * \param object Objet concerné par la modification
 		 * \param diffPosition Différence de position par rapport à l'étape précédente
 		*/
-		SnapShoot(ObjBriquette * object, Ogre::Vector3 diffPosition);
+		SnapShoot(Ogre::SceneNode * node, ObjBriquette * object, Ogre::Vector3 diffPosition);
 		/*!
 		 * Constructor
 		 * \param object Objet concerné par la modification
 		 * \param diffOrientation Différence  d'orientation par rapport à l'étape précédente
 		*/
-		SnapShoot(ObjBriquette * object, Ogre::Quaternion diffOrientation);
+		SnapShoot(Ogre::SceneNode * node, ObjBriquette * object, Ogre::Quaternion diffOrientation);
 		/*!
 		 * Constructor
 		 * \param object Objet concerné par la modification
 		 * \param diffPosition Différence de position par rapport à l'étape précédente
 		 * \param diffOrientation Différence  d'orientation par rapport à l'étape précédente
 		*/
-		SnapShoot(ObjBriquette * object, Ogre::Vector3 diffPosition, Ogre::Quaternion diffOrientation);
+		SnapShoot(Ogre::SceneNode * node, ObjBriquette * object, Ogre::Vector3 diffPosition, Ogre::Quaternion diffOrientation);
 		/*!
 		 * Destructor
 		*/

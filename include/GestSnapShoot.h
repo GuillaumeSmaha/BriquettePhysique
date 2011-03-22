@@ -6,10 +6,10 @@
 #ifndef __GEST_SNAP_SHOOT_H__
 #define __GEST_SNAP_SHOOT_H__
 
-
+#include <deque>
 #include "ClassRootSingleton.h"
-#include "ObjBriquette.h"
 #include "SnapShoot.h"
+#include "ObjBriquette.h"
 
 /*!
 * \class GestSnapShoot
@@ -21,7 +21,7 @@ class GestSnapShoot : public ClassRootSingleton<GestSnapShoot>
  		/*!
 		 * \brief La liste des snapShoot
 		 */
-        std::vector<SnapShoot *> lstSnapShoot;
+        std::deque<SnapShoot *> lstSnapShoot;
  		/*!
 		 * \brief SnapShoot en cours de visualisation
 		 */
