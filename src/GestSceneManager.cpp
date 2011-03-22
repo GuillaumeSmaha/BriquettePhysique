@@ -4,7 +4,7 @@ template<> GestSceneManager * ClassRootSingleton<GestSceneManager>::_instance = 
 
 void GestSceneManager::createSingleton()
 {
-	GestSceneManager::GestSceneManager(NULL);
+	new GestSceneManager(NULL);
 }
 
 void GestSceneManager::createSingleton(Ogre::Root * root)
