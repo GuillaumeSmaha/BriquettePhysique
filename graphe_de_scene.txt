@@ -1,0 +1,11 @@
+Permet de définir notre graphe de scene:
+
+
+root:
+    -table
+    -groupeBriquette
+        -briquette1
+        -briquette2
+        -briquette3
+        -...
+    -camera

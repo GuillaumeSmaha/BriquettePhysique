@@ -26,7 +26,11 @@ class GestObj : public ClassRootSingleton<GestObj>
 		 * \brief La liste des briquettes
 		 */
         std::vector<ObjBriquette *> lstBriquettes;
-       
+        /*
+         * \brief Permet de définir un noeud du graphe dans lequel se trouve toutes les briquettes
+        */
+        Ogre::SceneNode * groupBriquetteNode;
+     
 	        
     public:
         /*!
@@ -46,8 +50,12 @@ class GestObj : public ClassRootSingleton<GestObj>
          /*!
          * \brief Ajoute une nouvelle briquettes
          */
-        void addBriquette(ObjBriquette* briquette);
+        void addBriquette();
 
+         //#######GETTER /SETTER########
+        Ogre::SceneNode * getGroupBriquetteNode(){
+            return groupBriquetteNode;
+        }
 
 };
 

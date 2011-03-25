@@ -14,7 +14,6 @@
 #include "GestSceneManager.h"
 #include "ListenerCollision.h"
 
-
 /*!
 * \class ObjBriquette
 * \brief Gere une briquette du monde
@@ -25,24 +24,24 @@ class ObjBriquette
 		/*!
 		 * \brief l'entité Ogre 
 		*/
-		Ogre::Entity * entTable;
+		Ogre::Entity * entBriquette;
 		/*!
 		 * \brief le noeud de l'objet briquette
 		*/
-		Ogre::SceneNode * tableNode;
+		Ogre::SceneNode * briquetteNode;
 		/*!
 		 * \brief La forme de l'objet physique
 		*/
-		OgreBulletCollisions::CollisionShape * shapeTable;
+		OgreBulletCollisions::CollisionShape * shapeBriquette;
 		/*!
 		 * \brief le corps de l'objet physique
 		*/
-		OgreBulletDynamics::RigidBody * bodyTable;
+		OgreBulletDynamics::RigidBody * bodyBriquette;
 		
 		
 	public:
 		/*!
-		 * \brief Constructeur: crée un objet table intégré au projet et doté d'un comportement physique 
+		 * \brief Constructeur: crée un objet briquette intégré au projet et doté d'un comportement physique 
 		*/
 		ObjBriquette();
 		/*!
@@ -53,6 +52,34 @@ class ObjBriquette
 		 * \brief Destructor
 		*/
 		~ObjBriquette();  
+
+		/*!
+		 * \brief Permet de créer l'objet physique (avec les propriétés de ogre bullet, une fois que l'objet est positionné
+		*/
+        void createPhysicalObj(); 
+
+        //###########GETTER / SETTER ############
+        
+        Ogre::Entity * getEntity(){
+            return entBriquette;
+        }
+
+        Ogre::SceneNode * getSceneNode(){
+            return briquetteNode;
+        }
+
+        void setSceneNode(Ogre::SceneNode * sceneNode){
+            briquetteNode=sceneNode;
+        }
+
+        OgreBulletCollisions::CollisionShape * getCollisionShape(){
+            return shapeBriquette;
+        }
+
+        OgreBulletDynamics::RigidBody *getRigidBody(){
+            return bodyBriquette;
+        }
+
 };
 
 
