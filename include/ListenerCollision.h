@@ -14,6 +14,7 @@
 
 #include "ClassRootSingleton.h"
 #include "ListenerFrame.h"
+#include "GestSceneManager.h"
 
 class ObjectRoot;
 

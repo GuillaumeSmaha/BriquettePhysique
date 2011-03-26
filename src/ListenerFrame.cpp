@@ -2,9 +2,10 @@
 
 template<> ListenerFrame * ClassRootSingleton<ListenerFrame>::_instance = NULL;
 
-ListenerFrame::ListenerFrame() : ClassRootSingleton<ListenerFrame>(), closed(false)
+ListenerFrame::ListenerFrame(Ogre::Root * root) : ClassRootSingleton<ListenerFrame>(), closed(false)
 {
-   	Application::getSingletonPtr()->getRoot()->addFrameListener(this);
+   	//Application::getSingletonPtr()->getRoot()->addFrameListener(this);
+   	root->addFrameListener(this);
 }
 
 ListenerFrame::~ListenerFrame()

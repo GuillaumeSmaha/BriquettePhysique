@@ -17,7 +17,7 @@
 #include "ListenerCollision.h"
 #include "ListenerInputManager.h"
 #include "CameraFree.h"
-#include "ObjTable.h"
+#include "GestObj.h"
 #include "PlayerControls.h"
 #include "controls.h"
 #include "nodeName.h"

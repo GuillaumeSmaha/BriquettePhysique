@@ -1,4 +1,4 @@
-material Material
+material Briquette
 {
 	receive_shadows on
 	technique

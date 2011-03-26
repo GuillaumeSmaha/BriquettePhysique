@@ -8,7 +8,7 @@
 
 #include <vector>
 #include <Ogre.h>
-#include "ObjBriquette.h"
+#include "GestObj.h"
 
 /*!
 * \class SnapShoot

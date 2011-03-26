@@ -25,6 +25,11 @@ class ObjBriquette
 		 * \brief l'entité Ogre 
 		*/
 		Ogre::Entity * entBriquette;
+        /*
+         * \brief nom de l'entité
+         * du type "BriquetteX" avec X un nombre
+        */
+        Ogre::String nom;
 		/*!
 		 * \brief le noeud de l'objet briquette
 		*/
@@ -43,7 +48,7 @@ class ObjBriquette
 		/*!
 		 * \brief Constructeur: crée un objet briquette intégré au projet et doté d'un comportement physique 
 		*/
-		ObjBriquette();
+		ObjBriquette(Ogre::String name);
 		/*!
 		 * \brief Constructeur de recopie
 		*/

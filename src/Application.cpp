@@ -123,8 +123,9 @@ void Application::initListeners()
 	ListenerMouse::createSingleton();
 	
 	//Create Frame Singleton
-	ListenerFrame::createSingleton();
-	
+	//ListenerFrame::createSingleton();
+    new ListenerFrame(this->root);
+
     //create the collision system
     ListenerCollision::createSingleton();
 
@@ -158,7 +159,13 @@ void Application::initScene()
 
 
     ObjTable * table = new ObjTable();
-    
+    GestObj * gestObj=GestObj::getSingletonPtr();
+    gestObj->setTable(table);
+    for(int i =0; i<250; i++){
+        Ogre::Vector3 vect(0,0,50);
+        gestObj->addBriquette(vect);
+    }
+
     CameraFree * gestCamera = new CameraFree("mainCam", GestSceneManager::getSceneManager()->getRootSceneNode());
     this->idViewport = GestViewport::getSingletonPtr()->addViewport(gestCamera);
     GestCamera::getSingletonPtr()->addCamera(gestCamera);

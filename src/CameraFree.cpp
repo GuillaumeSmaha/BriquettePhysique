@@ -6,8 +6,11 @@ CameraFree::CameraFree(Ogre::String cameraName, Ogre::SceneNode * nodeInit) : Ca
     this->camera->setFixedYawAxis(true);
 	this->camera->setOrientation(nodeInit->_getDerivedOrientation());
 	this->camera->setPosition(nodeInit->_getDerivedPosition());
-	this->camera->moveRelative(Ogre::Vector3(-1000.0, 0.0, 1000.0));
+	this->camera->moveRelative(Ogre::Vector3(0.0, 0.0, 500.0));
 	this->camera->lookAt(nodeInit->getPosition()+Ogre::Vector3(0.0, 0.0, 10.0));
+    //permet de gérer les déplacements de la caméra avec la souris
+	PlayerControls::getSingletonPtr()->signalMouseMoved.add(&CameraFree::onMouseMoved, this);
+	PlayerControls::getSingletonPtr()->signalKeyPressed.add(&CameraFree::onKeyPressed, this);
 }
 		
 void CameraFree::init_camera()
@@ -22,4 +25,26 @@ void CameraFree::init_camera()
 		
 void CameraFree::update_camera()
 {
+}
+
+
+void CameraFree::onMouseMoved(Ogre::Vector3 mouseVec){
+    this->camera->moveRelative(Ogre::Vector3(mouseVec[0], -mouseVec[1], 0));
+
+}
+
+
+void CameraFree::onKeyPressed(Controls::Controls key)
+{
+    switch(key)
+    {
+        case Controls::CAM_ZOOM_IN:
+            this->camera->moveRelative(Ogre::Vector3(0,0,20));
+            break;
+        case Controls::CAM_ZOOM_OUT:
+            this->camera->moveRelative(Ogre::Vector3(0,0,-20));
+            break;
+        default:
+            break;
+    }
 }

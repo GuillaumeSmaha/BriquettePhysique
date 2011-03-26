@@ -9,7 +9,6 @@
 #include <deque>
 #include "ClassRootSingleton.h"
 #include "SnapShoot.h"
-#include "ObjBriquette.h"
 
 /*!
 * \class GestSnapShoot

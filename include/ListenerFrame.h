@@ -9,7 +9,7 @@
 #include <Ogre.h>
 #include "Signal.h"
 #include "ClassRootSingleton.h"
-#include "Application.h"
+//#include "Application.h"
 
 class Application;
 
@@ -44,7 +44,8 @@ class ListenerFrame : public ClassRootSingleton<ListenerFrame>, public Ogre::Fra
 		/*!
 		 * \brief Constructeur
 		 */
-		ListenerFrame();
+		ListenerFrame(){std::cerr<<"Le constructeur de listenerFrame ne doit pas être appelé via createSingleton() (ou createSingletonPtr()) et doit être appelé avec un Ogre::Root * en argument!" <<std::endl;};
+		ListenerFrame(Ogre::Root *);
 		/*!
 		 * \brief Destructeur
 		 */

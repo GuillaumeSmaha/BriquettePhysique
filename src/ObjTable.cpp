@@ -10,6 +10,7 @@ ObjTable::ObjTable()
     this->tableNode->setScale(1000, 1000, 1);
     std::cout<<"table scale : "<<tableNode->getScale()<<std::endl;
 
+    this->tableNode->setPosition(0,0,0);
     Ogre::Vector3 pos = this->tableNode->getPosition();
     Ogre::Quaternion dir = this->tableNode->getOrientation();
 

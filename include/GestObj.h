@@ -10,6 +10,7 @@
 #include "ClassRootSingleton.h"
 #include "ObjTable.h"
 #include "ObjBriquette.h"
+#include "Utils.h"
 
 /*!
 * \class GestObj
@@ -49,8 +50,9 @@ class GestObj : public ClassRootSingleton<GestObj>
 
          /*!
          * \brief Ajoute une nouvelle briquettes
+         * \param pos: position à laquelle la nouvelle briquette est placé
          */
-        void addBriquette();
+        void addBriquette(const Ogre::Vector3 &pos);
 
          //#######GETTER /SETTER########
         Ogre::SceneNode * getGroupBriquetteNode(){
