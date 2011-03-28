@@ -16,7 +16,7 @@ ObjBriquette::~ObjBriquette()
 
 void ObjBriquette::createPhysicalObj(){    
 
-    //this->briquetteNode->setScale(100, 100, 100);
+    this->briquetteNode->setScale(5, 0.5, 0.5);
     Ogre::Vector3 pos = this->briquetteNode->getPosition();
     Ogre::Quaternion dir = this->briquetteNode->getOrientation();
 
