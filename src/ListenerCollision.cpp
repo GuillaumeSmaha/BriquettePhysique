@@ -7,7 +7,7 @@ template<> ListenerCollision * ClassRootSingleton<ListenerCollision>::_instance 
 ListenerCollision::ListenerCollision() : ClassRootSingleton<ListenerCollision>()
 {	
     //Start Bullet
-    mWorld = new OgreBulletDynamics::DynamicsWorld(GestSceneManager::getSceneManager(), Ogre::AxisAlignedBox(Ogre::Vector3 (-1, -1, -1), Ogre::Vector3 (1,  1,  1)), Ogre::Vector3(0,0,0));
+    mWorld = new OgreBulletDynamics::DynamicsWorld(GestSceneManager::getSceneManager(), Ogre::AxisAlignedBox(Ogre::Vector3 (-1, -1, -1), Ogre::Vector3 (1,  1,  1)), Ogre::Vector3(0,0,9.81));
     //add Debug info display tool
     debugDrawer = new OgreBulletCollisions::DebugDrawer();
     debugDrawer->setDrawWireframe(true);   // we want to see the Bullet containers

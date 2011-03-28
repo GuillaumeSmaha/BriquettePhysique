@@ -24,24 +24,32 @@ namespace Controls
 		CAM_ZOOM_IN = 5,
 		///Move the camera at behind
 		CAM_ZOOM_OUT = 6,
+		///Rotate the camera left
+		CAM_ROTATE_LEFT = 7,
+		///Rotate right
+		CAM_ROTATE_RIGHT = 8,
+		///Rotate the camera left
+		CAM_ROTATE_UP = 9,
+		///Rotate right
+		CAM_ROTATE_DOWN = 10,
 		///Open the menu
-		OPEN_MENU = 7,
+		OPEN_MENU = 11,
 		///Quit the application
-		QUIT = 8,
+		QUIT = 12,
 		///Switch with the next camera
-		SWITCH_NEXT_CAMERA = 9,
+		SWITCH_NEXT_CAMERA = 13,
 		///Switch with the previous camera
-		SWITCH_PREV_CAMERA = 12,
+		SWITCH_PREV_CAMERA = 14,
 		///Select an object
-		SELECT = 12,
+		SELECT = 15,
 		///Undo a modification
-		UNDO = 14,
+		UNDO = 16,
 		///Redo a modification
-		REDO = 15,
+		REDO = 17,
 		///Delete an object
-		SUPPR = 16,
+		SUPPR = 18,
 		///Save the objects
-		SAVE = 17
+		SAVE = 19
 	};
 }
 
