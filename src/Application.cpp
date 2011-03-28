@@ -29,6 +29,8 @@ Application::~Application()
 	std::cout << "-" << std::endl << "Stop	application !!" << std::endl;
 	
 	PlayerControls::destroySingleton();
+	ListenerMouse::destroySingleton();
+	ListenerKeyboard::destroySingleton();
 	ListenerInputManager::destroySingleton();
 	ListenerFrame::destroySingleton();
 	ListenerWindow::destroySingleton();
@@ -160,11 +162,13 @@ void Application::initScene()
     ObjTable * table = new ObjTable();
     GestObj * gestObj = GestObj::getSingletonPtr();
     gestObj->setTable(table);
-    for(int i =0; i<225; i++)
+    for(int i = 0 ; i < 25 ; i++)
 	{
-		int j = i % 25;
-		Ogre::Vector3 vect(i*10,0,50+j*10);
-		gestObj->addBriquette(vect);
+		for(int j = 0 ; j < 25 ; j++)
+		{
+			Ogre::Vector3 vect(i, j, 50.0);
+			gestObj->addBriquette(vect);
+		}
     }
 
     CameraFree * gestCamera = new CameraFree("mainCam", GestSceneManager::getSceneManager()->getRootSceneNode());
