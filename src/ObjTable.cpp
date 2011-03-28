@@ -16,7 +16,7 @@ ObjTable::ObjTable()
 
     this->shapeTable = new OgreBulletCollisions::BoxCollisionShape(tableNode->getScale());
     this->bodyTable= new OgreBulletDynamics::RigidBody("RigidBodyTable", ListenerCollision::getSingletonPtr()->getWorld());
-    this->bodyTable->setShape(this->tableNode, this->shapeTable, 0.6, 0.6, 1.0, pos, dir);
+    this->bodyTable->setStaticShape(this->tableNode, this->shapeTable, 0.6, 0.6, pos, dir);
     this->entTable->setCastShadows(true);
 }
 
