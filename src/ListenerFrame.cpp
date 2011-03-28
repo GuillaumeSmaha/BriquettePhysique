@@ -2,9 +2,30 @@
 
 template<> ListenerFrame * ClassRootSingleton<ListenerFrame>::_instance = NULL;
 
+
+void ListenerFrame::createSingleton()
+{
+	if (_instance == NULL)
+	{
+		new ListenerFrame();
+	}
+}
+
+void ListenerFrame::createSingleton(Ogre::Root * root)
+{
+	if (_instance == NULL)
+	{
+		new ListenerFrame(root);
+	}
+}
+
+ListenerFrame::ListenerFrame() : closed(false)
+{
+	std::cerr << "Le constructeur de listenerFrame ne doit pas être appelé via createSingleton() (ou createSingletonPtr()) et doit être appelé avec un Ogre::Root * en argument!" << std::endl;
+}
+
 ListenerFrame::ListenerFrame(Ogre::Root * root) : ClassRootSingleton<ListenerFrame>(), closed(false)
 {
-   	//Application::getSingletonPtr()->getRoot()->addFrameListener(this);
    	root->addFrameListener(this);
 }
 

@@ -26,7 +26,7 @@ class ClassRootSingleton : public ClassRoot
 		*/
 		ClassRootSingleton& operator=(const ClassRootSingleton<T> &);
     
-	private:
+	protected:
 		/*!
 		 * \brief Instance de ClassRootSingleton pour le singleton
 		 */

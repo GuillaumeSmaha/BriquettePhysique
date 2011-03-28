@@ -123,8 +123,7 @@ void Application::initListeners()
 	ListenerMouse::createSingleton();
 	
 	//Create Frame Singleton
-	//ListenerFrame::createSingleton();
-    new ListenerFrame(this->root);
+    ListenerFrame::createSingleton(this->root);
 
     //create the collision system
     ListenerCollision::createSingleton();
@@ -144,7 +143,6 @@ void Application::initSceneGraph()
 {
 	GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode(NODE_NAME_GROUPE_TABLE);
 	GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode(NODE_NAME_GROUPE_BRIQUETTES);
-	
 }
 
 void Application::initScene()
@@ -152,18 +150,21 @@ void Application::initScene()
     //GestSceneManager::getSceneManager()->setAmbientLight(Ogre::ColourValue(1.0, 1.0, 1.0));
 	//GestSceneManager::getSceneManager()->setAmbientLight(Ogre::ColourValue::White);
 
-    Ogre::Light * l = GestSceneManager::getSceneManager()->createLight("MainLight");
+    GestSceneManager::getSceneManager()->createLight("MainLight");
+    //Ogre::Light * l = GestSceneManager::getSceneManager()->createLight("MainLight");
     //l->setPosition(0,0,0);
     //Ogre::SceneNode *nodeLight1 = GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode("NodeLight1");
     //nodeLight1->attachObject(l);
 
 
     ObjTable * table = new ObjTable();
-    GestObj * gestObj=GestObj::getSingletonPtr();
+    GestObj * gestObj = GestObj::getSingletonPtr();
     gestObj->setTable(table);
-    for(int i =0; i<250; i++){
-        Ogre::Vector3 vect(0,0,50);
-        gestObj->addBriquette(vect);
+    for(int i =0; i<225; i++)
+	{
+		int j = i % 25;
+		Ogre::Vector3 vect(i*10,0,50+j*10);
+		gestObj->addBriquette(vect);
     }
 
     CameraFree * gestCamera = new CameraFree("mainCam", GestSceneManager::getSceneManager()->getRootSceneNode());
