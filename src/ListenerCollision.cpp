@@ -31,5 +31,5 @@ ListenerCollision::~ListenerCollision()
 
 void ListenerCollision::updateCollision(const Ogre::FrameEvent &evt)
 {
-
+    mWorld->stepSimulation(evt.timeSinceLastFrame);   // update Bullet Physics animation
 }
