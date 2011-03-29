@@ -49,6 +49,19 @@ class ObjTable
 		 * Destructeur: permet de nettoyer les objs alloués
 		*/
 		~ObjTable(); 
+
+
+        // ################################################# GETTER-SETTER #############
+        /*!
+         * \brief permet de récuperer l'entité
+        */
+        Ogre::Entity * getEntity(){
+            return(entTable);
+        }
+
+        Ogre::SceneNode * getNode(){
+            return (tableNode);
+        }
 };
 
 

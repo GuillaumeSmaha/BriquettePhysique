@@ -162,16 +162,17 @@ void Application::initScene()
     ObjTable * table = new ObjTable();
     GestObj * gestObj = GestObj::getSingletonPtr();
     gestObj->setTable(table);
-    for(int i = 0 ; i < 25 ; i++)
+    for(int i = 0 ; i < 10 ; i++)
 	{
-		for(int j = 0 ; j < 25 ; j++)
+		for(int j = 0 ; j < 10 ; j++)
 		{
 			Ogre::Vector3 vect(i, j, 50.0);
 			gestObj->addBriquette(vect);
 		}
     }
 
-    CameraFree * gestCamera = new CameraFree("mainCam", GestSceneManager::getSceneManager()->getRootSceneNode());
+    CameraFree * gestCamera = new CameraFree("mainCam", GestObj::getSingletonPtr()->getTable()->getNode());
+    //CameraFree * gestCamera = new CameraFree("mainCam", GestSceneManager::getSceneManager()->getRootSceneNode());
     this->idViewport = GestViewport::getSingletonPtr()->addViewport(gestCamera);
     GestCamera::getSingletonPtr()->addCamera(gestCamera);
 }

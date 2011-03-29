@@ -43,6 +43,13 @@ class GestObj : public ClassRootSingleton<GestObj>
          */
         virtual ~GestObj();
 
+
+         /*!
+         * \brief getter pour la table
+         */
+        ObjTable * getTable(void){
+            return this->table;
+        }
          /*!
          * \brief défini la table du jeux, ne peux être appellé qu'une fois
          */
