@@ -17,6 +17,9 @@ class GestSceneManager;
  */
 class CameraFree : public CameraAbstract, public ClassRoot
 {
+
+    private:
+        Ogre::Vector3 centre;
 	public:
 		/*!
 		 * \brief Constructeur
@@ -42,6 +45,7 @@ class CameraFree : public CameraAbstract, public ClassRoot
         */
         void onKeyPressed(Controls::Controls key);
 
+        void manuallyRotate(Ogre::Radian angle);
 };
 
 #endif //__CAMERA_FREE_H__
