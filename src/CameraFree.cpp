@@ -3,8 +3,6 @@
 
 CameraFree::CameraFree(Ogre::String cameraName, Ogre::SceneNode * nodeInit) : CameraAbstract(cameraName)
 {
-    this->camera_x=0;
-    this->camera_y=0;
     this->camera->setFixedYawAxis(true);
 	//this->camera->setOrientation(nodeInit->_getDerivedOrientation());
 	//this->camera->setPosition(nodeInit->_getDerivedPosition());
