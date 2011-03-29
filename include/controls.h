@@ -49,7 +49,9 @@ namespace Controls
 		///Delete an object
 		SUPPR = 18,
 		///Save the objects
-		SAVE = 19
+		SAVE = 19,
+        ///by default, we have a cursor which allow to select a briquette, when we change the mod, we move the view
+        CHANGE_MOUSE_MOD=20
 	};
 }
 

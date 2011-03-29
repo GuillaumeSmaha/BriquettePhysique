@@ -14,7 +14,7 @@ CameraFree::CameraFree(Ogre::String cameraName, Ogre::SceneNode * nodeInit) : Ca
 
     this->camera->setAutoTracking(true, GestObj::getSingletonPtr()->getTable()->getNode());
 
-	PlayerControls::getSingletonPtr()->signalMouseMoved.add(&CameraFree::onMouseMoved, this);
+	PlayerControls::getSingletonPtr()->signalMouseCameraMoved.add(&CameraFree::onMouseMoved, this);
 	PlayerControls::getSingletonPtr()->signalKeyPressed.add(&CameraFree::onKeyPressed, this);
 }
 		
@@ -63,11 +63,11 @@ void CameraFree::onKeyPressed(Controls::Controls key)
             this->camera->moveRelative(Ogre::Vector3(0,0,20));
             break;
         case Controls::CAM_ROTATE_LEFT:{
-            //manuallyRotate(Ogre::Radian(PI/36));
+            manuallyRotate(Ogre::Radian(PI/36));
             break;
         }
         case Controls::CAM_ROTATE_RIGHT:{
-            //manuallyRotate(Ogre::Radian(-PI/36));
+            manuallyRotate(Ogre::Radian(-PI/36));
             break;
         }
         default:

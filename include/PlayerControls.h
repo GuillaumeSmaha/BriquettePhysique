@@ -13,6 +13,11 @@
 #include "ListenerMouse.h"
 #include "controls.h"
 
+#define NB_MOUSE_MOD 2
+#define MOUSE_MOD_SELECT 0
+#define MOUSE_MOD_CAMERA 1
+
+
 
 /*!
 * \class PlayerControls
@@ -48,7 +53,12 @@ class PlayerControls: public ClassRootSingleton<PlayerControls>
 		 * \brief Indique si le mouseMove est pris en compte pour les mouvements du vaisseau
 		 */
         bool mouseMovedActif;
-        
+         /*!
+         * \brief contient le mode actuel d'utilisation de la souris
+        */
+        int mouseMod;
+
+       
 	public:
 		/*!
 		 * \brief Emet un dispatche lorsqu'une touche est préssée  Signal(Controls key)
@@ -59,9 +69,13 @@ class PlayerControls: public ClassRootSingleton<PlayerControls>
 		 */
         Signal<Controls::Controls> signalKeyReleased;
          /*!
-		 * \brief Emet un dispatche lorsque la souris est bougée  Signal(Ogre::Vector3)
+		 * \brief Emet un dispatche de type select lorsque la souris est bougée  Signal(Ogre::Vector3)
 		 */
-        Signal<Ogre::Vector3> signalMouseMoved;
+        Signal<Ogre::Vector3> signalMouseSelectMoved;
+         /*!
+		 * \brief Emet un dispatche de type select lorsque la souris est bougée  Signal(Ogre::Vector3)
+		 */
+        Signal<Ogre::Vector3> signalMouseCameraMoved;
 	
         /*!
          * \brief Permet d'arréter de réagir aux listeners 
@@ -73,7 +87,11 @@ class PlayerControls: public ClassRootSingleton<PlayerControls>
          * Appelé aprés que le menu ai été fermé.
         */
         void reprendre_ecoute();
-
+        /*!
+         * \brief permet de changer de mod de souris
+        */
+        void changeMod();
+ 
     public:
         /*!
          * \brief Constructor

@@ -10,11 +10,14 @@ PlayerControls::PlayerControls() : ClassRootSingleton<PlayerControls>()
 
     this->setDefaultKeys();
 
+    this->mouseMod=MOUSE_MOD_SELECT;
+
     ListenerKeyboard::getSingletonPtr()->signalKeyPressed.add(&PlayerControls::keyboardPressed, this);
     ListenerKeyboard::getSingletonPtr()->signalKeyReleased.add(&PlayerControls::keyboardReleased, this);
     ListenerMouse::getSingletonPtr()->signalMouseMoved.add(&PlayerControls::mouseMoved, this);
     ListenerMouse::getSingletonPtr()->signalMousePressed.add(&PlayerControls::mousePressed, this);
     ListenerMouse::getSingletonPtr()->signalMouseReleased.add(&PlayerControls::mouseReleased, this);
+
 }
 
 PlayerControls::~PlayerControls()
@@ -46,6 +49,7 @@ void PlayerControls::setDefaultKeys()
 	this->setKeyControl(Controls::SUPPR, OIS::KC_DELETE);
 	
 	this->setKeyControl(Controls::OPEN_MENU, OIS::KC_ESCAPE);
+	this->setKeyControl(Controls::CHANGE_MOUSE_MOD, OIS::KC_W);
 }
 
 void PlayerControls::resetControls(void)
@@ -102,7 +106,10 @@ void PlayerControls::keyboardPressed(const OIS::KeyEvent &evt)
     Controls::Controls key = this->OISEventToControlKey(evt);
     if(key != Controls::NONE)
     {
-         this->signalKeyPressed.dispatch(key);
+        if(key== Controls::CHANGE_MOUSE_MOD)
+            changeMod();
+        else    
+            this->signalKeyPressed.dispatch(key);
     }
 }
 
@@ -117,8 +124,18 @@ void PlayerControls::keyboardReleased(const OIS::KeyEvent &evt)
 
 void PlayerControls::mouseMoved(Ogre::Vector3 vect)
 {
-	if(this->getMouseMovedActif())
-		this->signalMouseMoved.dispatch(vect);
+	if(this->getMouseMovedActif()){
+        switch (mouseMod){
+            case MOUSE_MOD_SELECT: {
+                this->signalMouseSelectMoved.dispatch(vect);
+                break;
+            }
+            case MOUSE_MOD_CAMERA:{
+                this->signalMouseCameraMoved.dispatch(vect);
+                break;
+            }
+        }
+    }
 }
 
 void PlayerControls::mousePressed(const OIS::MouseButtonID evt)
@@ -180,4 +197,8 @@ bool PlayerControls::getMouseMovedActif()
 void PlayerControls::setMouseMovedActif(bool mouseMovedActif)
 {
 	this->mouseMovedActif = mouseMovedActif;
+}
+
+void PlayerControls::changeMod(){
+    mouseMod=(mouseMod+1)%NB_MOUSE_MOD;
 }
