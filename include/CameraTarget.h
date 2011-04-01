@@ -5,6 +5,7 @@
 #ifndef __CAMERA_TARGET_H__
 #define __CAMERA_TARGET_H__
 
+#include "nodeName.h"
 #include "CameraAbstract.h"
 #include "PlayerControls.h"
 #include "controls.h"
