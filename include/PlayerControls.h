@@ -6,15 +6,18 @@
 #define __PLAYER_CONTROLS_H__
 
 #include <vector>
-#include "Utils.h"
-#include "Signal.h"
+#include "controls.h"
 #include "ClassRootSingleton.h"
+#include "Signal.h"
+#include "Utils.h"
 #include "ListenerKeyboard.h"
 #include "ListenerMouse.h"
-#include "controls.h"
 
-#define NB_MOUSE_MOD 2
+///Nombre de mode possible pour la souris
+#define NUMBER_MOUSE_MOD 2
+///Mode de sélection de briquette
 #define MOUSE_MOD_SELECT 0
+///Mode de rotation de la caméra
 #define MOUSE_MOD_CAMERA 1
 
 
@@ -76,21 +79,6 @@ class PlayerControls: public ClassRootSingleton<PlayerControls>
 		 * \brief Emet un dispatche de type select lorsque la souris est bougée  Signal(Ogre::Vector3)
 		 */
         Signal<Ogre::Vector3> signalMouseCameraMoved;
-	
-        /*!
-         * \brief Permet d'arréter de réagir aux listeners 
-         * Utile lorsque le menu est activé.
-        */
-        void suspendre_ecoute();
-        /*!
-         * \brief Permet de rependre l'écoute des listeneurs
-         * Appelé aprés que le menu ai été fermé.
-        */
-        void reprendre_ecoute();
-        /*!
-         * \brief permet de changer de mod de souris
-        */
-        void changeMod();
  
     public:
         /*!
@@ -122,45 +110,72 @@ class PlayerControls: public ClassRootSingleton<PlayerControls>
          * \param mouseId Touche correspondante
          */
         void setMouseControl(const Controls::Controls keyControl, const OIS::MouseButtonID mouseId);
+	
+        /*!
+         * \brief Permet d'arréter de réagir aux listeners 
+         * Utile lorsque le menu est activé.
+        */
+        void suspendre_ecoute();
+        /*!
+         * \brief Permet de rependre l'écoute des listeneurs
+         * Appelé aprés que le menu ai été fermé.
+        */
+        void reprendre_ecoute();
+        /*!
+         * \brief Permet de changer de mode de souris
+        */
+        void changeMod();
+        
         
     private:
          /*!
 		 * \brief Reçoit un dispatche lorsqu'une touche du clavier est pressée et le transmet à signalKeyPressed
-		 * \param evt Event OIS
+		 * \param evt Evénement du clavier
 		 */
         void keyboardPressed(const OIS::KeyEvent &evt);
         /*!
 		 * \brief Reçoit un dispatche lorsqu'une touche du clavier est relâchée et le transmet à signalKeyReleased
-		 * \param evt Event OIS
+		 * \param evt Evénement du clavier
 		 */
         void keyboardReleased(const OIS::KeyEvent &evt);
         /*!
 		 * \brief Reçoit un dispatche lorsqu'un la souris est bougée et le transmet à signalMouseMoved
-		 * \param vect Vector3(X, Y, Z)
+		 * \param vect Vecteur de déplacement de la souris
 		 */
         void mouseMoved(Ogre::Vector3 vect);
         /*!
 		 * \brief Reçoit un dispatche lorsqu'une touche de la souris est pressée et le transmet à signalKeyPressed
-		 * \param evt Event OIS
+		 * \param evt Evénement de la souris
 		 */
         void mousePressed(const OIS::MouseButtonID evt);
         /*!
 		 * \brief Reçoit un dispatche lorsqu'une touche de la souris est relâchée et le transmet à signalKeyReleased
-		 * \param evt Event OIS
+		 * \param evt Evénement de la souris
 		 */
         void mouseReleased(const OIS::MouseButtonID evt);
         /*!
 		 * \brief Convertit un évènement OIS::KeyEvent en Controls::Controls pour se défaire du couplage aux touches physiques
-		 * \param evt Event OIS
-		 * \return Controls::Controls key correspondante
+		 * \param evt Evénement du clavier (OIS)
+		 * \return Controls::Controls Touche correspondante
 		 */
         Controls::Controls OISEventToControlKey(const OIS::KeyEvent &evt);
         /*!
 		 * \brief Convertit un id IS::MouseButtonID en Controls::Controls pour se défaire du couplage aux touches physiques
-		 * \param evt Mouse button ID (OIS)
-		 * \return Controls::Controls key correspondante
+		 * \param evt Evénement de la souris (OIS)
+		 * \return Controls::Controls Touche correspondante
 		 */
         Controls::Controls OISEventToControlKey(const OIS::MouseButtonID evt);
+        
+        
+        //Getter-Setter
+        
+	public:
+         /*!
+		 * \brief [Getter] Recupère la valeur de mouseMod
+		 * \return Indique quel est le mode utilisé pour la souris
+		 */
+        int getMouseMod();        
+        
          /*!
 		 * \brief [Getter] Recupère la valeur de mouseMovedActif
 		 * \return Indique si le mouvement de la souris est actif pour le vaisseau

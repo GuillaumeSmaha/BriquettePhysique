@@ -9,7 +9,7 @@
 #include <Ogre.h>
 #include "ClassRootSingleton.h"
 #include "CameraAbstract.h"
-#include "CameraFree.h"
+#include "CameraTarget.h"
 
 
 /*!
@@ -47,7 +47,7 @@ class GestCamera : public ClassRootSingleton<GestCamera>
 		 * \param cameraName Nom de la caméra à rajouter
 		 * \return Un pointeur sur la caméra créée
 		 */
-        CameraAbstract * addCamera(CameraAbstract::CameraType cameraType, Ogre::String cameraName);
+        CameraAbstract * addCamera(CameraAbstract::CameraType cameraType, Ogre::String cameraName, Ogre::SceneNode * targetNode = NULL);
         /*!
 		 * \brief Supprime la caméra de la liste
 		 * \param cam Camera à supprimer

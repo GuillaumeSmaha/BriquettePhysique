@@ -42,36 +42,37 @@ class GestSnapShoot : public ClassRootSingleton<GestSnapShoot>
          * \param snapShoot SnapShoot correspondant à la modification
          */
         void addModification(SnapShoot * snapShoot);
-
          /*!
          * \brief Ajoute un nouveau snapshoot
-         * \param briquette Briquette ayant subi la modification.
          */
-        void addModification(ObjBriquette * briquette);
-
+        void addModification();
+            
          /*!
-         * \brief Annule une modification
+         * \brief Retire plusieurs modifications à partir du début
+         * \param numberModification Nombre de modification (par défaut = 1)
          */
-        void undo();
+        void removeFirstModification(int numberModification = 1);
+         /*!
+         * \brief Retire plusieurs modifications à partir de la fin
+         * \param numberModification Nombre de modification (par défaut = 1)
+         */
+        void removeLastModification(int numberModification = 1);    
+        
          /*!
          * \brief Annule plusieurs modifications
-         * \param numberModification Nombre de modification
+         * \param numberModification Nombre de modification (par défaut = 1)
          */
-        void undo(int numberModification);
+        void undo(int numberModification = 1);
          /*!
          * \brief Annule toutes les modifications
          */
         void undoAll();
         
          /*!
-         * \brief Re-effectue une modification
-         */
-        void redo();
-         /*!
          * \brief Re-effectue plusieurs modifications
-         * \param numberModification Nombre de modification
+         * \param numberModification Nombre de modification (par défaut = 1)
          */
-        void redo(int numberModification);
+        void redo(int numberModification = 1);
          /*!
          * \brief Re-effectue toutes les modifications
          */

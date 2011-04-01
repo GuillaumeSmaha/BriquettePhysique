@@ -38,7 +38,10 @@ class ClassRootSingleton : public ClassRoot
 		*/
         ClassRootSingleton() : ClassRoot()
         {			
-			_instance = static_cast<T *>(this);
+			if(_instance == NULL)
+			{
+				_instance = static_cast<T *>(this);
+			}
         }
         /*!
          * \brief Destructor

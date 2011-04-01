@@ -51,10 +51,6 @@ class ListenerFrame : public ClassRootSingleton<ListenerFrame>, public Ogre::Fra
 	public:
 		/*!
 		 * \brief Constructeur
-		 */
-		ListenerFrame();
-		/*!
-		 * \brief Constructeur
 		 * \param root Racine d'Ogre
 		 */
 		ListenerFrame(Ogre::Root * root);

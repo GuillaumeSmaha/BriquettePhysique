@@ -5,23 +5,12 @@ template<> ListenerFrame * ClassRootSingleton<ListenerFrame>::_instance = NULL;
 
 void ListenerFrame::createSingleton()
 {
-	if (_instance == NULL)
-	{
-		new ListenerFrame();
-	}
+	std::cerr << "Le constructeur de ListenerFrame ne doit pas être appelé via createSingleton() et doit être appelé avec un Ogre::Root * en argument!" << std::endl << "Attention le singleton n'ayant pas été crée, il est fort possible d'avoir des erreurs de segmentation" << std::endl;
 }
 
 void ListenerFrame::createSingleton(Ogre::Root * root)
 {
-	if (_instance == NULL)
-	{
-		new ListenerFrame(root);
-	}
-}
-
-ListenerFrame::ListenerFrame() : closed(false)
-{
-	std::cerr << "Le constructeur de listenerFrame ne doit pas être appelé via createSingleton() (ou createSingletonPtr()) et doit être appelé avec un Ogre::Root * en argument!" << std::endl;
+	new ListenerFrame(root);
 }
 
 ListenerFrame::ListenerFrame(Ogre::Root * root) : ClassRootSingleton<ListenerFrame>(), closed(false)

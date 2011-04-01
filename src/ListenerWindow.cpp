@@ -4,17 +4,22 @@ template<> ListenerWindow * ClassRootSingleton<ListenerWindow>::_instance = NULL
 
 void ListenerWindow::createSingleton()
 {
-	ListenerWindow::createSingleton("Generic Window");
+	std::cerr << "Le constructeur de ListenerWindow ne doit pas être appelé via createSingleton() et doit être appelé avec un Ogre::Root * en argument !" << std::endl << "Attention le singleton n'ayant pas été crée, il est fort possible d'avoir des erreurs de segmentation"  << std::endl ;
 }
 
-void ListenerWindow::createSingleton(Ogre::String windowName)
+void ListenerWindow::createSingleton(Ogre::Root  * root)
 {
-	new ListenerWindow(windowName);
+	ListenerWindow::createSingleton(root, "Generic Window");
 }
 
-ListenerWindow::ListenerWindow(Ogre::String windowName) : ClassRootSingleton<ListenerWindow>()
+void ListenerWindow::createSingleton(Ogre::Root  * root, Ogre::String windowName)
 {
-	this->renderWindow = Application::getSingletonPtr()->getRoot()->initialise(true, windowName);
+	new ListenerWindow(root, windowName);
+}
+
+ListenerWindow::ListenerWindow(Ogre::Root  * root, Ogre::String windowName) : ClassRootSingleton<ListenerWindow>()
+{
+	this->renderWindow = root->initialise(true, windowName);
 	Ogre::WindowEventUtilities::addWindowEventListener(this->renderWindow, this);
 }
 

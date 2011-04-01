@@ -2,7 +2,7 @@
 
 ObjBriquette::ObjBriquette(Ogre::String nom)
 {
-    this->nom=nom;
+    this->nom = nom;
     this->entBriquette = GestSceneManager::getSingletonPtr()->createEntity(nom, "Briquette.mesh");
     this->entBriquette->setMaterialName("Briquette");
     //std::cout<<"briquette scale : "<<briquetteNode->getScale()<<std::endl;
@@ -14,8 +14,8 @@ ObjBriquette::~ObjBriquette()
 }
 
 
-void ObjBriquette::createPhysicalObj(){    
-
+void ObjBriquette::createPhysicalObj()
+{
     this->briquetteNode->setScale(5, 0.5, 0.5);
     Ogre::Vector3 pos = this->briquetteNode->getPosition();
     Ogre::Quaternion dir = this->briquetteNode->getOrientation();

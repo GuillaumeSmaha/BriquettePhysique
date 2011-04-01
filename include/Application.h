@@ -7,23 +7,20 @@
 
 
 #include <Ogre.h>
+#include "controls.h"
+#include "nodeName.h"
 #include "ClassRootSingleton.h"
 #include "Utils.h"
 #include "GestSceneManager.h"
 #include "GestViewport.h"
 #include "GestCamera.h"
+#include "GestObj.h"
 #include "ListenerWindow.h"
 #include "ListenerFrame.h"
 #include "ListenerCollision.h"
 #include "ListenerInputManager.h"
-#include "CameraFree.h"
-#include "GestObj.h"
 #include "PlayerControls.h"
-#include "controls.h"
-#include "nodeName.h"
-
-class ListenerWindow;
-class ListenerFrame;
+#include "CameraTarget.h"
 
 /*!
 * \class Application
@@ -72,23 +69,22 @@ class Application : public ClassRootSingleton<Application>
 		*/
 		bool shutDown;
 		
-		
     	/*!
 		* \brief Identifiant du viewport
 		*/
 		int idViewport;	
-
-	    /*!
-		* \brief Permet de recevoir un evènement quand une touche est appuyé
-        *   Ici, permet de fermer l'application
-		*/	
-        void onKeyPressed(Controls::Controls key);
 		
 	private:
          /*!
          * \brief Permet de terminer le programme
         */
         void killApplication();
+
+	    /*!
+		* \brief Permet de recevoir un evènement quand une touche est appuyé
+        *   Ici, permet de fermer l'application
+		*/	
+        void onKeyPressed(Controls::Controls key);
         
         
     public:

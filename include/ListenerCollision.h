@@ -13,10 +13,9 @@
 #include <Shapes/OgreBulletCollisionsSphereShape.h>
 
 #include "ClassRootSingleton.h"
-#include "ListenerFrame.h"
 #include "GestSceneManager.h"
-
-class ObjectRoot;
+#include "ListenerFrame.h"
+#include "PlayerControls.h"
 
 /*!
  * \class ListenerCollision
@@ -37,11 +36,11 @@ class ListenerCollision : public ClassRootSingleton<ListenerCollision>
 
 	public:
 		/*!
-		 * \brief Constructeur
+		 * \brief Constructor
 		 */
 		ListenerCollision();
 		/*!
-		 * \brief Constructeur
+		 * \brief Destructor
 		 */
 		~ListenerCollision();
 

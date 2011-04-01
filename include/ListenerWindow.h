@@ -9,9 +9,7 @@
 #include "ClassRootSingleton.h"
 #include "Signal.h"
 #include "OISMouse.h"
-#include "Application.h"
-
-class Application;
+#include "ListenerMouse.h"
 
 
 /*!
@@ -27,9 +25,15 @@ class ListenerWindow :  public ClassRootSingleton<ListenerWindow>, public Ogre::
 		static void createSingleton();
 		/*!
 		 * \brief Créé le singleton
+		 * \param root Pointeur sur l'objet root d'Ogre
+		 */		
+		static void createSingleton(Ogre::Root  * root);
+		/*!
+		 * \brief Créé le singleton
+		 * \param root Pointeur sur l'objet root d'Ogre
 		 * \param windowName Name of the window
 		 */		
-		static void createSingleton(Ogre::String windowName);
+		static void createSingleton(Ogre::Root  * root, Ogre::String windowName);
 		
 		
 	private:
@@ -49,7 +53,7 @@ class ListenerWindow :  public ClassRootSingleton<ListenerWindow>, public Ogre::
 		 * \brief Constructor
 		 * \param windowName Name of the window
 		 */
-		ListenerWindow(Ogre::String windowName);
+		ListenerWindow(Ogre::Root * root, Ogre::String windowName);
 		/*!
 		 * \brief Destructeur
 		 */

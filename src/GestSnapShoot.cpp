@@ -20,11 +20,15 @@ void GestSnapShoot::addModification(SnapShoot * snapShoot)
     this->lstSnapShoot.push_back(snapShoot);
 }
 
-void GestSnapShoot::addModification(ObjBriquette * briquette)
+void GestSnapShoot::addModification()
 {
 }
 
-void GestSnapShoot::undo()
+void GestSnapShoot::removeFirstModification(int numberModification)
+{
+}
+
+void GestSnapShoot::removeLastModification(int numberModification)
 {
 }
 
@@ -33,10 +37,6 @@ void GestSnapShoot::undo(int numberModification)
 }
 
 void GestSnapShoot::undoAll()
-{
-}
-
-void GestSnapShoot::redo()
 {
 }
 

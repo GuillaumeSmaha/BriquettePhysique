@@ -25,7 +25,7 @@ class ObjBriquette
 		 * \brief l'entité Ogre 
 		*/
 		Ogre::Entity * entBriquette;
-        /*
+        /*!
          * \brief nom de l'entité
          * du type "BriquetteX" avec X un nombre
         */
@@ -65,23 +65,28 @@ class ObjBriquette
 
         //###########GETTER / SETTER ############
         
-        Ogre::Entity * getEntity(){
+        Ogre::Entity * getEntity()
+        {
             return entBriquette;
         }
 
-        Ogre::SceneNode * getSceneNode(){
+        Ogre::SceneNode * getSceneNode()
+        {
             return briquetteNode;
         }
 
-        void setSceneNode(Ogre::SceneNode * sceneNode){
+        void setSceneNode(Ogre::SceneNode * sceneNode)
+        {
             briquetteNode=sceneNode;
         }
 
-        OgreBulletCollisions::CollisionShape * getCollisionShape(){
+        OgreBulletCollisions::CollisionShape * getCollisionShape()
+        {
             return shapeBriquette;
         }
 
-        OgreBulletDynamics::RigidBody *getRigidBody(){
+        OgreBulletDynamics::RigidBody * getRigidBody()
+        {
             return bodyBriquette;
         }
 

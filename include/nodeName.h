@@ -5,6 +5,9 @@
 #ifndef __NODE_NAME_H__
 #define __NODE_NAME_H__
 
+/// Nom du noeud global pour le groupe des caméra
+#define NODE_NAME_GROUPE_CAMERA "GroupeCamera"
+
 /// Nom du noeud global pour le groupe de la table
 #define NODE_NAME_GROUPE_TABLE "GroupeTable"
 
