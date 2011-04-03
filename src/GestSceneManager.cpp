@@ -33,7 +33,6 @@ GestSceneManager::~GestSceneManager()
 {
 }
 
-
 Ogre::Entity * GestSceneManager::createEntity(const Ogre::String &name, const Ogre::String meshName)
 {
     return this->sceneMgr->createEntity(name, meshName);

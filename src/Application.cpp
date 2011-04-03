@@ -27,7 +27,7 @@ Application::Application() : ClassRootSingleton<Application>()
 Application::~Application()
 {
 	std::cout << "-" << std::endl << "Stop	application !!" << std::endl;
-	
+		
 	PlayerControls::destroySingleton();
 	ListenerMouse::destroySingleton();
 	ListenerKeyboard::destroySingleton();
@@ -52,7 +52,7 @@ bool Application::start()
 		return false;
 		
 	//Create Window Singleton
-	ListenerWindow::createSingleton("Briquette Physique");
+	ListenerWindow::createSingleton(this->root, "Briquette Physique");
 		
 	//Create Camera Singleton
 	GestCamera::createSingleton();
@@ -145,6 +145,7 @@ void Application::initSceneGraph()
 {
 	GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode(NODE_NAME_GROUPE_TABLE);
 	GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode(NODE_NAME_GROUPE_BRIQUETTES);
+	GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode(NODE_NAME_GROUPE_CAMERA);
 }
 
 void Application::initScene()
@@ -158,10 +159,14 @@ void Application::initScene()
     //Ogre::SceneNode *nodeLight1 = GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode("NodeLight1");
     //nodeLight1->attachObject(l);
 
-
-    ObjTable * table = new ObjTable();
     GestObj * gestObj = GestObj::getSingletonPtr();
+    
+    ObjTable * tableBackground = new ObjTable(2500.0, -500.0);
+    ObjTable * table = new ObjTable();
+   
+    gestObj->setTableBackground(tableBackground);
     gestObj->setTable(table);
+    
     for(int i = 0 ; i < 10 ; i++)
 	{
 		for(int j = 0 ; j < 10 ; j++)
@@ -170,10 +175,11 @@ void Application::initScene()
 			gestObj->addBriquette(vect);
 		}
     }
-
-    CameraFree * gestCamera = new CameraFree("mainCam", GestObj::getSingletonPtr()->getTable()->getNode());
-    //CameraFree * gestCamera = new CameraFree("mainCam", GestSceneManager::getSceneManager()->getRootSceneNode());
+    
+    CameraTarget * gestCamera = new CameraTarget("mainCam", GestObj::getSingletonPtr()->getTable()->getNode());
+    
     this->idViewport = GestViewport::getSingletonPtr()->addViewport(gestCamera);
+    
     GestCamera::getSingletonPtr()->addCamera(gestCamera);
 }
 

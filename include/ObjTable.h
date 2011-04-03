@@ -44,7 +44,7 @@ class ObjTable
 		/*!
 		 * Constructeur: crée un objet table intégré au projet et doté d'un comportement physique 
 		*/
-		ObjTable();
+		ObjTable(Ogre::Real size = 100.0, Ogre::Real depth = 0.0);
 		/*!
 		 * Destructeur: permet de nettoyer les objs alloués
 		*/
@@ -52,15 +52,24 @@ class ObjTable
 
 
         // ################################################# GETTER-SETTER #############
+        
+        
         /*!
-         * \brief permet de récuperer l'entité
+         * \brief [Getter] Permet de récuperer l'entité
+         * \return Un pointeur sur l'objet entTable
         */
-        Ogre::Entity * getEntity(){
-            return(entTable);
+        Ogre::Entity * getEntity()
+        {
+            return this->entTable;
         }
 
-        Ogre::SceneNode * getNode(){
-            return (tableNode);
+        /*!
+         * \brief [Getter] Permet de récuperer le noeud contenant la table
+         * \return Un pointeur sur l'objet tableNode
+        */
+        Ogre::SceneNode * getNode()
+        {
+            return this->tableNode;
         }
 };
 

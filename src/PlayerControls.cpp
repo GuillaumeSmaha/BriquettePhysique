@@ -10,7 +10,7 @@ PlayerControls::PlayerControls() : ClassRootSingleton<PlayerControls>()
 
     this->setDefaultKeys();
 
-    this->mouseMod=MOUSE_MOD_SELECT;
+    this->mouseMod = MOUSE_MOD_SELECT;
 
     ListenerKeyboard::getSingletonPtr()->signalKeyPressed.add(&PlayerControls::keyboardPressed, this);
     ListenerKeyboard::getSingletonPtr()->signalKeyReleased.add(&PlayerControls::keyboardReleased, this);
@@ -101,6 +101,32 @@ void PlayerControls::setMouseControl(const Controls::Controls keyControl, const 
 	}
 }
 
+void PlayerControls::suspendre_ecoute()
+{
+    ListenerKeyboard::getSingletonPtr()->signalKeyPressed.remove(&PlayerControls::keyboardPressed, this);
+    ListenerKeyboard::getSingletonPtr()->signalKeyReleased.remove(&PlayerControls::keyboardReleased, this);
+    ListenerMouse::getSingletonPtr()->signalMousePressed.remove(&PlayerControls::mousePressed, this);
+    ListenerMouse::getSingletonPtr()->signalMouseMoved.remove(&PlayerControls::mouseMoved, this);
+    ListenerMouse::getSingletonPtr()->signalMouseReleased.remove(&PlayerControls::mouseReleased, this);
+}
+
+void PlayerControls::reprendre_ecoute()
+{
+    ListenerKeyboard::getSingletonPtr()->signalKeyPressed.add(&PlayerControls::keyboardPressed, this);
+    ListenerKeyboard::getSingletonPtr()->signalKeyReleased.add(&PlayerControls::keyboardReleased, this);
+    ListenerMouse::getSingletonPtr()->signalMouseMoved.add(&PlayerControls::mouseMoved, this);
+    ListenerMouse::getSingletonPtr()->signalMousePressed.add(&PlayerControls::mousePressed, this);
+    ListenerMouse::getSingletonPtr()->signalMouseReleased.add(&PlayerControls::mouseReleased, this);
+}
+
+void PlayerControls::changeMod()
+{
+    mouseMod = (mouseMod+1) % NUMBER_MOUSE_MOD;
+}
+
+
+
+
 void PlayerControls::keyboardPressed(const OIS::KeyEvent &evt)
 {
     Controls::Controls key = this->OISEventToControlKey(evt);
@@ -124,13 +150,17 @@ void PlayerControls::keyboardReleased(const OIS::KeyEvent &evt)
 
 void PlayerControls::mouseMoved(Ogre::Vector3 vect)
 {
-	if(this->getMouseMovedActif()){
-        switch (mouseMod){
-            case MOUSE_MOD_SELECT: {
+	if(this->getMouseMovedActif())
+	{
+        switch (mouseMod)
+        {
+            case MOUSE_MOD_SELECT :
+            {
                 this->signalMouseSelectMoved.dispatch(vect);
                 break;
             }
-            case MOUSE_MOD_CAMERA:{
+            case MOUSE_MOD_CAMERA :
+            {
                 this->signalMouseCameraMoved.dispatch(vect);
                 break;
             }
@@ -171,22 +201,9 @@ Controls::Controls PlayerControls::OISEventToControlKey(const OIS::MouseButtonID
 	return key;
 }
 
-void PlayerControls::suspendre_ecoute()
+int PlayerControls::getMouseMod()
 {
-    ListenerKeyboard::getSingletonPtr()->signalKeyPressed.remove(&PlayerControls::keyboardPressed, this);
-    ListenerKeyboard::getSingletonPtr()->signalKeyReleased.remove(&PlayerControls::keyboardReleased, this);
-    ListenerMouse::getSingletonPtr()->signalMousePressed.remove(&PlayerControls::mousePressed, this);
-    ListenerMouse::getSingletonPtr()->signalMouseMoved.remove(&PlayerControls::mouseMoved, this);
-    ListenerMouse::getSingletonPtr()->signalMouseReleased.remove(&PlayerControls::mouseReleased, this);
-}
-
-void PlayerControls::reprendre_ecoute()
-{
-    ListenerKeyboard::getSingletonPtr()->signalKeyPressed.add(&PlayerControls::keyboardPressed, this);
-    ListenerKeyboard::getSingletonPtr()->signalKeyReleased.add(&PlayerControls::keyboardReleased, this);
-    ListenerMouse::getSingletonPtr()->signalMouseMoved.add(&PlayerControls::mouseMoved, this);
-    ListenerMouse::getSingletonPtr()->signalMousePressed.add(&PlayerControls::mousePressed, this);
-    ListenerMouse::getSingletonPtr()->signalMouseReleased.add(&PlayerControls::mouseReleased, this);
+	return this->mouseMod;
 }
 
 bool PlayerControls::getMouseMovedActif()
@@ -197,8 +214,4 @@ bool PlayerControls::getMouseMovedActif()
 void PlayerControls::setMouseMovedActif(bool mouseMovedActif)
 {
 	this->mouseMovedActif = mouseMovedActif;
-}
-
-void PlayerControls::changeMod(){
-    mouseMod=(mouseMod+1)%NB_MOUSE_MOD;
 }

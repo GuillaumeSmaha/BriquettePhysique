@@ -17,13 +17,13 @@ void GestCamera::addCamera(CameraAbstract * camera)
 }
 
 
-CameraAbstract * GestCamera::addCamera(CameraAbstract::CameraType cameraType, Ogre::String cameraName)
+CameraAbstract * GestCamera::addCamera(CameraAbstract::CameraType cameraType, Ogre::String cameraName, Ogre::SceneNode * targetNode)
 {
 	CameraAbstract * cam = NULL;
 	switch(cameraType)
 	{
 		case CameraAbstract::CAMERA_FREE :
-			cam = new CameraFree(cameraName, GestSceneManager::getSceneManager()->getRootSceneNode());
+			cam = new CameraTarget(cameraName, targetNode);
 			this->listCameras.push_back(cam);
 			break;
 			
