@@ -20,7 +20,8 @@ class ListenerWindow :  public ClassRootSingleton<ListenerWindow>, public Ogre::
 {
 	public:
 		/*!
-		 * \brief Créé le singleton
+		 * \brief NE PAS UTILISER, present uniquement pour la définition de ClassRootSingleton
+         *  il faut utiliser createSingleton(Ogre::Root * root) à la place.
 		 */		
 		static void createSingleton();
 		/*!

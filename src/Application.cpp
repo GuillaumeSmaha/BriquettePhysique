@@ -181,6 +181,8 @@ void Application::initScene()
     this->idViewport = GestViewport::getSingletonPtr()->addViewport(gestCamera);
     
     GestCamera::getSingletonPtr()->addCamera(gestCamera);
+    SelectionMouse::createSingleton(ListenerWindow::getSingletonPtr()->getRenderWindow());
+
 }
 
 
