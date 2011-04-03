@@ -21,6 +21,7 @@
 #include "PlayerControls.h"
 #include "controls.h"
 #include "nodeName.h"
+#include "SelectionMouse.h"
 
 class ListenerWindow;
 class ListenerFrame;
