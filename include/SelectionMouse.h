@@ -23,24 +23,49 @@ class SelectionMouse: public ClassRootSingleton<SelectionMouse>
          *  il faut utiliser createSingleton(Ogre::RenderWindow * win) à la place.
 		*/		
         static void createSingleton();
-        static void createSingleton(Ogre::RenderWindow * win);
-        /*  
-        * Constructeur
+        /*!
+         * Permet de creer la souris, celle ci ce présente sous la forme d'un curseur qui peut saisir les briquettes.
+         * \param win: Le renderWindow permet d'avoir la taille de la fenetre et donc d'adapter la taille du curseur à celle ci
         */
-        SelectionMouse();
-        SelectionMouse(Ogre::RenderWindow * win);
-        ~SelectionMouse(){};
+        static void createSingleton(Ogre::RenderWindow * win);
+       ~SelectionMouse(){};
 
 
     private:
+        /*
+         * Overlay ne contenant que le curseur de la souris
+        */
         Ogre::Overlay * mouseOverlay;
+        /*
+         * pannel contenant la texture de la souris
+        */
         Ogre::OverlayElement * mousePanel;
 
-
+        /*
+         * position de la souris
+        */
         Ogre::Vector2 posMouse;
+
+        /*
+         * Permet de conserver la largeur et la hauteur de la fenetre
+        */
         int winWidth, winHeight;
+
+
+        /*  
+        * Constructeur par défault, ne doit pas être utilisé
+        */
+        SelectionMouse();
+        /*  
+        * Constructeur 
+        * \param win: Le renderWindow permet d'avoir la taille de la fenetre et donc d'adapter la taille du curseur à celle ci
+        */
+        SelectionMouse(Ogre::RenderWindow * win);
+ 
+
         /*
          * \brief cree l'overlay de la souris (affichage, texture...)
+         * \param win: Le renderWindow permet d'avoir la taille de la fenetre et donc d'adapter la taille du curseur à celle ci
         */
         void createOverlay(Ogre::RenderWindow * win);
 
