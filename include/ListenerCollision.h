@@ -32,6 +32,10 @@ class ListenerCollision : public ClassRootSingleton<ListenerCollision>
 		 * \brief Trace de débug pour OgreBullet
 		 */
 		OgreBulletCollisions::DebugDrawer * debugDrawer;
+		/*!
+		 * \brief Définit si le moteur physique est actif
+		 */
+		bool physicEngineState;
 
 
 	public:
@@ -58,6 +62,23 @@ class ListenerCollision : public ClassRootSingleton<ListenerCollision>
 		OgreBulletDynamics::DynamicsWorld * getWorld()
 		{
 			return mWorld;
+		}
+
+		/*!
+		 * \brief [Getter] Valeur de l'attribut physicEngineState
+		 * \return Retourne l'état du moteur physique
+		 */
+		bool getPhysicEngineState()
+		{
+			return this->physicEngineState;
+		}
+		/*!
+		 * \brief [Setter] Définit de l'attribut physicEngineState
+		 * \param physicEngineState Définit l'état du moteur physique
+		 */
+		void setPhysicEngineState(bool physicEngineState)
+		{
+			this->physicEngineState = physicEngineState;
 		}
 };
 

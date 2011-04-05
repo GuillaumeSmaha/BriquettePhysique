@@ -7,20 +7,12 @@
 
 #include <vector>
 #include "controls.h"
+#include "mouseMove.h"
 #include "ClassRootSingleton.h"
 #include "Signal.h"
 #include "Utils.h"
 #include "ListenerKeyboard.h"
 #include "ListenerMouse.h"
-
-///Nombre de mode possible pour la souris
-#define NUMBER_MOUSE_MOD 2
-///Mode de sélection de briquette
-#define MOUSE_MOD_SELECT 0
-///Mode de rotation de la caméra
-#define MOUSE_MOD_CAMERA 1
-
-
 
 /*!
 * \class PlayerControls
@@ -56,10 +48,6 @@ class PlayerControls: public ClassRootSingleton<PlayerControls>
 		 * \brief Indique si le mouseMove est pris en compte pour les mouvements du vaisseau
 		 */
         bool mouseMovedActif;
-         /*!
-         * \brief contient le mode actuel d'utilisation de la souris
-        */
-        int mouseMod;
 
        
 	public:
@@ -72,13 +60,9 @@ class PlayerControls: public ClassRootSingleton<PlayerControls>
 		 */
         Signal<Controls::Controls> signalKeyReleased;
          /*!
-		 * \brief Emet un dispatche de type select lorsque la souris est bougée  Signal(Ogre::Vector3)
+		 * \brief Emet un dispatche lorsque la souris est déplacée Signal(Ogre::MouseMove_t)
 		 */
-        Signal<Ogre::Vector3> signalMouseSelectMoved;
-         /*!
-		 * \brief Emet un dispatche de type select lorsque la souris est bougée  Signal(Ogre::Vector3)
-		 */
-        Signal<Ogre::Vector3> signalMouseCameraMoved;
+        Signal<MouseMove_t&> signalMouseMoved;
  
     public:
         /*!
@@ -102,14 +86,20 @@ class PlayerControls: public ClassRootSingleton<PlayerControls>
          * \brief Définit une touche du clavier pour une action donnée
          * \param keyControl Action à effectuer
          * \param key Touche correspondante
+         * \param removeDuplicate Definit si l'on supprime ou non les doublons avant l'affectation.
+         * Permet en autre d'ajouter plusieurs touches pour une seule action
+         * Définit à vrai par défaut.
          */
-        void setKeyControl(const Controls::Controls keyControl, const OIS::KeyCode key);
+        void setKeyControl(const Controls::Controls keyControl, const OIS::KeyCode key, bool removeDuplicate = true);
         /*!
          * \brief Définit une touche de la souris pour une action donnée
          * \param keyControl Action à effectuer
          * \param mouseId Touche correspondante
+         * \param removeDuplicate Definit si l'on supprime ou non les doublons avant l'affectation.
+         * Permet en autre d'ajouter plusieurs touches pour une seule action
+         * Définit à vrai par défaut.
          */
-        void setMouseControl(const Controls::Controls keyControl, const OIS::MouseButtonID mouseId);
+        void setMouseControl(const Controls::Controls keyControl, const OIS::MouseButtonID mouseId, bool removeDuplicate = true);
 	
         /*!
          * \brief Permet d'arréter de réagir aux listeners 
@@ -121,10 +111,6 @@ class PlayerControls: public ClassRootSingleton<PlayerControls>
          * Appelé aprés que le menu ai été fermé.
         */
         void reprendre_ecoute();
-        /*!
-         * \brief Permet de changer de mode de souris
-        */
-        void changeMod();
         
         
     private:
@@ -140,16 +126,16 @@ class PlayerControls: public ClassRootSingleton<PlayerControls>
         void keyboardReleased(const OIS::KeyEvent &evt);
         /*!
 		 * \brief Reçoit un dispatche lorsqu'un la souris est bougée et le transmet à signalMouseMoved
-		 * \param vect Vecteur de déplacement de la souris
+		 * \param mouseMove Structure de déplacement de la souris
 		 */
-        void mouseMoved(Ogre::Vector3 vect);
+        void mouseMoved(MouseMove_t &mouseMove);
         /*!
-		 * \brief Reçoit un dispatche lorsqu'une touche de la souris est pressée et le transmet à signalKeyPressed
+		 * \brief Reçoit un dispatche lorsqu'une touche de la souris est pressée et le transmet à signalMousePressed
 		 * \param evt Evénement de la souris
 		 */
         void mousePressed(const OIS::MouseButtonID evt);
         /*!
-		 * \brief Reçoit un dispatche lorsqu'une touche de la souris est relâchée et le transmet à signalKeyReleased
+		 * \brief Reçoit un dispatche lorsqu'une touche de la souris est relâchée et le transmet à signalMouseReleased
 		 * \param evt Evénement de la souris
 		 */
         void mouseReleased(const OIS::MouseButtonID evt);
@@ -169,13 +155,7 @@ class PlayerControls: public ClassRootSingleton<PlayerControls>
         
         //Getter-Setter
         
-	public:
-         /*!
-		 * \brief [Getter] Recupère la valeur de mouseMod
-		 * \return Indique quel est le mode utilisé pour la souris
-		 */
-        int getMouseMod();        
-        
+	public:        
          /*!
 		 * \brief [Getter] Recupère la valeur de mouseMovedActif
 		 * \return Indique si le mouvement de la souris est actif pour le vaisseau

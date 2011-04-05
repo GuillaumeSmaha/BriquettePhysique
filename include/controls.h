@@ -10,10 +10,10 @@ namespace Controls
 	/// Define the different types of control
 	enum Controls
 	{
-		///None
+		///None (Don't delete !!!)
 		NONE = 0,
-        //catch briquette
-        //CATCH_BRIQUETTE = 1,
+		///Quit the application
+		QUIT = 1,
 		///Move the camera at right
 		CAM_MOVE_RIGHT = 2,
 		///Move the camera at left
@@ -36,24 +36,26 @@ namespace Controls
 		CAM_ROTATE_DOWN = 11,
 		///Open the menu
 		OPEN_MENU = 12,
-		///Quit the application
-		QUIT = 13,
 		///Switch with the next camera
-		SWITCH_NEXT_CAMERA = 14,
+		SWITCH_NEXT_CAMERA = 13,
 		///Switch with the previous camera
-		SWITCH_PREV_CAMERA = 15,
+		SWITCH_PREV_CAMERA = 14,
 		///Select an object
-		SELECT = 16,
+		SELECT = 15,
 		///Undo a modification
-		UNDO = 17,
+		UNDO = 16,
 		///Redo a modification
-		REDO = 18,
+		REDO = 17,
 		///Delete an object
-		SUPPR = 19,
+		SUPPR = 18,
 		///Save the objects
-		SAVE = 20,
-        ///by default, we have a cursor which allow to select a briquette, when we change the mod, we move the view
-        CHANGE_MOUSE_MOD=21
+		SAVE = 19,
+        ///Mouse move to rotate the camera
+        MOUSE_CAMERA_ROTATE = 20,
+        ///Mouse move to zoom the camera
+        MOUSE_CAMERA_ZOOM = 21,
+        ///Define if the physic engine (bullet) is started
+        SWITCH_BULLET_STATE = 22
 	};
 }
 

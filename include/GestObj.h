@@ -68,7 +68,7 @@ class GestObj : public ClassRootSingleton<GestObj>
         }
          /*!
          * \brief [Setter] Défini la table du jeux, ne peux être appellé qu'une fois
-         * \param table Un pointeur sur la table de fond à définir
+         * \param tableBackground Un pointeur sur la table de fond à définir
          */
         void setTableBackground(ObjTable * tableBackground);
 

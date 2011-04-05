@@ -45,6 +45,7 @@ class GestCamera : public ClassRootSingleton<GestCamera>
 		 * \brief Rajoute une caméra à la liste
 		 * \param cameraType Type de caméra à rajouter à la liste
 		 * \param cameraName Nom de la caméra à rajouter
+		 * \param targetNode Noeud cible à suivre
 		 * \return Un pointeur sur la caméra créée
 		 */
         CameraAbstract * addCamera(CameraAbstract::CameraType cameraType, Ogre::String cameraName, Ogre::SceneNode * targetNode = NULL);

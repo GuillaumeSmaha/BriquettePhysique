@@ -39,20 +39,36 @@ void ListenerMouse::capture(void *)
 
 bool ListenerMouse::mouseMoved(const OIS::MouseEvent &evt)
 {
-	this->signalMouseMoved.dispatch(Ogre::Vector3(evt.state.X.rel, evt.state.Y.rel, evt.state.Y.rel));
+	MouseMove_t move;
+	move.mouseId = this->getLastMousePressedId();
+	move.vector = Ogre::Vector2(evt.state.X.rel, evt.state.Y.rel);
+	
+	this->signalMouseMoved.dispatch(move);
 
 	return true;
 }
 
 bool ListenerMouse::mousePressed(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
 {
+	lstMousePressedId.push_back(id);
+	
     this->signalMousePressed.dispatch(id);
 	return true;
 }
 
 bool ListenerMouse::mouseReleased(const OIS::MouseEvent &evt, OIS::MouseButtonID id)
-{
+{	
+	lstMousePressedId.remove(id);
 
     this->signalMouseReleased.dispatch(id);
 	return true;
+}
+
+
+OIS::MouseButtonID ListenerMouse::getLastMousePressedId()
+{
+	if(!this->lstMousePressedId.empty())
+		return this->lstMousePressedId.back();
+	else
+		return static_cast<OIS::MouseButtonID>(-1);
 }

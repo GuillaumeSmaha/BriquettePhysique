@@ -6,6 +6,7 @@
 #define __CAMERA_TARGET_H__
 
 #include "nodeName.h"
+#include "mouseMove.h"
 #include "CameraAbstract.h"
 #include "PlayerControls.h"
 #include "controls.h"
@@ -48,12 +49,12 @@ class CameraTarget : public CameraAbstract, public ClassRoot
         
         /*!
          * \brief Permet de déplacer la caméra lors d'un mouvement de souris
-		 * \param mouseVec Vecteur de déplacement de la souris
+		 * \param mouseMove Structure de déplacement de la souris
         */
-        void onMouseMoved(Ogre::Vector3 mouseVec);
+        void onMouseMoved(MouseMove_t &mouseMove);
         /*!
          * \brief Permet de déplacer la caméra selon les touches utilisés
-         * \param evt Touche du clavier (Controls::Controls)
+         * \param key Touche du clavier (Controls::Controls)
         */
         void onKeyPressed(Controls::Controls key);
         /*!
@@ -61,6 +62,11 @@ class CameraTarget : public CameraAbstract, public ClassRoot
          * \param angle Angle de rotation
         */
         void manuallyRotate(Ogre::Radian angle);
+        /*!
+         * \brief Effectue un zoom
+         * \param zoomDist Zoom à effectuer
+        */
+        void zoom(Ogre::Real zoomDist);
         /*!
          * \brief Vérifie la rotation de la caméra et met à jour en conséquence
          * \return Vrai si on ne sort pas des limites

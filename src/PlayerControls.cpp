@@ -10,8 +10,6 @@ PlayerControls::PlayerControls() : ClassRootSingleton<PlayerControls>()
 
     this->setDefaultKeys();
 
-    this->mouseMod = MOUSE_MOD_SELECT;
-
     ListenerKeyboard::getSingletonPtr()->signalKeyPressed.add(&PlayerControls::keyboardPressed, this);
     ListenerKeyboard::getSingletonPtr()->signalKeyReleased.add(&PlayerControls::keyboardReleased, this);
     ListenerMouse::getSingletonPtr()->signalMouseMoved.add(&PlayerControls::mouseMoved, this);
@@ -32,6 +30,8 @@ PlayerControls::~PlayerControls()
 void PlayerControls::setDefaultKeys()
 {
 	this->setMouseControl(Controls::SELECT, OIS::MB_Left);
+	this->setMouseControl(Controls::MOUSE_CAMERA_ZOOM, OIS::MB_Middle);
+	this->setMouseControl(Controls::MOUSE_CAMERA_ROTATE, OIS::MB_Right);
 	
 	this->setKeyControl(Controls::CAM_MOVE_RIGHT, OIS::KC_RIGHT);
 	this->setKeyControl(Controls::CAM_MOVE_LEFT, OIS::KC_LEFT);
@@ -49,7 +49,7 @@ void PlayerControls::setDefaultKeys()
 	this->setKeyControl(Controls::SUPPR, OIS::KC_DELETE);
 	
 	this->setKeyControl(Controls::OPEN_MENU, OIS::KC_ESCAPE);
-	this->setKeyControl(Controls::CHANGE_MOUSE_MOD, OIS::KC_W);
+	this->setKeyControl(Controls::SWITCH_BULLET_STATE, OIS::KC_W);
 }
 
 void PlayerControls::resetControls(void)
@@ -65,38 +65,48 @@ void PlayerControls::resetControls(void)
 		this->listMouseControl[i] = Controls::NONE;
 }
 
-void PlayerControls::setKeyControl(const Controls::Controls keyControl, const OIS::KeyCode key)
+void PlayerControls::setKeyControl(const Controls::Controls keyControl, const OIS::KeyCode key, bool deleteDuplicate)
 {
 	if(key <= PlayerControls::maxOISKeyControl)
 	{
-		for(unsigned int i = 0 ; i < this->listMouseControl.size() ; i++)
+		if(deleteDuplicate)
 		{
-			if(this->listMouseControl[i] == keyControl)
-				this->listMouseControl[i] = Controls::NONE;
+			for(unsigned int i = 0 ; i < this->listMouseControl.size() ; i++)
+			{
+				if(this->listMouseControl[i] == keyControl)
+					this->listMouseControl[i] = Controls::NONE;
+			}
+			
+			for(unsigned int i = 0 ; i < this->listKeyControl.size() ; i++)
+			{
+				if(this->listKeyControl[i] == keyControl)
+					this->listKeyControl[i] = Controls::NONE;
+			}
 		}
-		for(unsigned int i = 0 ; i < this->listKeyControl.size() ; i++)
-		{
-			if(this->listKeyControl[i] == keyControl)
-				this->listKeyControl[i] = Controls::NONE;
-		}		
+		
 		this->listKeyControl[key] = keyControl;
 	}
 }
 
-void PlayerControls::setMouseControl(const Controls::Controls keyControl, const OIS::MouseButtonID mouseId)
+void PlayerControls::setMouseControl(const Controls::Controls keyControl, const OIS::MouseButtonID mouseId, bool deleteDuplicate)
 {
 	if(mouseId <= PlayerControls::maxOISMouseControl)
 	{
-		for(unsigned int i = 0 ; i < this->listMouseControl.size() ; i++)
+		if(deleteDuplicate)
 		{
-			if(this->listMouseControl[i] == keyControl)
-				this->listMouseControl[i] = Controls::NONE;
+			for(unsigned int i = 0 ; i < this->listMouseControl.size() ; i++)
+			{
+				if(this->listMouseControl[i] == keyControl)
+					this->listMouseControl[i] = Controls::NONE;
+			}
+			
+			for(unsigned int i = 0 ; i < this->listKeyControl.size() ; i++)
+			{
+				if(this->listKeyControl[i] == keyControl)
+					this->listKeyControl[i] = Controls::NONE;
+			}
 		}
-		for(unsigned int i = 0 ; i < this->listKeyControl.size() ; i++)
-		{
-			if(this->listKeyControl[i] == keyControl)
-				this->listKeyControl[i] = Controls::NONE;
-		}		
+		
 		this->listMouseControl[mouseId] = keyControl;
 	}
 }
@@ -119,11 +129,6 @@ void PlayerControls::reprendre_ecoute()
     ListenerMouse::getSingletonPtr()->signalMouseReleased.add(&PlayerControls::mouseReleased, this);
 }
 
-void PlayerControls::changeMod()
-{
-    mouseMod = (mouseMod+1) % NUMBER_MOUSE_MOD;
-}
-
 
 
 
@@ -132,10 +137,7 @@ void PlayerControls::keyboardPressed(const OIS::KeyEvent &evt)
     Controls::Controls key = this->OISEventToControlKey(evt);
     if(key != Controls::NONE)
     {
-        if(key== Controls::CHANGE_MOUSE_MOD)
-            changeMod();
-        else    
-            this->signalKeyPressed.dispatch(key);
+		this->signalKeyPressed.dispatch(key);
     }
 }
 
@@ -148,23 +150,15 @@ void PlayerControls::keyboardReleased(const OIS::KeyEvent &evt)
     }
 }
 
-void PlayerControls::mouseMoved(Ogre::Vector3 vect)
+void PlayerControls::mouseMoved(MouseMove_t &mouseMove)
 {
 	if(this->getMouseMovedActif())
 	{
-        switch (mouseMod)
-        {
-            case MOUSE_MOD_SELECT :
-            {
-                this->signalMouseSelectMoved.dispatch(vect);
-                break;
-            }
-            case MOUSE_MOD_CAMERA :
-            {
-                this->signalMouseCameraMoved.dispatch(vect);
-                break;
-            }
-        }
+        mouseMove.controlMouseId = Controls::NONE;
+        if(mouseMove.mouseId >= 0)
+			mouseMove.controlMouseId = this->OISEventToControlKey(mouseMove.mouseId);
+        
+        this->signalMouseMoved.dispatch(mouseMove);
     }
 }
 
@@ -199,11 +193,6 @@ Controls::Controls PlayerControls::OISEventToControlKey(const OIS::MouseButtonID
 	Controls::Controls key = this->listMouseControl[evt];
 	
 	return key;
-}
-
-int PlayerControls::getMouseMod()
-{
-	return this->mouseMod;
 }
 
 bool PlayerControls::getMouseMovedActif()

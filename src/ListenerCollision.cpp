@@ -2,7 +2,7 @@
 
 template<> ListenerCollision * ClassRootSingleton<ListenerCollision>::_instance = NULL;
 
-ListenerCollision::ListenerCollision() : ClassRootSingleton<ListenerCollision>()
+ListenerCollision::ListenerCollision() : ClassRootSingleton<ListenerCollision>(), physicEngineState(true)
 {	
     //Start Bullet
     mWorld = new OgreBulletDynamics::DynamicsWorld(GestSceneManager::getSceneManager(), Ogre::AxisAlignedBox(Ogre::Vector3 (-1, -1, -1), Ogre::Vector3 (1,  1,  1)), Ogre::Vector3(0,0,-9.81));
@@ -29,6 +29,6 @@ ListenerCollision::~ListenerCollision()
 
 void ListenerCollision::updateCollision(const Ogre::FrameEvent &evt)
 {
-	if(PlayerControls::getSingletonPtr()->getMouseMod() != MOUSE_MOD_CAMERA)
+	if(this->physicEngineState)
 		mWorld->stepSimulation(evt.timeSinceLastFrame);   // update Bullet Physics animation
 }

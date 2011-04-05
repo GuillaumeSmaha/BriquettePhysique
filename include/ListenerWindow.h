@@ -52,6 +52,7 @@ class ListenerWindow :  public ClassRootSingleton<ListenerWindow>, public Ogre::
 	public:
 		/*!
 		 * \brief Constructor
+		 * \param root Pointeur sur l'objet root d'Ogre
 		 * \param windowName Name of the window
 		 */
 		ListenerWindow(Ogre::Root * root, Ogre::String windowName);

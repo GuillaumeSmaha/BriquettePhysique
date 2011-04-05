@@ -5,7 +5,9 @@
 #ifndef __LISTENER_MOUSE_H__
 #define __LISTENER_MOUSE_H__
 
+#include <list>
 #include <OISMouse.h>
+#include "mouseMove.h"
 #include "ClassRootSingleton.h"
 #include "Signal.h"
 #include "ListenerInputManager.h"
@@ -28,12 +30,16 @@ class ListenerMouse : public ClassRootSingleton<ListenerMouse>, public OIS::Mous
 		 * \brief Capteur d'événements de la souris
 		 */
         OIS::Mouse * mouse;
+		/*!
+		 * \brief Capteur d'événements de la souris
+		 */
+        std::list<OIS::MouseButtonID> lstMousePressedId;
 
 	public:
         /*!
 		 * \brief Dispatche un signal lorsque la souris bouge Signal(Ogre::Vector3(X, Y, Z)))
 		 */
-        Signal<Ogre::Vector3> signalMouseMoved;
+        Signal<MouseMove_t&> signalMouseMoved;
         /*!
 		 * \brief Dispatche un signal lorsque une touche de la souris est enfoncée Signal(OIS::MouseButtonID)
 		 */
@@ -84,6 +90,13 @@ class ListenerMouse : public ClassRootSingleton<ListenerMouse>, public OIS::Mous
         
         
         //Getter/Setter
+        
+        
+		/*!
+		 * \brief Retourne le dernier bouton de la souris pressé
+		 * \return Dernier élément de la liste lstMousePressedId
+		 */
+        OIS::MouseButtonID getLastMousePressedId();
 
 		/*!
 		 * \brief [Getter] Récupère la valeur de mouse

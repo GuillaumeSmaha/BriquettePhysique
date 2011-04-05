@@ -55,7 +55,7 @@ class SnapShoot
 	public:
 		/*!
 		 * Constructor
-		 * \param object Noeud contenant toutes les briquettes
+		 * \param node Noeud contenant toutes les briquettes
 		*/
 		SnapShoot(Ogre::SceneNode * node);
 		/*!
