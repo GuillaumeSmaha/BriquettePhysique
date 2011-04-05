@@ -47,6 +47,17 @@ class ListenerCollision : public ClassRootSingleton<ListenerCollision>
 		 * \brief Destructor
 		 */
 		~ListenerCollision();
+		
+		/*!
+		 * \brief Switch the value of the attribute physicEngineState
+		 */
+		void switchPhysicEngineState();
+		
+        /*!
+         * \brief Permet de réagir a l'appui sur touche/button souris, permet de lancer la prise de briquettes
+         * \param key Evénement du clavier
+        */
+        void onKeyPressed(Controls::Controls key);
 
 
 		/*!

@@ -17,7 +17,8 @@ ListenerCollision::ListenerCollision() : ClassRootSingleton<ListenerCollision>()
 
     ListenerFrame::getSingletonPtr()->signalFrameStarted.add(&ListenerCollision::updateCollision, this);
     //listenerFrame->signalFrameEnded.add(&ListenerCollision::updateCollision, this);
-
+    
+    PlayerControls::getSingletonPtr()->signalKeyPressed.add(&ListenerCollision::onKeyPressed, this);
 }
 
 ListenerCollision::~ListenerCollision()
@@ -31,4 +32,27 @@ void ListenerCollision::updateCollision(const Ogre::FrameEvent &evt)
 {
 	if(this->physicEngineState)
 		mWorld->stepSimulation(evt.timeSinceLastFrame);   // update Bullet Physics animation
+}
+
+
+void ListenerCollision::switchPhysicEngineState()
+{
+	if(this->physicEngineState)
+		this->physicEngineState = false;
+	else
+		this->physicEngineState = true;
+}
+
+
+void ListenerCollision::onKeyPressed(Controls::Controls key)
+{
+    switch(key)
+    {
+        case Controls::SWITCH_BULLET_STATE:
+            this->switchPhysicEngineState();
+            break;
+            
+        default:
+            break;
+    }
 }
