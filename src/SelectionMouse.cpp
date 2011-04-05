@@ -25,6 +25,7 @@ SelectionMouse::SelectionMouse(Ogre::RenderWindow * win): ClassRootSingleton<Sel
 {
     createOverlay(win);
     PlayerControls::getSingletonPtr()->signalMouseSelectMoved.add(&SelectionMouse::onMouseMoved, this);
+    PlayerControls::getSingletonPtr()->signalKeyPressed.add(&SelectionMouse::onKeyPressed, this);
 }
 
 
@@ -62,4 +63,44 @@ void SelectionMouse::onMouseMoved(Ogre::Vector3 mouseVec)
     posMouse[0]=posMouse[0] + (mouseVec[0]/this->winWidth);
     posMouse[1]=posMouse[1] + (mouseVec[1]/this->winHeight);
     mousePanel->setPosition (posMouse[0],posMouse[1] );
+}
+
+void SelectionMouse:: onKeyPressed(Controls::Controls key){
+    switch(key)
+    {
+        case Controls::SELECT:
+            catchBriquette();
+            break;
+        default:
+            break;
+    }
+}
+
+void SelectionMouse::catchBriquette(){
+    Ogre::Ray rayon;
+    OgreBulletDynamics::RigidBody * body = 
+        getBodyUnderCursorUsingBullet(rayon);
+    if (body==NULL)
+        return;
+    //on va appliquer une force au corps pour l'élever un peu
+    body->applyImpulse(Ogre::Vector3(0,0,20), body->getCenterOfMassPosition());
+}
+
+OgreBulletDynamics::RigidBody * SelectionMouse::getBodyUnderCursorUsingBullet(Ogre::Ray rayTo){
+    Ogre::Camera * curCam=GestCamera::getSingletonPtr()->getCurrentCamera()->getCamera();
+    rayTo = curCam->getCameraToViewportRay (posMouse[0]+(mousePanel->getHeight()/2),posMouse[1]+(mousePanel->getHeight()/2));
+    OgreBulletDynamics::DynamicsWorld * world = ListenerCollision::getSingletonPtr()->getWorld();
+    OgreBulletCollisions::CollisionClosestRayResultCallback * mCollisionClosestRayResultCallback = new OgreBulletCollisions::CollisionClosestRayResultCallback(rayTo, world, 5000);
+    world->launchRay (*mCollisionClosestRayResultCallback);
+    std::cout<<"ray lauched"<<std::endl;
+    if (mCollisionClosestRayResultCallback->doesCollide ())
+    {
+        OgreBulletDynamics::RigidBody * body = static_cast <OgreBulletDynamics::RigidBody *> 
+            (mCollisionClosestRayResultCallback->getCollidedObject());
+        
+        //intersectionPoint = mCollisionClosestRayResultCallback->getCollisionPoint ();
+        std::cout<<"Hit :"<<body->getName()<<std::endl;
+        return body;
+    }
+    return NULL;
 }

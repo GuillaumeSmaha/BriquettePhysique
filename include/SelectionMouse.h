@@ -6,9 +6,15 @@
 #define __SELECTION_MOUSE_H__
 
 #include <Ogre.h>
+#include <OgreBulletDynamics.h>
+#include <OgreBulletCollisions.h>
+
+
 #include "ClassRootSingleton.h"
 #include "PlayerControls.h"
-
+#include "CameraAbstract.h"
+#include "GestCamera.h"
+#include "ListenerCollision.h"
 /*!
 * \class SelectionMouse
 * \brief Class permettent d'afficher un pointeur de souris et de selectionner des briquettes (via lancé de rayon)
@@ -73,6 +79,19 @@ class SelectionMouse: public ClassRootSingleton<SelectionMouse>
          * \brief permet de déplacer la souris sur l'écran
         */
         void onMouseMoved(Ogre::Vector3 mouseVec);
+        /*
+         * \brief permet de réagir a l'appui sur touche/button souris, permet de lancer la prise de briquettes
+        */
+        void onKeyPressed(Controls::Controls key);
+        /*
+         *  \brief essaye d'attraper une briquette lors d'un clic de souris
+        */
+        void catchBriquette();
+        /*
+         *  \brief essaye d'attraper une briquette lors d'un clic de souris
+        */
+
+        OgreBulletDynamics::RigidBody * getBodyUnderCursorUsingBullet(Ogre::Ray rayTo);
 };
 
 

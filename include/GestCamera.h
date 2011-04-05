@@ -75,6 +75,13 @@ class GestCamera : public ClassRootSingleton<GestCamera>
 		 * \return Instance de la caméra
 		 */
         CameraAbstract * getCamera(unsigned int id);
+
+        /*
+         * \brief recupere la dernière camera placé
+        */
+        CameraAbstract * getCurrentCamera(){
+            return (listCameras.back());
+        }
 };
 
 #endif //__GEST_CAMERA_H__
