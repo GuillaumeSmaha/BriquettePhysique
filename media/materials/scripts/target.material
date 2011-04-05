@@ -1,4 +1,4 @@
-material OgreBulletDemos/TargetSights
+material TargetSights
 {
 	receive_shadows off
     technique

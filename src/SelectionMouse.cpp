@@ -35,7 +35,7 @@ void SelectionMouse::createOverlay(Ogre::RenderWindow * win)
     mouseOverlay->setZOrder(600);
     mousePanel = (Ogre::OverlayElement *)
         OverlayManager::getSingletonPtr()->createOverlayElement("Panel", "GUIMouse");
-    mousePanel->setMaterialName("OgreBulletDemos/TargetSights");
+    mousePanel->setMaterialName("TargetSights");
 
     TexturePtr mouseTex = TextureManager::getSingleton().load("target.png",
                             ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
