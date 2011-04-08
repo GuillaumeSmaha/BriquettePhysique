@@ -57,7 +57,7 @@ class SnapShoot
 		 * Constructor
 		 * \param node Noeud contenant toutes les briquettes
 		*/
-		SnapShoot(Ogre::SceneNode * node);
+		SnapShoot(Ogre::SceneNode * node, SnapShoot * lastSnapShoot);
 		/*!
 		 * Destructor
 		*/

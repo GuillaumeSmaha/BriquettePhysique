@@ -5,6 +5,7 @@
 #ifndef __LISTENER_COLLISION_H__
 #define __LISTENER_COLLISION_H__
 
+#include <iostream>
 #include <Ogre.h>
 #include <OgreBulletCollisionsPreRequisites.h>
 #include <OgreBulletCollisionsRay.h>
@@ -36,6 +37,14 @@ class ListenerCollision : public ClassRootSingleton<ListenerCollision>
 		 * \brief Définit si le moteur physique est actif
 		 */
 		bool physicEngineState;
+		/*!
+		 * \brief Définit si le moteur physique est actif
+		 */
+		bool physicEngineMutex;
+		/*!
+		 * \brief Définit si le moteur physique est actif
+		 */
+		void * physicEngineMutexLocker;
 
 
 	public:
@@ -51,7 +60,7 @@ class ListenerCollision : public ClassRootSingleton<ListenerCollision>
 		/*!
 		 * \brief Switch the value of the attribute physicEngineState
 		 */
-		void switchPhysicEngineState();
+		bool switchPhysicEngineState(void * locker = NULL);
 		
         /*!
          * \brief Permet de réagir a l'appui sur touche/button souris, permet de lancer la prise de briquettes
@@ -59,12 +68,25 @@ class ListenerCollision : public ClassRootSingleton<ListenerCollision>
         */
         void onKeyPressed(Controls::Controls key);
 
-
 		/*!
 		 * \brief Met à jour les collision
 		 * \param evt Evenement du controlleur de frame
 		 */
 		void updateCollision(const Ogre::FrameEvent &evt);
+		
+		
+		/*!
+		 * \brief Définit si le moteur physique est actif
+		 */
+		bool physicEngineMutexLock(void * locker);
+		/*!
+		 * \brief Définit si le moteur physique est actif
+		 */
+		void physicEngineMutexUnLock(void * locker);
+		
+		
+		//Getter - Setter
+		
 
 		/*!
 		 * \brief [Getter] Pointeur sur le monde d'ogreBullet
@@ -87,10 +109,7 @@ class ListenerCollision : public ClassRootSingleton<ListenerCollision>
 		 * \brief [Setter] Définit de l'attribut physicEngineState
 		 * \param physicEngineState Définit l'état du moteur physique
 		 */
-		void setPhysicEngineState(bool physicEngineState)
-		{
-			this->physicEngineState = physicEngineState;
-		}
+		bool setPhysicEngineState(bool physicEngineState, void * locker = NULL);
 };
 
 #endif //__LISTENER_COLLISION_H__

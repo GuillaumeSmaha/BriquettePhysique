@@ -2,7 +2,7 @@
 
 template<> ListenerCollision * ClassRootSingleton<ListenerCollision>::_instance = NULL;
 
-ListenerCollision::ListenerCollision() : ClassRootSingleton<ListenerCollision>(), physicEngineState(true)
+ListenerCollision::ListenerCollision() : ClassRootSingleton<ListenerCollision>(), physicEngineState(true), physicEngineMutex(false), physicEngineMutexLocker(NULL)
 {	
     //Start Bullet
     mWorld = new OgreBulletDynamics::DynamicsWorld(GestSceneManager::getSceneManager(), Ogre::AxisAlignedBox(Ogre::Vector3 (-1, -1, -1), Ogre::Vector3 (1,  1,  1)), Ogre::Vector3(0,0,-9.81));
@@ -35,12 +35,19 @@ void ListenerCollision::updateCollision(const Ogre::FrameEvent &evt)
 }
 
 
-void ListenerCollision::switchPhysicEngineState()
+bool ListenerCollision::switchPhysicEngineState(void * locker)
 {
-	if(this->physicEngineState)
-		this->physicEngineState = false;
-	else
-		this->physicEngineState = true;
+	if(this->physicEngineMutex == false || (this->physicEngineMutex == true && locker == this->physicEngineMutexLocker))
+	{
+		if(this->physicEngineState)
+			this->physicEngineState = false;
+		else
+			this->physicEngineState = true;
+			
+		return true;
+	}
+		
+	return false;
 }
 
 
@@ -55,4 +62,44 @@ void ListenerCollision::onKeyPressed(Controls::Controls key)
         default:
             break;
     }
+}
+
+bool ListenerCollision::physicEngineMutexLock(void * locker)
+{
+	if(locker != NULL)
+	{
+		if(this->physicEngineMutex == true)
+		{
+			std::cerr << "Mutex physic engine is already locked !" << std::endl;
+		}
+		else
+		{
+			this->physicEngineMutexLocker = locker;
+			this->physicEngineMutex = true;
+			return true;
+		}
+	}
+	
+	return false;
+}
+
+
+void ListenerCollision::physicEngineMutexUnLock(void * locker)
+{
+	if(locker != NULL && locker == this->physicEngineMutexLocker)
+	{
+		this->physicEngineMutex = false;
+	}
+}
+
+
+bool ListenerCollision::setPhysicEngineState(bool physicEngineState, void * locker)
+{
+	if(this->physicEngineMutex == false || (this->physicEngineMutex == true && locker == this->physicEngineMutexLocker))
+	{
+		this->physicEngineState = physicEngineState;
+		return true;
+	}
+		
+	return false;
 }
