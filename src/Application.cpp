@@ -167,9 +167,9 @@ void Application::initScene()
     gestObj->setTableBackground(tableBackground);
     gestObj->setTable(table);
     
-    for(int i = 0 ; i < 10 ; i++)
+    for(int i = 0 ; i < 1 ; i++)
 	{
-		for(int j = 0 ; j < 10 ; j++)
+		for(int j = 0 ; j < 1 ; j++)
 		{
 			Ogre::Vector3 vect(i, j, 50.0);
 			gestObj->addBriquette(vect);

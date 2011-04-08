@@ -22,7 +22,7 @@ void ObjBriquette::createPhysicalObj()
 
     this->shapeBriquette = new OgreBulletCollisions::BoxCollisionShape(briquetteNode->getScale());
     this->bodyBriquette= new OgreBulletDynamics::RigidBody("RigidBody"+this->nom, ListenerCollision::getSingletonPtr()->getWorld());
-    this->bodyBriquette->setShape(this->briquetteNode, this->shapeBriquette, 0.6, 0.6, 1.0, pos, dir);
+    this->bodyBriquette->setShape(this->briquetteNode, this->shapeBriquette, 0.6, 0.6, 10.0, pos, dir);
 }
 
 

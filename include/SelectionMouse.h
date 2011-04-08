@@ -6,9 +6,14 @@
 #define __SELECTION_MOUSE_H__
 
 #include <Ogre.h>
-#include <OgreBulletDynamics.h>
 #include <OgreBulletCollisions.h>
-
+#include <OgreBulletDynamics.h>
+#include <OgreBulletCollisionsShape.h>
+#include <OgreBulletDynamicsRigidBody.h>
+#include <Utils/OgreBulletConverter.h>
+#include <Utils/OgreBulletCollisionsMeshToShapeConverter.h>
+#include <OgreBulletCollisionsPreRequisites.h>
+#include <Shapes/OgreBulletCollisionsSphereShape.h>
 
 #include "mouseMove.h"
 #include "ClassRootSingleton.h"
@@ -16,6 +21,7 @@
 #include "CameraAbstract.h"
 #include "GestCamera.h"
 #include "ListenerCollision.h"
+
 /*!
 * \class SelectionMouse
 * \brief Class permettent d'afficher un pointeur de souris et de selectionner des briquettes (via lancé de rayon)
@@ -40,6 +46,12 @@ class SelectionMouse: public ClassRootSingleton<SelectionMouse>
 
     private:
         /*!
+         * \brief permet d'avoir la dernière briquette selectionné
+         * c'est elle que l'on déplace
+        */
+        OgreBulletDynamics::RigidBody * selectedBriquette;  
+
+       /*!
          * \brief Overlay ne contenant que le curseur de la souris
         */
         Ogre::Overlay * mouseOverlay;
@@ -82,6 +94,7 @@ class SelectionMouse: public ClassRootSingleton<SelectionMouse>
 		 * \param mouseMove Structure de déplacement de la souris
         */
         void onMouseMoved(MouseMove_t &mouseMove);
+        void mouseMovedSelectedBriquette(MouseMove_t &mouseMove);
         /*!
          * \brief Permet de réagir a l'appui sur touche/button souris, permet de lancer la prise de briquettes
          * \param key Evénement du clavier
@@ -91,11 +104,16 @@ class SelectionMouse: public ClassRootSingleton<SelectionMouse>
         /*!
          *  \brief Essaye d'attraper une briquette lors d'un clic de souris
         */
-        void catchBriquette();
+        void selectBriquette();
         /*!
          *  \brief Essaye d'attraper une briquette lors d'un clic de souris
         */
         OgreBulletDynamics::RigidBody * getBodyUnderCursorUsingBullet(Ogre::Ray rayTo);
+
+        /*!
+         *  \brief permet de mettre a jour la bounding box
+        */
+        void updateBtBoundingBox(OgreBulletDynamics::RigidBody * body);
 };
 
 
