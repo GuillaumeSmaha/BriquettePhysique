@@ -100,11 +100,20 @@ class SelectionMouse: public ClassRootSingleton<SelectionMouse>
          * \param key Evénement du clavier
         */
         void onKeyPressed(Controls::Controls key);
-        
+        /*!
+         * \brief Permet de réagir au relachement d'une touche/button souris.
+         *  
+         * \param key Evénement du clavier
+        */
+        void onKeyReleased(Controls::Controls key);
         /*!
          *  \brief Essaye d'attraper une briquette lors d'un clic de souris
         */
         void selectBriquette();
+        /*!
+         *  \brief Permet en particulier de reprendre le comportement physique de la briquette aprés mise à jour de sa position
+        */
+        void unselectBriquette();
         /*!
          *  \brief Essaye d'attraper une briquette lors d'un clic de souris
         */

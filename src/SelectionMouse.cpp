@@ -27,6 +27,7 @@ SelectionMouse::SelectionMouse(Ogre::RenderWindow * win) : ClassRootSingleton<Se
     this->selectedBriquette=NULL;   
     PlayerControls::getSingletonPtr()->signalMouseMoved.add(&SelectionMouse::onMouseMoved, this);
     PlayerControls::getSingletonPtr()->signalKeyPressed.add(&SelectionMouse::onKeyPressed, this);
+    PlayerControls::getSingletonPtr()->signalKeyReleased.add(&SelectionMouse::onKeyReleased, this);
     PlayerControls::getSingletonPtr()->signalMouseMoved.add(&SelectionMouse::onMouseMoved, this);
 }
 
@@ -84,14 +85,40 @@ void SelectionMouse::onKeyPressed(Controls::Controls key)
     }
 }
 
+void SelectionMouse::onKeyReleased(Controls::Controls key)
+{
+    switch(key)
+    {
+        case Controls::SELECT:
+            unselectBriquette();
+            break;
+            
+        default:
+            break;
+    }
+}
+
 void SelectionMouse::selectBriquette()
 {
+
     Ogre::Ray rayon;
     OgreBulletDynamics::RigidBody * body = getBodyUnderCursorUsingBullet(rayon);
    
     if((body!=NULL) && (! body->isStaticObject())){
         this->selectedBriquette= body;
         std::cout<<"body: "<<selectedBriquette->getName() <<std::endl;
+    }
+}
+
+
+void SelectionMouse::unselectBriquette()
+{
+    if(this->selectedBriquette != NULL){
+        std::cout<<"i unselect briquette"<<std::endl;
+        //mettre a jour la bounding permet de la placer à la nouvelle position de la briquette
+        this->updateBtBoundingBox(this->selectedBriquette);
+        this->selectedBriquette->applyImpulse(Ogre::Vector3(0,0,1), this->selectedBriquette->getCenterOfMassPosition());
+        this->selectedBriquette= NULL;
     }
 }
 
@@ -125,9 +152,6 @@ void SelectionMouse::mouseMovedSelectedBriquette (MouseMove_t &mouseMove){
                 0,
                 this->selectedBriquette->getSceneNode()->getPosition()[2]-mouseMove.vector[1]
             );
-            this->updateBtBoundingBox(this->selectedBriquette);
-            std::cout<<"center mass"<<this->selectedBriquette->getCenterOfMassPosition()<<std::endl;
-            this->selectedBriquette->applyImpulse(Ogre::Vector3(0,0,1), this->selectedBriquette->getCenterOfMassPosition());
         }
     }
 }
