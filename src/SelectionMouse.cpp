@@ -86,15 +86,9 @@ void SelectionMouse::onKeyPressed(Controls::Controls key)
 
 void SelectionMouse::selectBriquette()
 {
-    //this->selectedBriquette=NULL;
     Ogre::Ray rayon;
     OgreBulletDynamics::RigidBody * body = getBodyUnderCursorUsingBullet(rayon);
    
-    //if(body == NULL)
-    //    return;
-    //std::cout<<"velocity : "<<body->getLinearVelocity()<<std::endl;
-    //on va appliquer une force au corps pour l'élever un peu
-    //body->applyImpulse(Ogre::Vector3(0.0, 0.0, 20.0), body->getCenterOfMassPosition());
     if((body!=NULL) && (! body->isStaticObject())){
         this->selectedBriquette= body;
         std::cout<<"body: "<<selectedBriquette->getName() <<std::endl;
@@ -128,10 +122,12 @@ void SelectionMouse::mouseMovedSelectedBriquette (MouseMove_t &mouseMove){
             //                            this->selectedBriquette->getCenterOfMassPosition());
             this->selectedBriquette->setPosition(
                 this->selectedBriquette->getSceneNode()->getPosition()[0]-mouseMove.vector[0],
-                this->selectedBriquette->getSceneNode()->getPosition()[1],
+                0,
                 this->selectedBriquette->getSceneNode()->getPosition()[2]-mouseMove.vector[1]
             );
             this->updateBtBoundingBox(this->selectedBriquette);
+            std::cout<<"center mass"<<this->selectedBriquette->getCenterOfMassPosition()<<std::endl;
+            this->selectedBriquette->applyImpulse(Ogre::Vector3(0,0,1), this->selectedBriquette->getCenterOfMassPosition());
         }
     }
 }
@@ -149,4 +145,5 @@ void SelectionMouse::updateBtBoundingBox(OgreBulletDynamics::RigidBody * body){
     body->getBulletObject()->getWorldTransform().setOrigin(posBt);
     body->getBulletObject()->getWorldTransform().setRotation(dirBt);
     body->getBulletDynamicsWorld()->addRigidBody(body->getBulletRigidBody());
+    body->enableActiveState();
 }
