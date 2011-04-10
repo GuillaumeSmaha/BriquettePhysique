@@ -114,10 +114,9 @@ void SelectionMouse::selectBriquette()
 void SelectionMouse::unselectBriquette()
 {
     if(this->selectedBriquette != NULL){
-        std::cout<<"i unselect briquette"<<std::endl;
         //mettre a jour la bounding permet de la placer à la nouvelle position de la briquette
         this->updateBtBoundingBox(this->selectedBriquette);
-        this->selectedBriquette->applyImpulse(Ogre::Vector3(0,0,1), this->selectedBriquette->getCenterOfMassPosition());
+        this->selectedBriquette->getBulletRigidBody()->activate(true);
         this->selectedBriquette= NULL;
     }
 }
@@ -134,8 +133,6 @@ OgreBulletDynamics::RigidBody * SelectionMouse::getBodyUnderCursorUsingBullet(Og
     {
         OgreBulletDynamics::RigidBody * body = static_cast<OgreBulletDynamics::RigidBody *>(mCollisionClosestRayResultCallback->getCollidedObject());
         
-        //intersectionPoint = mCollisionClosestRayResultCallback->getCollisionPoint ();
-        //std::cout << "Hit :" << body->getName() << std::endl;
         return body;
     }
     return NULL;
@@ -145,8 +142,6 @@ void SelectionMouse::mouseMovedSelectedBriquette (MouseMove_t &mouseMove){
 	if(mouseMove.controlMouseId == Controls::SELECT){
         if(this->selectedBriquette != NULL){
             Ogre::Vector2 vecMouse= mouseMove.vector;
-            //this->selectedBriquette->applyImpulse(Ogre::Vector3(0, vecMouse[1], vecMouse[0]),
-            //                            this->selectedBriquette->getCenterOfMassPosition());
             this->selectedBriquette->setPosition(
                 this->selectedBriquette->getSceneNode()->getPosition()[0]-mouseMove.vector[0],
                 0,
@@ -164,7 +159,6 @@ void SelectionMouse::updateBtBoundingBox(OgreBulletDynamics::RigidBody * body){
     btQuaternion dirBt = OgreBtConverter::to(dirOgre);
     
 
-    //~ body->rigidBody->getBulletDynamicsWorld()->removeRigidBody(body->rigidBody->getBulletRigidBody());
     body->getBulletDynamicsWorld()->removeCollisionObject(body->getBulletRigidBody());
     body->getBulletObject()->getWorldTransform().setOrigin(posBt);
     body->getBulletObject()->getWorldTransform().setRotation(dirBt);
