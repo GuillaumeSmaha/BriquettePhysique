@@ -48,12 +48,20 @@ void CameraTarget::onMouseMoved(MouseMove_t &mouseMove)
 {    
 	if(mouseMove.controlMouseId == Controls::MOUSE_CAMERA_ROTATE)
 	{
-		Ogre::Real dist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
-		this->camera->setPosition(this->targetNode->_getDerivedPosition());
+		Ogre::Degree yaw = Ogre::Degree(mouseMove.vector[0] * 0.25f);
+		Ogre::Degree pitch = Ogre::Degree(mouseMove.vector[1] * 0.25f);
+		
+		if(this->checkRotation(yaw, pitch))
+		{			
+			Ogre::Real dist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
+			
+			this->camera->setPosition(this->targetNode->_getDerivedPosition());
 
-		this->camera->yaw(Ogre::Degree(mouseMove.vector[0] * 0.25f));
-		this->camera->pitch(Ogre::Degree(mouseMove.vector[1] * 0.25f));
-		this->camera->moveRelative(Ogre::Vector3(0.0, 0.0, dist));
+			this->camera->yaw(yaw);
+			this->camera->pitch(pitch);
+			
+			this->camera->moveRelative(Ogre::Vector3(0.0, 0.0, dist));
+		}
 	}
 	else if(mouseMove.controlMouseId == Controls::MOUSE_CAMERA_ZOOM)
 	{
@@ -113,23 +121,15 @@ void CameraTarget::zoom(Ogre::Real zoomDist)
 }
 
 
-bool CameraTarget::checkRotation(Ogre::Real angleRotation)
+bool CameraTarget::checkRotation(Ogre::Degree yaw, Ogre::Degree pitch)
 {
-	/*Ogre::Quaternion orientation = this->nodeCamera->getOrientation();
-	Ogre::Real angle = orientation.getPitch().valueDegrees();
-	Ogre::Real angleYaw = orientation.getYaw().valueDegrees();
-	
-	std::cout << "pitch = " << angle << "yaw = " << angleYaw << std::endl;
-	
-	
-	if(angle < -160 && angleRotation > 0 || (angle-angleRotation < -160))
-	{
+	Ogre::Real distZ = this->camera->getPosition()[2] - this->targetNode->_getDerivedPosition()[2];
+	Ogre::Real dist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
+	Ogre::Real seuil = 10.0 + abs(distZ / 50.0);
+		
+	if((distZ >= 0 && (distZ+seuil) > dist && pitch.valueDegrees() <= 0.0)
+		|| (distZ < 0 && (distZ-seuil) < -dist && pitch.valueDegrees() > 0.0))
 		return false;
-	}
-	else if(angle > -20 && angleRotation < 0 || (angle-angleRotation) > -20)
-	{
-		return false;
-	}*/
 	
-	return true;	
+	return true;
 }

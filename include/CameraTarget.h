@@ -71,7 +71,7 @@ class CameraTarget : public CameraAbstract, public ClassRoot
          * \brief Vérifie la rotation de la caméra et met à jour en conséquence
          * \return Vrai si on ne sort pas des limites
         */
-        bool checkRotation(Ogre::Real angleRotation);
+        bool checkRotation(Ogre::Degree yaw, Ogre::Degree pitch);
 };
 
 #endif //__CAMERA_TARGET_H__
