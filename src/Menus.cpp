@@ -140,12 +140,12 @@ void Menus::mouseReleased(OIS::MouseButtonID evt)
 
 void Menus::mouseMoved(MouseMove_t &mouse)
 {
-    Ogre::Vector2 vect= mouse.vector;
+    Ogre::Vector3 vect = mouse.vector;
     CEGUI::System &sys = CEGUI::System::getSingleton();
     sys.injectMouseMove(vect[0], vect[1]);
     // Scroll wheel.
-    //if (vect[2])
-    //    sys.injectMouseWheelChange(vect[2] / 120.0f);
+    if (vect[2])
+        sys.injectMouseWheelChange(vect[2] / 120.0f);
 }
 
 CEGUI::MouseButton Menus::convertButton(OIS::MouseButtonID evt)

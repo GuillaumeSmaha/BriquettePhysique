@@ -41,7 +41,7 @@ bool ListenerMouse::mouseMoved(const OIS::MouseEvent &evt)
 {
 	MouseMove_t move;
 	move.mouseId = this->getLastMousePressedId();
-	move.vector = Ogre::Vector2(evt.state.X.rel, evt.state.Y.rel);
+	move.vector = Ogre::Vector3(evt.state.X.rel, evt.state.Y.rel, evt.state.Z.rel);
 	
 	this->signalMouseMoved.dispatch(move);
 

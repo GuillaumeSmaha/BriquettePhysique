@@ -152,9 +152,11 @@ OgreBulletDynamics::RigidBody * SelectionMouse::getBodyUnderCursorUsingBullet(Og
 }
 
 void SelectionMouse::mouseMovedSelectedBriquette (MouseMove_t &mouseMove){
-	if(mouseMove.controlMouseId == Controls::SELECT){
-        if(this->selectedBriquette != NULL){
-            Ogre::Vector2 vecMouse= mouseMove.vector;
+	if(mouseMove.controlMouseId == Controls::SELECT)
+	{
+        if(this->selectedBriquette != NULL)
+        {
+            Ogre::Vector3 vecMouse= mouseMove.vector;
             this->selectedBriquette->setPosition(
                 this->selectedBriquette->getSceneNode()->getPosition()[0]-mouseMove.vector[0],
                 0,

@@ -9,6 +9,7 @@
 #include <vector>
 #include <Ogre.h>
 #include "GestObj.h"
+#include "ListenerCollision.h"
 
 /*!
 * \struct SnapShootData
@@ -50,18 +51,36 @@ class SnapShoot
 		/*!
 		 * \brief Liste des données
 		*/
-		std::vector<SnapShootData> position;
+		std::vector<SnapShootData *> lstPosition;
 		
 	public:
 		/*!
-		 * Constructor
+		 * \brief Constructor
 		 * \param node Noeud contenant toutes les briquettes
 		*/
-		SnapShoot(Ogre::SceneNode * node, SnapShoot * lastSnapShoot);
+		SnapShoot(SnapShoot * lastSnapShoot);
 		/*!
-		 * Destructor
+		 * \brief Destructor
 		*/
-		~SnapShoot();  
+		~SnapShoot(); 
+
+		/*!
+		 * \brief Recherche la briquette dans les données
+		 * \return La donnée trouvée sinon NULL
+		*/
+		SnapShootData * findData(ObjBriquette * briquette);
+
+		/*!
+		 * \brief Vérifie si la briquette existe dans les données
+		 * \return Vrai ou faux
+		*/
+		bool existData(ObjBriquette * briquette);
+		
+		/*!
+		 * \brief Nombre de données
+		 * \return Le taille du vecteur "lstPosition"
+		*/
+		int getNumberData();
 };
 
 

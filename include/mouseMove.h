@@ -19,7 +19,7 @@ struct MouseMove_t
 	Controls::Controls controlMouseId;
 		
 	///Vector
-	Ogre::Vector2 vector;
+	Ogre::Vector3 vector;
 };
 
 

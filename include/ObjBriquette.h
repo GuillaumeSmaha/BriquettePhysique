@@ -11,6 +11,7 @@
 #include <OgreBulletCollisionsShape.h>
 #include <Shapes/OgreBulletCollisionsBoxShape.h>
 
+#include "nodeName.h"
 #include "GestSceneManager.h"
 #include "ListenerCollision.h"
 
@@ -67,27 +68,27 @@ class ObjBriquette
         
         Ogre::Entity * getEntity()
         {
-            return entBriquette;
+            return this->entBriquette;
         }
 
         Ogre::SceneNode * getSceneNode()
         {
-            return briquetteNode;
+            return this->briquetteNode;
         }
 
         void setSceneNode(Ogre::SceneNode * sceneNode)
         {
-            briquetteNode=sceneNode;
+            this->briquetteNode = sceneNode;
         }
 
         OgreBulletCollisions::CollisionShape * getCollisionShape()
         {
-            return shapeBriquette;
+            return this->shapeBriquette;
         }
 
         OgreBulletDynamics::RigidBody * getRigidBody()
         {
-            return bodyBriquette;
+            return this->bodyBriquette;
         }
 
 };

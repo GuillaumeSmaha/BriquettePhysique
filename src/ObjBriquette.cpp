@@ -11,6 +11,27 @@ ObjBriquette::ObjBriquette(Ogre::String nom)
 
 ObjBriquette::~ObjBriquette()
 {
+	if(this->briquetteNode != NULL)
+	{
+		this->briquetteNode->removeAndDestroyAllChildren();
+		this->briquetteNode->getParentSceneNode()->removeAndDestroyChild(this->briquetteNode->getName());
+	}
+}
+
+ObjBriquette::ObjBriquette(const ObjBriquette& briquette)
+{
+    nom = briquette.nom;
+    entBriquette = GestSceneManager::getSingletonPtr()->createEntity(briquette.nom+"_"+Utils::toString(Utils::unique()), "Briquette.mesh");
+    entBriquette->setMaterialName("Briquette");
+    
+    //positionnement dans le graphe de scene
+    briquetteNode = GestSceneManager::getSceneManager()->getSceneNode(NODE_NAME_GROUPE_BRIQUETTES)->createChildSceneNode();
+    briquetteNode->attachObject(entBriquette);
+    briquetteNode->setPosition(briquette.briquetteNode->getPosition());
+    briquetteNode->setOrientation(briquette.briquetteNode->getOrientation());
+    
+    //création de l'objet phyisque
+    this->createPhysicalObj();
 }
 
 

@@ -39,11 +39,6 @@ class GestSnapShoot : public ClassRootSingleton<GestSnapShoot>
 
          /*!
          * \brief Ajoute un nouveau snapshoot
-         * \param snapShoot SnapShoot correspondant à la modification
-         */
-        void addModification(SnapShoot * snapShoot);
-         /*!
-         * \brief Ajoute un nouveau snapshoot
          */
         void addModification();
             

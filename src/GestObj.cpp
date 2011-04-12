@@ -41,6 +41,19 @@ void GestObj::addBriquette(const Ogre::Vector3 &pos)
 }
 
 
+bool GestObj::existBriquette(ObjBriquette * briquette)
+{
+	std::vector<ObjBriquette *>::iterator it = this->lstBriquettes.begin();
+	while (it != this->lstBriquettes.end())
+    {
+		if(*it == briquette)
+			return true;
+	}
+	
+	return false;
+}
+
+
 void GestObj::setTableBackground(ObjTable * tableBackground)
 {
     if(this->tableBackground == NULL)
