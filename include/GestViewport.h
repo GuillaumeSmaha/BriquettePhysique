@@ -72,7 +72,7 @@ class GestViewport : public ClassRootSingleton<GestViewport>
 		 * \brief Returns the list of viewport
 		 * \return List of viewport
          */
-		std::vector<Ogre::Viewport *> getListViewport(void)
+		std::vector<Ogre::Viewport *> & getListViewport(void)
 		{
 			return this->listViewport;
 		}	

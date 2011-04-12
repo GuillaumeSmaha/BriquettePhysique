@@ -8,22 +8,12 @@ ObjBriquette::ObjBriquette(Ogre::String nom, Ogre::Vector3 pos)
     //std::cout<<"briquette scale : "<<briquetteNode->getScale()<<std::endl;
     
     //positionnement dans le graphe de scene
-    this->briquetteNode = GestSceneManager::getSceneManager()->getSceneNode(NODE_NAME_GROUPE_BRIQUETTES)->createChildSceneNode();
+    this->briquetteNode = GestSceneManager::getSceneManager()->getSceneNode(NODE_NAME_GROUPE_BRIQUETTES)->createChildSceneNode("Node_"+nom);
     this->briquetteNode->attachObject(this->entBriquette);
     this->briquetteNode->setPosition(pos);
     
     //création de l'objet phyisque
     this->createPhysicalObj();
-
-}
-
-ObjBriquette::~ObjBriquette()
-{
-	if(this->briquetteNode != NULL)
-	{
-		this->briquetteNode->removeAndDestroyAllChildren();
-		this->briquetteNode->getParentSceneNode()->removeAndDestroyChild(this->briquetteNode->getName());
-	}
 }
 
 ObjBriquette::ObjBriquette(const ObjBriquette& briquette)
@@ -33,13 +23,22 @@ ObjBriquette::ObjBriquette(const ObjBriquette& briquette)
     entBriquette->setMaterialName("Briquette");
     
     //positionnement dans le graphe de scene
-    briquetteNode = GestSceneManager::getSceneManager()->getSceneNode(NODE_NAME_GROUPE_BRIQUETTES)->createChildSceneNode();
+    briquetteNode = GestSceneManager::getSceneManager()->getSceneNode(NODE_NAME_GROUPE_BRIQUETTES)->createChildSceneNode("Node_"+briquette.nom);
     briquetteNode->attachObject(entBriquette);
     briquetteNode->setPosition(briquette.briquetteNode->getPosition());
     briquetteNode->setOrientation(briquette.briquetteNode->getOrientation());
     
     //création de l'objet phyisque
     this->createPhysicalObj();
+}
+
+ObjBriquette::~ObjBriquette()
+{
+	if(this->briquetteNode != NULL)
+	{
+		this->briquetteNode->removeAndDestroyAllChildren();
+		this->briquetteNode->getParentSceneNode()->removeAndDestroyChild(this->briquetteNode->getName());
+	}
 }
 
 

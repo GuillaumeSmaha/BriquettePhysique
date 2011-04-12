@@ -26,10 +26,10 @@ GestObj::~GestObj()
 void GestObj::addBriquette(const Ogre::Vector3 &pos)
 {
     //crée la briquette
-    ObjBriquette * briquette = new ObjBriquette("Briquette"+Utils::toString(Utils::unique()), pos);
+    ObjBriquette * briquettePtr = new ObjBriquette("Briquette"+Utils::toString(Utils::unique()), pos);
     
     //ajout dans la liste des briquettes
-    this->lstBriquettes.push_back(briquette);
+    this->lstBriquettes.push_back(briquettePtr);
 }
 
 

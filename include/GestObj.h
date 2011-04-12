@@ -49,13 +49,13 @@ class GestObj : public ClassRootSingleton<GestObj>
          * \param pos: position à laquelle la nouvelle briquette est placé
          */
         void addBriquette(const Ogre::Vector3 &pos);
-        
 
 		/*!
 		 * \brief Vérifie si la briquette existe dans la liste
 		 * \return Vrai ou faux
 		*/
 		bool existBriquette(ObjBriquette * briquette);
+
 
          //#######GETTER /SETTER########
 
@@ -91,7 +91,7 @@ class GestObj : public ClassRootSingleton<GestObj>
          * \brief La liste des données
 		 * \return Le vecteur "lstBriquettes"
          */
-        std::vector<ObjBriquette *> getListBriquettes()
+        std::vector<ObjBriquette *> & getListBriquettes()
         {
 			return this->lstBriquettes;
 		}
