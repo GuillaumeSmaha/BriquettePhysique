@@ -25,7 +25,6 @@
 #include "SelectionMouse.h"
 #include "CameraTarget.h"
 #include "Menus.h"
-
 class ListenerWindow;
 class ListenerFrame;
 

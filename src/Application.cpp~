@@ -152,37 +152,37 @@ void Application::initScene()
 {
     //GestSceneManager::getSceneManager()->setAmbientLight(Ogre::ColourValue(1.0, 1.0, 1.0));
 	//GestSceneManager::getSceneManager()->setAmbientLight(Ogre::ColourValue::White);
-
-    GestSceneManager::getSceneManager()->createLight("MainLight");
-    //Ogre::Light * l = GestSceneManager::getSceneManager()->createLight("MainLight");
-    //l->setPosition(0,0,0);
-    //Ogre::SceneNode *nodeLight1 = GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode("NodeLight1");
-    //nodeLight1->attachObject(l);
-
-    GestObj * gestObj = GestObj::getSingletonPtr();
-    
-    ObjTable * tableBackground = new ObjTable(2500.0, -500.0);
-    ObjTable * table = new ObjTable();
-   
-    gestObj->setTableBackground(tableBackground);
-    gestObj->setTable(table);
-    
-    for(int i = 0 ; i < 1 ; i++)
-	{
-		for(int j = 0 ; j < 1 ; j++)
-		{
-			Ogre::Vector3 vect(i, j, 50.0);
-			gestObj->addBriquette(vect);
-		}
-    }
-    
-    CameraTarget * gestCamera = new CameraTarget("mainCam", GestObj::getSingletonPtr()->getTable()->getNode());
-    
-    this->idViewport = GestViewport::getSingletonPtr()->addViewport(gestCamera);
-    
-    GestCamera::getSingletonPtr()->addCamera(gestCamera);
-    SelectionMouse::createSingleton(ListenerWindow::getSingletonPtr()->getRenderWindow());
-
+//
+//    GestSceneManager::getSceneManager()->createLight("MainLight");
+//    //Ogre::Light * l = GestSceneManager::getSceneManager()->createLight("MainLight");
+//    //l->setPosition(0,0,0);
+//    //Ogre::SceneNode *nodeLight1 = GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode("NodeLight1");
+//    //nodeLight1->attachObject(l);
+//
+//    GestObj * gestObj = GestObj::getSingletonPtr();
+//    
+//    ObjTable * tableBackground = new ObjTable(2500.0, -500.0);
+//    ObjTable * table = new ObjTable();
+//   
+//    gestObj->setTableBackground(tableBackground);
+//    gestObj->setTable(table);
+//    
+//    for(int i = 0 ; i < 1 ; i++)
+//	{
+//		for(int j = 0 ; j < 1 ; j++)
+//		{
+//			Ogre::Vector3 vect(i, j, 50.0);
+//			gestObj->addBriquette(vect);
+//		}
+//    }
+//    
+//    CameraTarget * gestCamera = new CameraTarget("mainCam", GestObj::getSingletonPtr()->getTable()->getNode());
+//    
+//    this->idViewport = GestViewport::getSingletonPtr()->addViewport(gestCamera);
+//    
+//    GestCamera::getSingletonPtr()->addCamera(gestCamera);
+//    SelectionMouse::createSingleton(ListenerWindow::getSingletonPtr()->getRenderWindow());
+//
     //menus
     Menus * menus = new Menus();
     menus->afficher_menus();
