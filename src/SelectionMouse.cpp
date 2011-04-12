@@ -32,6 +32,12 @@ SelectionMouse::SelectionMouse(Ogre::RenderWindow * win) : ClassRootSingleton<Se
 }
 
 
+SelectionMouse::~SelectionMouse() {
+
+
+}
+
+
 void SelectionMouse::createOverlay(Ogre::RenderWindow * win)
 {
     mouseOverlay = OverlayManager::getSingletonPtr()->create("GuiOverlay");
@@ -107,6 +113,7 @@ void SelectionMouse::selectBriquette()
     if((body!=NULL) && (! body->isStaticObject())){
         this->selectedBriquette= body;
         std::cout<<"body: "<<selectedBriquette->getName() <<std::endl;
+        std::cout<<"orientation : "<<*(selectedBriquette->getBulletRigidBody()->getOrientation()) <<std::endl;
     }
 }
 
@@ -117,6 +124,7 @@ void SelectionMouse::unselectBriquette()
         //mettre a jour la bounding permet de la placer à la nouvelle position de la briquette
         this->updateBtBoundingBox(this->selectedBriquette);
         this->selectedBriquette->getBulletRigidBody()->activate(true);
+        //this->selectedBriquette->setOrientation(0,0,0,1);
         this->selectedBriquette= NULL;
     }
 }
@@ -124,9 +132,12 @@ void SelectionMouse::unselectBriquette()
 OgreBulletDynamics::RigidBody * SelectionMouse::getBodyUnderCursorUsingBullet(Ogre::Ray rayTo)
 {
     Ogre::Camera * curCam=GestCamera::getSingletonPtr()->getCurrentCamera()->getCamera();
-    rayTo = curCam->getCameraToViewportRay (posMouse[0]+(mousePanel->getHeight()/2.0),posMouse[1]+(mousePanel->getHeight()/2));
+    rayTo = curCam->getCameraToViewportRay
+            (posMouse[0]+(mousePanel->getHeight()/2.0),posMouse[1]+(mousePanel->getHeight()/2));
     OgreBulletDynamics::DynamicsWorld * world = ListenerCollision::getSingletonPtr()->getWorld();
-    OgreBulletCollisions::CollisionClosestRayResultCallback * mCollisionClosestRayResultCallback = new OgreBulletCollisions::CollisionClosestRayResultCallback(rayTo, world, 5000);
+    OgreBulletCollisions::CollisionClosestRayResultCallback *
+    mCollisionClosestRayResultCallback = new
+            OgreBulletCollisions::CollisionClosestRayResultCallback(rayTo, world, 5000);
     world->launchRay (*mCollisionClosestRayResultCallback);
     std::cout << "ray lauched" << std::endl;
     if (mCollisionClosestRayResultCallback->doesCollide ())
@@ -135,6 +146,8 @@ OgreBulletDynamics::RigidBody * SelectionMouse::getBodyUnderCursorUsingBullet(Og
         
         return body;
     }
+    delete(mCollisionClosestRayResultCallback);
+    
     return NULL;
 }
 

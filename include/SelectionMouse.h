@@ -41,7 +41,7 @@ class SelectionMouse: public ClassRootSingleton<SelectionMouse>
          * \param win: Le renderWindow permet d'avoir la taille de la fenetre et donc d'adapter la taille du curseur à celle ci
         */
         static void createSingleton(Ogre::RenderWindow * win);
-       ~SelectionMouse(){};
+       ~SelectionMouse();
 
 
     private:
