@@ -144,8 +144,8 @@ void Menus::mouseMoved(MouseMove_t &mouse)
     CEGUI::System &sys = CEGUI::System::getSingleton();
     sys.injectMouseMove(vect[0], vect[1]);
     // Scroll wheel.
-    if (vect[2])
-        sys.injectMouseWheelChange(vect[2] / 120.0f);
+    //if (vect[2])
+    //    sys.injectMouseWheelChange(vect[2] / 120.0f);
 }
 
 CEGUI::MouseButton Menus::convertButton(OIS::MouseButtonID evt)
