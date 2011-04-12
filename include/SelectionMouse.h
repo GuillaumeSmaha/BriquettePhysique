@@ -21,6 +21,7 @@
 #include "CameraAbstract.h"
 #include "GestCamera.h"
 #include "ListenerCollision.h"
+#include "GestSnapShoot.h"
 
 /*!
 * \class SelectionMouse
@@ -94,7 +95,6 @@ class SelectionMouse: public ClassRootSingleton<SelectionMouse>
 		 * \param mouseMove Structure de déplacement de la souris
         */
         void onMouseMoved(MouseMove_t &mouseMove);
-        void mouseMovedSelectedBriquette(MouseMove_t &mouseMove);
         /*!
          * \brief Permet de réagir a l'appui sur touche/button souris, permet de lancer la prise de briquettes
          * \param key Evénement du clavier

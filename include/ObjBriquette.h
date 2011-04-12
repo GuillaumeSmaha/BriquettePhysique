@@ -49,7 +49,7 @@ class ObjBriquette
 		/*!
 		 * \brief Constructeur: crée un objet briquette intégré au projet et doté d'un comportement physique 
 		*/
-		ObjBriquette(Ogre::String name);
+		ObjBriquette(Ogre::String name, Ogre::Vector3 pos);
 		/*!
 		 * \brief Constructeur de recopie
 		*/

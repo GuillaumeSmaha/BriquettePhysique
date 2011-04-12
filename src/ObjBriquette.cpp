@@ -1,11 +1,19 @@
 #include "ObjBriquette.h"
 
-ObjBriquette::ObjBriquette(Ogre::String nom)
+ObjBriquette::ObjBriquette(Ogre::String nom, Ogre::Vector3 pos)
 {
     this->nom = nom;
     this->entBriquette = GestSceneManager::getSingletonPtr()->createEntity(nom, "Briquette.mesh");
     this->entBriquette->setMaterialName("Briquette");
     //std::cout<<"briquette scale : "<<briquetteNode->getScale()<<std::endl;
+    
+    //positionnement dans le graphe de scene
+    this->briquetteNode = GestSceneManager::getSceneManager()->getSceneNode(NODE_NAME_GROUPE_BRIQUETTES)->createChildSceneNode();
+    this->briquetteNode->attachObject(this->entBriquette);
+    this->briquetteNode->setPosition(pos);
+    
+    //création de l'objet phyisque
+    this->createPhysicalObj();
 
 }
 

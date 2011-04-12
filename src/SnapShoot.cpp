@@ -11,6 +11,8 @@ SnapShoot::SnapShoot(SnapShoot * lastSnapShoot)
 		std::vector<ObjBriquette *>::iterator it;
 		for(it = GestObj::getSingletonPtr()->getListBriquettes().begin() ; it < GestObj::getSingletonPtr()->getListBriquettes().end() ; it ++)
 		{
+			std::cerr << "Briquette : " << *it << std::endl;
+			
 			SnapShootData * data = new SnapShootData;
 			data->object = *it;
 			if(lastSnapShoot == NULL)

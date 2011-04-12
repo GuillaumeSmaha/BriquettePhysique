@@ -6,7 +6,6 @@ template<> GestObj * ClassRootSingleton<GestObj>::_instance = NULL;
 GestObj::GestObj() : ClassRootSingleton<GestObj>()
 {
     this->table = NULL;
-    this->groupBriquetteNode = GestSceneManager::getSceneManager()->getSceneNode(NODE_NAME_GROUPE_BRIQUETTES);
 }
 
 
@@ -27,15 +26,8 @@ GestObj::~GestObj()
 void GestObj::addBriquette(const Ogre::Vector3 &pos)
 {
     //crée la briquette
-    ObjBriquette * briquette = new ObjBriquette("Briquette"+Utils::toString(Utils::unique()));
-
-    //positionnement dans le graphe de scene
-    briquette->setSceneNode(this->getGroupBriquetteNode()->createChildSceneNode());
-    briquette->getSceneNode()->attachObject(briquette->getEntity());
-    briquette->getSceneNode()->setPosition(pos);
-    //création de l'objet phyisque
-    briquette->createPhysicalObj();
-
+    ObjBriquette * briquette = new ObjBriquette("Briquette"+Utils::toString(Utils::unique()), pos);
+    
     //ajout dans la liste des briquettes
     this->lstBriquettes.push_back(briquette);
 }

@@ -24,11 +24,10 @@ void SelectionMouse::createSingleton(Ogre::RenderWindow * win)
 SelectionMouse::SelectionMouse(Ogre::RenderWindow * win) : ClassRootSingleton<SelectionMouse>()
 {
     createOverlay(win);
-    this->selectedBriquette=NULL;   
+    this->selectedBriquette = NULL;   
     PlayerControls::getSingletonPtr()->signalMouseMoved.add(&SelectionMouse::onMouseMoved, this);
     PlayerControls::getSingletonPtr()->signalKeyPressed.add(&SelectionMouse::onKeyPressed, this);
     PlayerControls::getSingletonPtr()->signalKeyReleased.add(&SelectionMouse::onKeyReleased, this);
-    PlayerControls::getSingletonPtr()->signalMouseMoved.add(&SelectionMouse::onMouseMoved, this);
 }
 
 
@@ -75,7 +74,20 @@ void SelectionMouse::onMouseMoved(MouseMove_t &mouseMove)
 		posMouse[1] = posMouse[1] + (mouseMove.vector[1]/this->winHeight);
 		mousePanel->setPosition(posMouse[0], posMouse[1]);
 	}
-    this->mouseMovedSelectedBriquette(mouseMove);
+	
+	
+	if(mouseMove.controlMouseId == Controls::SELECT)
+	{
+        if(this->selectedBriquette != NULL)
+        {
+            Ogre::Vector3 vecMouse= mouseMove.vector;
+            this->selectedBriquette->setPosition(
+                this->selectedBriquette->getSceneNode()->getPosition()[0]-mouseMove.vector[0],
+                0,
+                this->selectedBriquette->getSceneNode()->getPosition()[2]-mouseMove.vector[1]
+            );
+        }
+    }
 }
 
 void SelectionMouse::onKeyPressed(Controls::Controls key)
@@ -106,26 +118,30 @@ void SelectionMouse::onKeyReleased(Controls::Controls key)
 
 void SelectionMouse::selectBriquette()
 {
-
     Ogre::Ray rayon;
     OgreBulletDynamics::RigidBody * body = getBodyUnderCursorUsingBullet(rayon);
    
-    if((body!=NULL) && (! body->isStaticObject())){
-        this->selectedBriquette= body;
-        std::cout<<"body: "<<selectedBriquette->getName() <<std::endl;
-        std::cout<<"orientation : "<<*(selectedBriquette->getBulletRigidBody()->getOrientation()) <<std::endl;
+    if((body != NULL) && (!body->isStaticObject()))
+    {
+        this->selectedBriquette = body;
+        std::cout << "body: " << selectedBriquette->getName() <<std::endl;
+        std::cout << "orientation : " << *(selectedBriquette->getBulletRigidBody()->getOrientation()) << std::endl;
     }
 }
 
 
 void SelectionMouse::unselectBriquette()
 {
-    if(this->selectedBriquette != NULL){
+    if(this->selectedBriquette != NULL)
+    {
         //mettre a jour la bounding permet de la placer à la nouvelle position de la briquette
         this->updateBtBoundingBox(this->selectedBriquette);
+        
         this->selectedBriquette->getBulletRigidBody()->activate(true);
         //this->selectedBriquette->setOrientation(0,0,0,1);
-        this->selectedBriquette= NULL;
+        this->selectedBriquette = NULL;
+        
+        GestSnapShoot::getSingletonPtr()->addModification();
     }
 }
 
@@ -151,22 +167,8 @@ OgreBulletDynamics::RigidBody * SelectionMouse::getBodyUnderCursorUsingBullet(Og
     return NULL;
 }
 
-void SelectionMouse::mouseMovedSelectedBriquette (MouseMove_t &mouseMove){
-	if(mouseMove.controlMouseId == Controls::SELECT)
-	{
-        if(this->selectedBriquette != NULL)
-        {
-            Ogre::Vector3 vecMouse= mouseMove.vector;
-            this->selectedBriquette->setPosition(
-                this->selectedBriquette->getSceneNode()->getPosition()[0]-mouseMove.vector[0],
-                0,
-                this->selectedBriquette->getSceneNode()->getPosition()[2]-mouseMove.vector[1]
-            );
-        }
-    }
-}
-
-void SelectionMouse::updateBtBoundingBox(OgreBulletDynamics::RigidBody * body){
+void SelectionMouse::updateBtBoundingBox(OgreBulletDynamics::RigidBody * body)
+{
     Ogre::Vector3 posOgre = body->getSceneNode()->_getDerivedPosition();
     Ogre::Quaternion dirOgre = body->getSceneNode()->_getDerivedOrientation();
     

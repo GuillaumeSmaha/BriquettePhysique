@@ -32,6 +32,8 @@ void GestSnapShoot::addModification()
 	}
 		
 	this->lstSnapShoot.push_back(snapShoot);
+	
+	std::cerr << "Number SnapShoot = " << this->lstSnapShoot.size() << std::endl;
 }
 
 void GestSnapShoot::removeFirstModification(int numberModification)
