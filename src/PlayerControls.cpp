@@ -45,6 +45,7 @@ void PlayerControls::setDefaultKeys()
 	this->setKeyControl(Controls::OPEN_MENU, OIS::KC_ESCAPE);
 	this->setKeyControl(Controls::QUIT, OIS::KC_F10);
 	this->setKeyControl(Controls::UNDO, OIS::KC_U);
+	this->setKeyControl(Controls::REDO, OIS::KC_I);
 	this->setKeyControl(Controls::SAVE, OIS::KC_G);
 	this->setKeyControl(Controls::SUPPR, OIS::KC_DELETE);
 	

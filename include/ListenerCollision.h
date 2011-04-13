@@ -59,6 +59,8 @@ class ListenerCollision : public ClassRootSingleton<ListenerCollision>
 		
 		/*!
 		 * \brief Switch the value of the attribute physicEngineState
+		 * \param locker Pointeur vers l'objet demandant l'utilisation
+		 * \return Retourne si la modification a été autorisé
 		 */
 		bool switchPhysicEngineState(void * locker = NULL);
 		
@@ -77,10 +79,14 @@ class ListenerCollision : public ClassRootSingleton<ListenerCollision>
 		
 		/*!
 		 * \brief Définit si le moteur physique est actif
+		 * \param locker Pointeur vers l'objet demandant l'utilisation
+		 * \return Retourne si la modification a été autorisé
 		 */
 		bool physicEngineMutexLock(void * locker);
 		/*!
 		 * \brief Définit si le moteur physique est actif
+		 * \param locker Pointeur vers l'objet demandant l'utilisation
+		 * \return Retourne si la modification a été autorisé
 		 */
 		void physicEngineMutexUnLock(void * locker);
 		
@@ -108,6 +114,8 @@ class ListenerCollision : public ClassRootSingleton<ListenerCollision>
 		/*!
 		 * \brief [Setter] Définit de l'attribut physicEngineState
 		 * \param physicEngineState Définit l'état du moteur physique
+		 * \param locker Pointeur vers l'objet demandant l'utilisation
+		 * \return Retourne si la modification a été autorisé
 		 */
 		bool setPhysicEngineState(bool physicEngineState, void * locker = NULL);
 };

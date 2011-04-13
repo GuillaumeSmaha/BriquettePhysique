@@ -11,6 +11,9 @@
 #include "GestObj.h"
 #include "ListenerCollision.h"
 
+class GestObj;
+class ObjBriquette;
+
 /*!
 * \struct SnapShootData
 * \brief Structure d'une donnée du SnapShoot
@@ -22,14 +25,6 @@ struct SnapShootData
 	 * Si objectDelete == true alors objet est une copie de l'objet.
 	*/
 	ObjBriquette * object;
-	/*!
-	 * \brief Indique si l'objet a été créé
-	*/
-	bool objectCreate;
-	/*!
-	 * \brief Indique si l'objet a été supprimé
-	*/
-	bool objectDelete;
 	/*!
 	 * \brief Position de l'objet
 	*/
@@ -56,9 +51,9 @@ class SnapShoot
 	public:
 		/*!
 		 * \brief Constructor
-		 * \param node Noeud contenant toutes les briquettes
+		 * \param lastSnapShoot SnapShoot précédent celui-ci
 		*/
-		SnapShoot(SnapShoot * lastSnapShoot);
+		SnapShoot();
 		/*!
 		 * \brief Destructor
 		*/
@@ -71,16 +66,28 @@ class SnapShoot
 		SnapShootData * findData(ObjBriquette * briquette);
 
 		/*!
+		 * \brief Recherche la donnée dans les données
+		 * \return La donnée trouvée sinon NULL
+		*/
+		SnapShootData * findData(SnapShootData * data);
+
+		/*!
 		 * \brief Vérifie si la briquette existe dans les données
 		 * \return Vrai ou faux
 		*/
 		bool existData(ObjBriquette * briquette);
+         
+         /*!
+         * \brief La liste des données
+		 * \return Le vecteur "lstBriquettes"
+         */
+        std::vector<SnapShootData *> & getListData();
 		
 		/*!
 		 * \brief Nombre de données
 		 * \return Le taille du vecteur "lstPosition"
 		*/
-		int getNumberData();
+		unsigned int getNumberData();
 };
 
 

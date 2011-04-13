@@ -1,7 +1,6 @@
 #include "SelectionMouse.h"
 
 using namespace Ogre;
-using namespace OgreBulletCollisions;
 
 template<> SelectionMouse * ClassRootSingleton<SelectionMouse>::_instance = NULL;
 
@@ -31,7 +30,8 @@ SelectionMouse::SelectionMouse(Ogre::RenderWindow * win) : ClassRootSingleton<Se
 }
 
 
-SelectionMouse::~SelectionMouse() {
+SelectionMouse::~SelectionMouse()
+{
 
 
 }
@@ -39,30 +39,27 @@ SelectionMouse::~SelectionMouse() {
 
 void SelectionMouse::createOverlay(Ogre::RenderWindow * win)
 {
-    mouseOverlay = OverlayManager::getSingletonPtr()->create("GuiOverlay");
-    mouseOverlay->setZOrder(600);
-    mousePanel = (Ogre::OverlayElement *)
-        OverlayManager::getSingletonPtr()->createOverlayElement("Panel", "GUIMouse");
-    mousePanel->setMaterialName("TargetSights");
+	this->mouseOverlay = OverlayManager::getSingletonPtr()->create("GuiOverlay");
+	this->mouseOverlay->setZOrder(600);
+	this->mousePanel = (Ogre::OverlayElement *)OverlayManager::getSingletonPtr()->createOverlayElement("Panel", "GUIMouse");
+	this->mousePanel->setMaterialName("TargetSights");
 
-    TexturePtr mouseTex = TextureManager::getSingleton().load("target.png",
-                            ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+	TexturePtr mouseTex = TextureManager::getSingleton().load("target.png", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
-    this->winWidth= win->getWidth();
-    this->winHeight= win->getHeight();
-    mousePanel->setWidth (mouseTex->getWidth() / (float)this->winWidth); 
-    mousePanel->setHeight (mouseTex->getHeight() / (float)this->winHeight);
+	this->winWidth= win->getWidth();
+	this->winHeight= win->getHeight();
+	this->mousePanel->setWidth (mouseTex->getWidth() / (float)this->winWidth); 
+	this->mousePanel->setHeight (mouseTex->getHeight() / (float)this->winHeight);
 
-    //la souris est centré initialement
-    posMouse[0]=0.5;        //correspond à la position horizontale
-    posMouse[1]=0.5;        //correspond à la position verticale
-    mousePanel->setPosition(posMouse[0], posMouse[1]);
+	//la souris est centré initialement
+	this->posMouse[0] = 0.5;        //correspond à la position horizontale
+	this->posMouse[1] = 0.5;        //correspond à la position verticale
+	this->mousePanel->setPosition(this->posMouse[0], this->posMouse[1]);
 
-    Ogre::OverlayContainer      *mouseContainer = (Ogre::OverlayContainer*) 
-        OverlayManager::getSingletonPtr()->createOverlayElement("Panel", "GUIContainer");
-    mouseOverlay->add2D(mouseContainer);
-    mouseContainer->addChild(mousePanel);
-    mouseOverlay->show(); 
+	Ogre::OverlayContainer * mouseContainer = (Ogre::OverlayContainer*)OverlayManager::getSingletonPtr()->createOverlayElement("Panel", "GUIContainer");
+	this->mouseOverlay->add2D(mouseContainer);
+	mouseContainer->addChild(this->mousePanel);
+	this->mouseOverlay->show(); 
 }
 
 
@@ -70,9 +67,9 @@ void SelectionMouse::onMouseMoved(MouseMove_t &mouseMove)
 {
 	if(mouseMove.controlMouseId == Controls::NONE || mouseMove.controlMouseId == Controls::SELECT)
 	{
-		posMouse[0] = posMouse[0] + (mouseMove.vector[0]/this->winWidth);
-		posMouse[1] = posMouse[1] + (mouseMove.vector[1]/this->winHeight);
-		mousePanel->setPosition(posMouse[0], posMouse[1]);
+		this->posMouse[0] = this->posMouse[0] + (mouseMove.vector[0]/this->winWidth);
+		this->posMouse[1] = this->posMouse[1] + (mouseMove.vector[1]/this->winHeight);
+		this->mousePanel->setPosition(posMouse[0], posMouse[1]);
 	}
 	
 	
@@ -135,11 +132,11 @@ void SelectionMouse::unselectBriquette()
     if(this->selectedBriquette != NULL)
     {
         //mettre a jour la bounding permet de la placer à la nouvelle position de la briquette
-        this->updateBtBoundingBox(this->selectedBriquette);
+		ObjBriquette::updateBtBoundingBox(this->selectedBriquette);
         
-        this->selectedBriquette->getBulletRigidBody()->activate(true);
-        //this->selectedBriquette->setOrientation(0,0,0,1);
+        
         this->selectedBriquette = NULL;
+        
         
         GestSnapShoot::getSingletonPtr()->addModification();
     }
@@ -147,38 +144,24 @@ void SelectionMouse::unselectBriquette()
 
 OgreBulletDynamics::RigidBody * SelectionMouse::getBodyUnderCursorUsingBullet(Ogre::Ray rayTo)
 {
-    Ogre::Camera * curCam=GestCamera::getSingletonPtr()->getCurrentCamera()->getCamera();
+    Ogre::Camera * curCam = GestCamera::getSingletonPtr()->getCurrentCamera()->getCamera();
     rayTo = curCam->getCameraToViewportRay
-            (posMouse[0]+(mousePanel->getHeight()/2.0),posMouse[1]+(mousePanel->getHeight()/2));
+            (this->posMouse[0] + (this->mousePanel->getHeight() / 2.0), this->posMouse[1] + (this->mousePanel->getHeight() / 2.0));
     OgreBulletDynamics::DynamicsWorld * world = ListenerCollision::getSingletonPtr()->getWorld();
     OgreBulletCollisions::CollisionClosestRayResultCallback *
     mCollisionClosestRayResultCallback = new
             OgreBulletCollisions::CollisionClosestRayResultCallback(rayTo, world, 5000);
+            
     world->launchRay (*mCollisionClosestRayResultCallback);
     std::cout << "ray lauched" << std::endl;
+    
+    OgreBulletDynamics::RigidBody * bodyResult = NULL;
+    
     if (mCollisionClosestRayResultCallback->doesCollide ())
     {
-        OgreBulletDynamics::RigidBody * body = static_cast<OgreBulletDynamics::RigidBody *>(mCollisionClosestRayResultCallback->getCollidedObject());
-        
-        return body;
+         bodyResult= static_cast<OgreBulletDynamics::RigidBody *>(mCollisionClosestRayResultCallback->getCollidedObject());
     }
-    delete(mCollisionClosestRayResultCallback);
+    delete mCollisionClosestRayResultCallback;
     
-    return NULL;
-}
-
-void SelectionMouse::updateBtBoundingBox(OgreBulletDynamics::RigidBody * body)
-{
-    Ogre::Vector3 posOgre = body->getSceneNode()->_getDerivedPosition();
-    Ogre::Quaternion dirOgre = body->getSceneNode()->_getDerivedOrientation();
-    
-    btVector3 posBt = OgreBtConverter::to(posOgre);
-    btQuaternion dirBt = OgreBtConverter::to(dirOgre);
-    
-
-    body->getBulletDynamicsWorld()->removeCollisionObject(body->getBulletRigidBody());
-    body->getBulletObject()->getWorldTransform().setOrigin(posBt);
-    body->getBulletObject()->getWorldTransform().setRotation(dirBt);
-    body->getBulletDynamicsWorld()->addRigidBody(body->getBulletRigidBody());
-    body->enableActiveState();
+    return bodyResult;
 }

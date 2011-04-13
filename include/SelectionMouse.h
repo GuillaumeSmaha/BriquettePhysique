@@ -10,10 +10,7 @@
 #include <OgreBulletDynamics.h>
 #include <OgreBulletCollisionsShape.h>
 #include <OgreBulletDynamicsRigidBody.h>
-#include <Utils/OgreBulletConverter.h>
-#include <Utils/OgreBulletCollisionsMeshToShapeConverter.h>
 #include <OgreBulletCollisionsPreRequisites.h>
-#include <Shapes/OgreBulletCollisionsSphereShape.h>
 
 #include "mouseMove.h"
 #include "ClassRootSingleton.h"
@@ -42,8 +39,6 @@ class SelectionMouse: public ClassRootSingleton<SelectionMouse>
          * \param win: Le renderWindow permet d'avoir la taille de la fenetre et donc d'adapter la taille du curseur à celle ci
         */
         static void createSingleton(Ogre::RenderWindow * win);
-       ~SelectionMouse();
-
 
     private:
         /*!
@@ -63,7 +58,7 @@ class SelectionMouse: public ClassRootSingleton<SelectionMouse>
         /*!
          * \brief Position de la souris
         */
-        Ogre::Vector2 posMouse;
+        Ogre::Vector3 posMouse;
         /*!
          * \brief Permet de conserver la largeur la fenetre
         */
@@ -73,6 +68,8 @@ class SelectionMouse: public ClassRootSingleton<SelectionMouse>
         */
         int winHeight;
 
+
+	private:
         /*!
         * \brief Constructeur par défault, ne doit pas être utilisé
         */
@@ -82,7 +79,10 @@ class SelectionMouse: public ClassRootSingleton<SelectionMouse>
         * \param win: Le renderWindow permet d'avoir la taille de la fenetre et donc d'adapter la taille du curseur à celle ci
         */
         SelectionMouse(Ogre::RenderWindow * win);
- 
+        /*!
+        * \brief Destructeur
+        */
+       ~SelectionMouse();
 
         /*!
          * \brief Crée l'overlay de la souris (affichage, texture...)
@@ -102,27 +102,22 @@ class SelectionMouse: public ClassRootSingleton<SelectionMouse>
         void onKeyPressed(Controls::Controls key);
         /*!
          * \brief Permet de réagir au relachement d'une touche/button souris.
-         *  
          * \param key Evénement du clavier
         */
         void onKeyReleased(Controls::Controls key);
         /*!
-         *  \brief Essaye d'attraper une briquette lors d'un clic de souris
+         * \brief Essaye d'attraper une briquette lors d'un clic de souris
         */
         void selectBriquette();
         /*!
-         *  \brief Permet en particulier de reprendre le comportement physique de la briquette aprés mise à jour de sa position
+         * \brief Permet en particulier de reprendre le comportement physique de la briquette aprés mise à jour de sa position
         */
         void unselectBriquette();
         /*!
-         *  \brief Essaye d'attraper une briquette lors d'un clic de souris
+         * \brief Essaye d'attraper une briquette lors d'un clic de souris
+         * \param rayTo Rayon à lancer
         */
         OgreBulletDynamics::RigidBody * getBodyUnderCursorUsingBullet(Ogre::Ray rayTo);
-
-        /*!
-         *  \brief permet de mettre a jour la bounding box
-        */
-        void updateBtBoundingBox(OgreBulletDynamics::RigidBody * body);
 };
 
 

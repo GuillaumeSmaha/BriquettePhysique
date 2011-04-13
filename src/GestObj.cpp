@@ -26,10 +26,13 @@ GestObj::~GestObj()
 void GestObj::addBriquette(const Ogre::Vector3 &pos)
 {
     //crée la briquette
-    ObjBriquette * briquettePtr = new ObjBriquette("Briquette"+Utils::toString(Utils::unique()), pos);
+    ObjBriquette * briquettePtr = new ObjBriquette("Briquette"+Utils::toString(Utils::unique()));
+    briquettePtr->setPosition(pos);
     
     //ajout dans la liste des briquettes
     this->lstBriquettes.push_back(briquettePtr);
+    
+    GestSnapShoot::getSingletonPtr()->addModification();
 }
 
 
@@ -62,3 +65,16 @@ void GestObj::setTable(ObjTable * table)
     else
        std::cerr << "@GestObj::setTable: object table already given" << std::endl;
 }
+
+
+std::vector<ObjBriquette *> & GestObj::getListBriquettes()
+{
+	return this->lstBriquettes;
+}
+
+
+unsigned int GestObj::getNumberBriquettes()
+{
+	return this->lstBriquettes.size();
+}
+

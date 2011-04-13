@@ -129,6 +129,9 @@ void Application::initListeners()
 
     //create the collision system
     ListenerCollision::createSingleton();
+    
+	//Create GestSnapShoot Singleton
+	GestSnapShoot::createSingleton();
 
 	//Update the size of window and mouse window size
 	ListenerWindow::getSingletonPtr()->windowResized(ListenerWindow::getSingletonPtr()->getRenderWindow());

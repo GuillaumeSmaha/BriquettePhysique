@@ -10,8 +10,12 @@
 #include "nodeName.h"
 #include "ClassRootSingleton.h"
 #include "Utils.h"
+#include "GestSnapShoot.h"
 #include "ObjTable.h"
 #include "ObjBriquette.h"
+
+class GestSnapShoot;
+class SnapShoot;
 
 /*!
 * \class GestObj
@@ -91,20 +95,13 @@ class GestObj : public ClassRootSingleton<GestObj>
          * \brief La liste des données
 		 * \return Le vecteur "lstBriquettes"
          */
-        std::vector<ObjBriquette *> & getListBriquettes()
-        {
-			return this->lstBriquettes;
-		}
+        std::vector<ObjBriquette *> & getListBriquettes();
 
          /*!
 		 * \brief Nombre de données
 		 * \return Le taille du vecteur "lstBriquettes"
          */
-        int getNumberBriquettes()
-        {
-			return this->lstBriquettes.size();
-		}
-
+        unsigned int getNumberBriquettes();
 };
 
 #endif

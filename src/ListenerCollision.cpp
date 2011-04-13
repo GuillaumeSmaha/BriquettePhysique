@@ -15,9 +15,7 @@ ListenerCollision::ListenerCollision() : ClassRootSingleton<ListenerCollision>()
     node_debugDrawer->attachObject(static_cast <Ogre::SimpleRenderable *> (debugDrawer));
     mWorld->getBulletDynamicsWorld()->clearForces();
 
-    ListenerFrame::getSingletonPtr()->signalFrameStarted.add(&ListenerCollision::updateCollision, this);
-    //listenerFrame->signalFrameEnded.add(&ListenerCollision::updateCollision, this);
-    
+    ListenerFrame::getSingletonPtr()->signalFrameStarted.add(&ListenerCollision::updateCollision, this);    
     PlayerControls::getSingletonPtr()->signalKeyPressed.add(&ListenerCollision::onKeyPressed, this);
 }
 
