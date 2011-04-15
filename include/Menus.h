@@ -1,6 +1,10 @@
 #ifndef __MENUS_H__
 #define __MENUS_H__
 
+#define NB_BRIQ_SMALL 10
+#define NB_BRIQ_MEDIUM 100
+#define NB_BRIQ_HARD 250
+
 
 #include "controls.h"
 #include "PlayerControls.h"
@@ -9,7 +13,7 @@
 #include "ClassRootSingleton.h"
 
 class PlayerControls;
-class Menus: public ClassRootSingleton<Menus>, Fenetre
+class Menus: public ClassRootSingleton<Menus>, public Fenetre
 {
     private:
         /*!
@@ -32,6 +36,26 @@ class Menus: public ClassRootSingleton<Menus>, Fenetre
          * \brief Indique si le menu est ouvert
          */
         bool menu_open;
+
+    private:
+          // Déclaration d'une classe interne qui gère finement le menus des briquettes pendant le jeu
+        class MenusBriquette: public Fenetre {
+            private:
+                int nb_briquetttes_total;
+                int nb_briquettes_en_jeux;
+                CEGUI::Window * addBriquetteWdw;
+            public:
+                MenusBriquette();
+                ~MenusBriquette(){};
+                void setNbMaxBriquette(int nb_max);
+                bool destroyWindow(const CEGUI::EventArgs & evt){};
+                void actionFromPlayer(Controls::Controls key){};
+                CEGUI::Window * creer_menus_briquettes();   
+                void update_Nb_briquette_in_menus();
+                bool addBriquette(const CEGUI::EventArgs & evt);
+        };
+
+    MenusBriquette menusBriquette;
     public:
          /*!
         * \brief Dispatché quand mis en pause ou reprise
@@ -109,16 +133,15 @@ class Menus: public ClassRootSingleton<Menus>, Fenetre
          */
         void cacher_menus();
 
+        void creer_root_window(void);
         /*!
-         * \brief Crée le menus principal
+         * \brief Crée le menus permettant de choisir le niveau de difficulté au début du jeu
          */
-        void creer_main_window(void);
-
+        void creer_demarrage_window(void);
         /*!
-         * \brief Crée le menus principal
+         * \brief Crée le menus de gestion des briquettes en jeu
          */
-        void creer_menus_start(void);
-
+        void creer_menus_briquettes();
         /*!
          * \brief Affiche le menus principal
          */

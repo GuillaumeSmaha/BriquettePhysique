@@ -10,7 +10,8 @@ Menus::Menus(): ClassRootSingleton<Menus>()
     this->pControl=PlayerControls::getSingletonPtr();
 
     this->mainWdw=NULL;
-    //démarre le menusRenderer
+
+   //démarre le menusRenderer
     menusRenderer = &CEGUI::OgreRenderer::bootstrapSystem();
 
     //prépare les différents groupes de ressources
@@ -36,10 +37,11 @@ Menus::Menus(): ClassRootSingleton<Menus>()
     //enregistre les signaux sur PlayerControls (même si réagit uniquement à l'appui sur la touche permettant d'ouvrir le menus
     pControl->signalKeyPressed.add(&Menus::actionFromPlayer, this);
     this->menu_open=false;
-
+    creer_root_window();
     creer_souris();
-    creer_main_window();
-    
+    //this->menusBriquette= new MenusBriquette();
+    this->mainWdw->addChildWindow(this->menusBriquette.creer_menus_briquettes());
+    creer_demarrage_window();
     //creer_menus_start();
 }
 
@@ -161,6 +163,10 @@ CEGUI::MouseButton Menus::convertButton(OIS::MouseButtonID evt)
     }
 }
 
+void Menus::creer_root_window(void){
+    CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
+    this->mainWdw= wmgr.createWindow ("DefaultWindow","Briquette/root");
+}
 
 void Menus::creer_souris(void)
 {
@@ -180,27 +186,27 @@ void Menus::cacher_souris(void)
 }
 
 
-void Menus::creer_main_window(void)
+void Menus::creer_demarrage_window(void)
 {
 
     CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
 
     //the easy button
-    CEGUI::Window * facileWdw = wmgr.createWindow("SleekSpace/Button", "SpaceShip/facileButton");
+    CEGUI::Window * facileWdw = wmgr.createWindow("SleekSpace/Button", "Briquette/facileButton");
     facileWdw->setText("Facile");
     facileWdw->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.3,0)));
     facileWdw->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.05, 0.0f ), CEGUI::UDim( 0.32, 0.0f) ) );
     facileWdw->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Menus::startFacile, this));
 
     //the medium button
-    CEGUI::Window * mediumWdw = wmgr.createWindow("SleekSpace/Button", "SpaceShip/mediumButton");
+    CEGUI::Window * mediumWdw = wmgr.createWindow("SleekSpace/Button", "Briquette/mediumButton");
     mediumWdw->setText("Facile");
     mediumWdw->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.3,0)));
     mediumWdw->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.25, 0.0f ), CEGUI::UDim( 0.32, 0.0f) ) );
     mediumWdw->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Menus::startMedium, this));
 
     //the hard button
-    CEGUI::Window * hardWdw = wmgr.createWindow("SleekSpace/Button", "SpaceShip/QuitButton");
+    CEGUI::Window * hardWdw = wmgr.createWindow("SleekSpace/Button", "Briquette/QuitButton");
     hardWdw->setText("Difficile");
     hardWdw->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.3,0)));
     hardWdw->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.45, 0.0f ), CEGUI::UDim( 0.32, 0.0f) ) );
@@ -213,10 +219,13 @@ void Menus::creer_main_window(void)
     tblWin[1]=mediumWdw;
     tblWin[2]=hardWdw;
 
-    this->mainWdw=create_std_window((CEGUI::utf8 *)"Combat de vaisseaux", 0.1, 0.05, 0.8, 0.2,3, tblWin);
+    this->mainWdw->addChildWindow(
+        create_std_window((CEGUI::utf8 *)"Le jeux des briquettes", 0.1, 0.05, 0.8, 0.2,3, tblWin));
 
     this->mainWdw->hide();
 }
+
+
 
 void Menus::cacher_main_window(void)
 {
@@ -234,28 +243,34 @@ void Menus::afficher_main_window(void)
 bool Menus::startFacile(const CEGUI::EventArgs & evt)
 {
     Application * app = Application::getSingletonPtr();
+    this->menusBriquette.setNbMaxBriquette(NB_BRIQ_SMALL);
     app->startFacile();
-    this->cacher_main_window();
+    destroyWindow(evt);
+    //static_cast<const CEGUI::WindowEventArgs&>(evt).window->getParent()->getParent()->hide();
     return true;
 }
 
 bool Menus::startMedium(const CEGUI::EventArgs & evt)
 {
     Application * app = Application::getSingletonPtr();
+    this->menusBriquette.setNbMaxBriquette(NB_BRIQ_MEDIUM);
     app->startMedium();
-    this->cacher_main_window();
+    destroyWindow(evt);
+    //static_cast<const CEGUI::WindowEventArgs&>(evt).window->getParent()->getParent()->hide();
     return true;
 }
 
 bool Menus::startDifficile(const CEGUI::EventArgs & evt)
 {
     Application * app = Application::getSingletonPtr();
+    this->menusBriquette.setNbMaxBriquette(NB_BRIQ_HARD);
     app->startDifficile();
-    this->cacher_main_window();
+    destroyWindow(evt);
+    //static_cast<const CEGUI::WindowEventArgs&>(evt).window->getParent()->getParent()->hide();
     return true;
 }
 
 void Menus::injectMouseMove (float delta_x, float delta_y){
     CEGUI::System::getSingleton().injectMouseMove (delta_x, delta_y);
-}
 
+}

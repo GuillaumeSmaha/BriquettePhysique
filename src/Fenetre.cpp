@@ -6,10 +6,10 @@ CEGUI::Window * Fenetre::create_std_window(CEGUI::utf8 * name, float posX, float
 {
     //création de la nouvelle fenetre
     CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
-    CEGUI::Window * Wdw= wmgr.createWindow("DefaultWindow", "SpaceShip/"+(CEGUI::String)name+"main");
+    CEGUI::Window * Wdw= wmgr.createWindow("DefaultWindow", "Briquette/"+(CEGUI::String)name+"main");
 
     //Titlebar
-    CEGUI::Window * titlebar = wmgr.createWindow("TaharezLook/Titlebar", "SpaceShip/titlebar"+(CEGUI::String)name);
+    CEGUI::Window * titlebar = wmgr.createWindow("TaharezLook/Titlebar", "Briquette/titlebar"+(CEGUI::String)name);
     titlebar->setText(name);
     titlebar->setSize(CEGUI::UVector2(CEGUI::UDim(largeur, 0), CEGUI::UDim(0.05,0)));
     titlebar->setPosition(CEGUI::UVector2(CEGUI::UDim(posX, 0), CEGUI::UDim(posY,0)));
@@ -30,7 +30,7 @@ CEGUI::Window * Fenetre::create_std_window(CEGUI::utf8 * name, float posX, float
     }
 
     //on ajoute un close bouton à chaque fenetre
-    CEGUI::Window * quit = wmgr.createWindow("SleekSpace/Button", "SpaceShip/close"+(CEGUI::String)name);
+    CEGUI::Window * quit = wmgr.createWindow("SleekSpace/Button", "Briquette/close"+(CEGUI::String)name);
     quit->setText("Fermer");
     quit->setSize(CEGUI::UVector2(CEGUI::UDim(0.2, 0), CEGUI::UDim(0.14,0)));
     quit->setPosition( UVector2( UDim( 0.8, 0.0f ), UDim( 0.85, 0.0f) ) );
