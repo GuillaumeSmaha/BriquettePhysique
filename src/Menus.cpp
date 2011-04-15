@@ -1,5 +1,9 @@
 #include "Menus.h"
-Menus::Menus()
+
+
+template<> Menus * ClassRootSingleton<Menus>::_instance = NULL;
+
+Menus::Menus(): ClassRootSingleton<Menus>()
 {
     this->mouseControl=ListenerMouse::getSingletonPtr();
     this->keyControl=ListenerKeyboard::getSingletonPtr();
@@ -23,7 +27,7 @@ Menus::Menus()
     //enregistre les signaux sur la souris
     mouseControl->signalMousePressed.add(&Menus::mousePressed, this);
     mouseControl->signalMouseReleased.add(&Menus::mouseReleased, this);
-    mouseControl->signalMouseMoved.add(&Menus::mouseMoved, this);
+    //mouseControl->signalMouseMoved.add(&Menus::mouseMoved, this);
 
     //enregistre les signaux sur le clavier
     keyControl->signalKeyPressed.add(&Menus::keyPressed, this);
@@ -43,7 +47,7 @@ Menus::~Menus()
 {
     mouseControl->signalMousePressed.remove(&Menus::mousePressed, this);
     mouseControl->signalMouseReleased.remove(&Menus::mouseReleased, this);
-    mouseControl->signalMouseMoved.remove(&Menus::mouseMoved, this);
+    //mouseControl->signalMouseMoved.remove(&Menus::mouseMoved, this);
 
     keyControl->signalKeyPressed.remove(&Menus::keyPressed, this);
     keyControl->signalKeyReleased.remove(&Menus::keyReleased, this);
@@ -138,15 +142,6 @@ void Menus::mouseReleased(OIS::MouseButtonID evt)
     CEGUI::System::getSingleton().injectMouseButtonUp(convertButton(evt));
 }
 
-void Menus::mouseMoved(MouseMove_t &mouse)
-{
-    Ogre::Vector3 vect = mouse.vector;
-    CEGUI::System &sys = CEGUI::System::getSingleton();
-    sys.injectMouseMove(vect[0], vect[1]);
-    // Scroll wheel.
-    if (vect[2])
-        sys.injectMouseWheelChange(vect[2] / 120.0f);
-}
 
 CEGUI::MouseButton Menus::convertButton(OIS::MouseButtonID evt)
 {
@@ -259,3 +254,8 @@ bool Menus::startDifficile(const CEGUI::EventArgs & evt)
     this->cacher_main_window();
     return true;
 }
+
+void Menus::injectMouseMove (float delta_x, float delta_y){
+    CEGUI::System::getSingleton().injectMouseMove (delta_x, delta_y);
+}
+
