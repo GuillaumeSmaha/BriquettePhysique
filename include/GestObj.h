@@ -14,6 +14,7 @@
 #include "ObjTable.h"
 #include "ObjBriquette.h"
 
+class ObjBriquette;
 class GestSnapShoot;
 class SnapShoot;
 
@@ -36,6 +37,10 @@ class GestObj : public ClassRootSingleton<GestObj>
 		 * \brief La liste des briquettes
 		 */
         std::vector<ObjBriquette *> lstBriquettes;
+ 		/*!
+		 * \brief La liste des briquettes afin de 
+		 */
+        std::map<OgreBulletDynamics::RigidBody *, ObjBriquette *> lstRigidBodyToBriquette;
      
 	        
     public:
@@ -102,6 +107,18 @@ class GestObj : public ClassRootSingleton<GestObj>
 		 * \return Le taille du vecteur "lstBriquettes"
          */
         unsigned int getNumberBriquettes();
+         
+         /*!
+         * \brief La liste des relations rigidBody->briquette
+		 * \return La map "lstRigidBodyToBriquette"
+         */
+        std::map<OgreBulletDynamics::RigidBody *, ObjBriquette *> & getListRigidBodyToBriquette();
+
+         /*!
+		 * \brief Retourne la briquette en fonction de son rigidBody
+		 * \return Un pointeur ou NULL s'il n'existe pas
+         */
+        ObjBriquette * getBriquetteByRigidBody(OgreBulletDynamics::RigidBody * rigidBody);
 };
 
 #endif

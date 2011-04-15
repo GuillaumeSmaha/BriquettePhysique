@@ -14,4 +14,7 @@
 /// Nom du noeud global pour le groupe des briquettes
 #define NODE_NAME_GROUPE_BRIQUETTES "GroupeBriquettes"
 
+/// Nom du noeud global pour le groupe des tests
+#define NODE_NAME_GROUPE_TESTS "GroupeTests"
+
 #endif // __NODE_NAME_H__

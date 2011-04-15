@@ -78,3 +78,12 @@ unsigned int GestObj::getNumberBriquettes()
 	return this->lstBriquettes.size();
 }
 
+std::map<OgreBulletDynamics::RigidBody *, ObjBriquette *> & GestObj::getListRigidBodyToBriquette()
+{
+	return this->lstRigidBodyToBriquette;
+}
+
+ObjBriquette * GestObj::getBriquetteByRigidBody(OgreBulletDynamics::RigidBody * rigidBody)
+{
+	return this->lstRigidBodyToBriquette[rigidBody];
+}
