@@ -13,6 +13,7 @@
 #include <OgreBulletCollisionsPreRequisites.h>
 
 #include "mouseMove.h"
+#include "collisionBullet.h"
 #include "ClassRootSingleton.h"
 #include "PlayerControls.h"
 #include "CameraAbstract.h"
