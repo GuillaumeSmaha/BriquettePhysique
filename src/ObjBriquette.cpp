@@ -1,5 +1,12 @@
 #include "ObjBriquette.h"
 
+//A retenir : rigidBody->getBulletRigidBody()->clearForces()
+//A retenir : rigidBody->getBulletRigidBody()->forceActivationState(false)
+//A retenir : rigidBody->getBulletRigidBody()->activate(false)
+
+
+Ogre::Quaternion ObjBriquette::defaultOrientation = Ogre::Quaternion(0.0, 0.0, 0.0, 1.0);
+
 
 void ObjBriquette::updateBtBoundingBox(OgreBulletDynamics::RigidBody * rigidBody)
 {
@@ -33,7 +40,7 @@ ObjBriquette::ObjBriquette(Ogre::String nom)
     //positionnement dans le graphe de scene
     this->briquetteNode = GestSceneManager::getSceneManager()->getSceneNode(NODE_NAME_GROUPE_BRIQUETTES)->createChildSceneNode("Node_"+nom);
     this->briquetteNode->attachObject(this->entBriquette);
-    
+        
     //création de l'objet phyisque
     this->createPhysicalObj();
 }
@@ -82,15 +89,23 @@ void ObjBriquette::createPhysicalObj()
 {
     this->briquetteNode->setScale(5, 0.5, 0.5);
     Ogre::Vector3 pos = this->briquetteNode->getPosition();
-    Ogre::Quaternion dir = this->briquetteNode->getOrientation();
+    //~ Ogre::Quaternion dir = this->briquetteNode->getOrientation();
+    Ogre::Quaternion dir = ObjBriquette::defaultOrientation;
 
     this->shapeBriquette = new OgreBulletCollisions::BoxCollisionShape(briquetteNode->getScale());
     this->bodyBriquette = new OgreBulletDynamics::RigidBody("RigidBody"+this->nom, ListenerCollision::getSingletonPtr()->getWorld());
     this->bodyBriquette->setShape(this->briquetteNode, this->shapeBriquette, 0.6, 0.6, 10.0, pos, dir);
+    
+    
+	std::pair<OgreBulletDynamics::RigidBody *, ObjBriquette *> ret = std::pair<OgreBulletDynamics::RigidBody *, ObjBriquette *>(this->bodyBriquette, this);
+    
+	GestObj::getSingletonPtr()->getListRigidBodyToBriquette().insert(ret);
 }
 
 void ObjBriquette::removePhysicalObj()
 {	
+	GestObj::getSingletonPtr()->getListRigidBodyToBriquette().erase(this->bodyBriquette);
+	
 	if(this->bodyBriquette != NULL)
 		delete this->bodyBriquette;
 	

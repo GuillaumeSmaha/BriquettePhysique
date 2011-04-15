@@ -16,6 +16,9 @@
 #include "nodeName.h"
 #include "GestSceneManager.h"
 #include "ListenerCollision.h"
+#include "GestObj.h"
+
+class GestObj;
 
 /*!
 * \class ObjBriquette
@@ -24,6 +27,9 @@
 class ObjBriquette
 {
 	public:
+    
+		static Ogre::Quaternion defaultOrientation;
+		
         /*!
          * \brief permet de mettre a jour la bounding box
         */

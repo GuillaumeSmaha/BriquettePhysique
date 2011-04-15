@@ -28,7 +28,6 @@
 class SelectionMouse: public ClassRootSingleton<SelectionMouse>
 {
     public:
-
 		/*!
 		 * \brief NE PAS UTILISER, present uniquement pour la définition de ClassRootSingleton
          *  il faut utiliser createSingleton(Ogre::RenderWindow * win) à la place.
@@ -45,7 +44,12 @@ class SelectionMouse: public ClassRootSingleton<SelectionMouse>
          * \brief permet d'avoir la dernière briquette selectionné
          * c'est elle que l'on déplace
         */
-        OgreBulletDynamics::RigidBody * selectedBriquette;  
+        OgreBulletDynamics::RigidBody * selectedBriquetteOnMove;  
+        /*!
+         * \brief permet d'avoir la dernière briquette selectionné
+         * c'est elle que l'on déplace
+        */
+        OgreBulletDynamics::RigidBody * selectedBriquettePrevious;  
 
        /*!
          * \brief Overlay ne contenant que le curseur de la souris
