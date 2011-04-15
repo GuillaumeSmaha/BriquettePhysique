@@ -19,7 +19,7 @@
 #include "GestCamera.h"
 #include "ListenerCollision.h"
 #include "GestSnapShoot.h"
-
+#include "Menus.h"
 /*!
 * \class SelectionMouse
 * \brief Class permettent d'afficher un pointeur de souris et de selectionner des briquettes (via lancé de rayon)

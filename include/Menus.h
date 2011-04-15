@@ -6,9 +6,11 @@
 #include "PlayerControls.h"
 #include "Application.h"
 #include "Fenetre.h"
+#include "ClassRootSingleton.h"
 
 class PlayerControls;
-class Menus: public ClassRoot, public Fenetre{
+class Menus: public ClassRootSingleton<Menus>, Fenetre
+{
     private:
         /*!
         * \brief le renderer de cegui pour ogre
@@ -49,6 +51,16 @@ class Menus: public ClassRoot, public Fenetre{
          */
         void afficher_menus();
 
+        /*!
+         * \brief Permet de déplacer la souris en lui injectant le vecteur x, y.
+         * La souris n'est pas géré directement dans cette classe mais dans la
+         * classe SelectionMouse car en réalité on à 2 souris (la souris du
+         * menus CEGUI et la souris de bullet pour attraper les briquettes.
+         *
+         * Cette fonction permet donc a SelectionMouse de déplacer la souris de
+         * CEGUI pour que les deux ai la même position
+        */
+        void injectMouseMove (float delta_x, float delta_y);
 
     private:
         /*!
@@ -134,12 +146,20 @@ class Menus: public ClassRoot, public Fenetre{
         * \brief Permet de supprimer une fenetre (appeler par create_std_window, ne devrait pas être utilisé ailleurs).
         */
         bool destroyWindow(const CEGUI::EventArgs & evt);
-
+         /*!
+        * \brief Permet de démarrer le jeux en mode facile
+        */       
         bool startFacile(const CEGUI::EventArgs & evt);
+        /*!
+        * \brief Permet de démarrer le jeux en mode moyen
+        */
         bool startMedium(const CEGUI::EventArgs & evt);
+        /*!
+        * \brief Permet de démarrer le jeux en mode difficile
+        */
         bool startDifficile(const CEGUI::EventArgs & evt);
 
-
+        
 };
 
 

@@ -187,7 +187,7 @@ void Application::initScene()
     SelectionMouse::createSingleton(ListenerWindow::getSingletonPtr()->getRenderWindow());
 
     //menus
-    Menus * menus = new Menus();
+    Menus * menus = Menus::getSingletonPtr();
     menus->afficher_menus();
 }
 
