@@ -20,10 +20,10 @@ enum collisionTypes
     COL_TEST_PLANE	= BIT(10)	// Collide with test plane
 };
 
-const int BRIQUETTE_COLLIDES_WITH		= btBroadphaseProxy::DefaultFilter | btBroadphaseProxy::StaticFilter | COL_BRIQUETTE | COL_TABLE | COL_RAY;
-const int TABLE_COLLIDES_WITH			= btBroadphaseProxy::DefaultFilter | btBroadphaseProxy::StaticFilter | COL_BRIQUETTE;
-const int RAY_COLLIDES_WITH				= btBroadphaseProxy::DefaultFilter | btBroadphaseProxy::StaticFilter | COL_BRIQUETTE | COL_TEST_PLANE;
-const int TEST_PLANE_COLLIDES_WITH		= btBroadphaseProxy::DefaultFilter | btBroadphaseProxy::StaticFilter | COL_RAY;
+const int BRIQUETTE_COLLIDES_WITH		= btBroadphaseProxy::DefaultFilter | btBroadphaseProxy::StaticFilter | btBroadphaseProxy::KinematicFilter | btBroadphaseProxy::DebrisFilter | btBroadphaseProxy::SensorTrigger | COL_BRIQUETTE | COL_TABLE | COL_RAY;
+const int TABLE_COLLIDES_WITH			= btBroadphaseProxy::DefaultFilter | btBroadphaseProxy::StaticFilter | btBroadphaseProxy::KinematicFilter | btBroadphaseProxy::DebrisFilter | btBroadphaseProxy::SensorTrigger | COL_BRIQUETTE;
+const int RAY_COLLIDES_WITH				= btBroadphaseProxy::DefaultFilter | btBroadphaseProxy::StaticFilter | btBroadphaseProxy::KinematicFilter | btBroadphaseProxy::DebrisFilter | btBroadphaseProxy::SensorTrigger | COL_BRIQUETTE | COL_TEST_PLANE;
+const int TEST_PLANE_COLLIDES_WITH		= btBroadphaseProxy::DefaultFilter | btBroadphaseProxy::StaticFilter | btBroadphaseProxy::KinematicFilter | btBroadphaseProxy::DebrisFilter | btBroadphaseProxy::SensorTrigger | COL_RAY;
 
 
 #endif //__COLLISION_BULLET_H__

@@ -88,8 +88,8 @@ void SelectionMouse::onMouseMoved(MouseMove_t &mouseMove)
 			nodeTest->_setDerivedPosition(briquette->getSceneNode()->_getDerivedPosition());
 			
 			OgreBulletCollisions::CollisionShape * shapeTest = new OgreBulletCollisions::BoxCollisionShape(plan);
-			//~ OgreBulletDynamics::RigidBody * bodyTest = new OgreBulletDynamics::RigidBody("RigidBodyTest"+Utils::toString(Utils::unique()), ListenerCollision::getSingletonPtr()->getWorld(), COL_TEST_PLANE, TEST_PLANE_COLLIDES_WITH);
-			OgreBulletDynamics::RigidBody * bodyTest = new OgreBulletDynamics::RigidBody("RigidBodyTest", ListenerCollision::getSingletonPtr()->getWorld(), COL_TEST_PLANE, TEST_PLANE_COLLIDES_WITH);
+			//~ OgreBulletDynamics::RigidBody * bodyTest = new OgreBulletDynamics::RigidBody("RigidBodyTest", ListenerCollision::getSingletonPtr()->getWorld(), COL_TEST_PLANE, TEST_PLANE_COLLIDES_WITH);
+			OgreBulletDynamics::RigidBody * bodyTest = new OgreBulletDynamics::RigidBody("RigidBodyTest", ListenerCollision::getSingletonPtr()->getWorld());
 			bodyTest->setShape(nodeTest, shapeTest, 0.6, 0.6, 0.0, nodeTest->getPosition(), ObjBriquette::defaultOrientation);
 					
 			Ogre::Ray rayon;
@@ -98,7 +98,6 @@ void SelectionMouse::onMouseMoved(MouseMove_t &mouseMove)
 			if (mCollisionClosestRayResultCallback->doesCollide())
 			{
 				OgreBulletDynamics::RigidBody * body = static_cast<OgreBulletDynamics::RigidBody *>(mCollisionClosestRayResultCallback->getCollidedObject());
-				std::cout << "bodyOnMove: " << body->getName() << std::endl;
 				
 				if(body->getName() == "RigidBodyTest")
 				{
