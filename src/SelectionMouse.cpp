@@ -80,7 +80,7 @@ void SelectionMouse::onMouseMoved(MouseMove_t &mouseMove)
 	{
         if(this->selectedBriquetteOnMove != NULL)
         {
-			Ogre::Vector3 plan = Ogre::Vector3(500.0, 10.0, 500.0);
+			Ogre::Vector3 plan = Ogre::Vector3(500.0, 1.0, 500.0);
 			
 			ObjBriquette * briquette = GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquetteOnMove);
 			Ogre::SceneNode * nodeTest = GestSceneManager::getSceneManager()->getSceneNode(NODE_NAME_GROUPE_TESTS);
@@ -108,14 +108,6 @@ void SelectionMouse::onMouseMoved(MouseMove_t &mouseMove)
 						mCollisionClosestRayResultCallback->getCollisionPoint()[2]
 					);
 				}
-			}
-			else
-			{
-				this->selectedBriquetteOnMove->setPosition(
-					this->selectedBriquetteOnMove->getSceneNode()->getPosition()[0]-mouseMove.vector[0],
-					0.0,
-					this->selectedBriquetteOnMove->getSceneNode()->getPosition()[2]-mouseMove.vector[1]
-				);
 			}
 			
 			delete mCollisionClosestRayResultCallback;            
