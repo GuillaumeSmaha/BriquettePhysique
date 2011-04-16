@@ -93,8 +93,8 @@ void ObjBriquette::createPhysicalObj()
     Ogre::Quaternion dir = ObjBriquette::defaultOrientation;
 
     this->shapeBriquette = new OgreBulletCollisions::BoxCollisionShape(briquetteNode->getScale());
-    //~ this->bodyBriquette = new OgreBulletDynamics::RigidBody("RigidBody"+this->nom, ListenerCollision::getSingletonPtr()->getWorld(), COL_BRIQUETTE, BRIQUETTE_COLLIDES_WITH);
-    this->bodyBriquette = new OgreBulletDynamics::RigidBody("RigidBody"+this->nom, ListenerCollision::getSingletonPtr()->getWorld());
+    this->bodyBriquette = new OgreBulletDynamics::RigidBody("RigidBody"+this->nom, ListenerCollision::getSingletonPtr()->getWorld(), COL_BRIQUETTE, BRIQUETTE_COLLIDES_WITH);
+    //~ this->bodyBriquette = new OgreBulletDynamics::RigidBody("RigidBody"+this->nom, ListenerCollision::getSingletonPtr()->getWorld());
     this->bodyBriquette->setShape(this->briquetteNode, this->shapeBriquette, 0.6, 0.6, 10.0, pos, dir);
     
     

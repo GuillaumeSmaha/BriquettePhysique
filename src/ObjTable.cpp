@@ -16,8 +16,8 @@ ObjTable::ObjTable(Ogre::Real size, Ogre::Real depth)
     Ogre::Quaternion dir = this->tableNode->getOrientation();
 
     this->shapeTable = new OgreBulletCollisions::BoxCollisionShape(tableNode->getScale());
-    //~ this->bodyTable= new OgreBulletDynamics::RigidBody("RigidBodyTable"+Utils::toString(Utils::unique()), ListenerCollision::getSingletonPtr()->getWorld(), COL_TABLE, TABLE_COLLIDES_WITH);
-    this->bodyTable= new OgreBulletDynamics::RigidBody("RigidBodyTable"+Utils::toString(Utils::unique()), ListenerCollision::getSingletonPtr()->getWorld());
+    this->bodyTable= new OgreBulletDynamics::RigidBody("RigidBodyTable"+Utils::toString(Utils::unique()), ListenerCollision::getSingletonPtr()->getWorld(), COL_TABLE, TABLE_COLLIDES_WITH);
+    //~ this->bodyTable= new OgreBulletDynamics::RigidBody("RigidBodyTable"+Utils::toString(Utils::unique()), ListenerCollision::getSingletonPtr()->getWorld());
     this->bodyTable->setStaticShape(this->tableNode, this->shapeTable, 0.6, 0.6, pos, dir);
     this->entTable->setCastShadows(true);
 }
