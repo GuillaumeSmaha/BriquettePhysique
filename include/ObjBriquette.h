@@ -13,6 +13,7 @@
 #include <Utils/OgreBulletConverter.h>
 #include <Utils/OgreBulletCollisionsMeshToShapeConverter.h>
 
+#include "collisionBullet.h"
 #include "nodeName.h"
 #include "GestSceneManager.h"
 #include "ListenerCollision.h"

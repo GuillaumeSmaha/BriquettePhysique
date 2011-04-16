@@ -163,7 +163,8 @@ CEGUI::MouseButton Menus::convertButton(OIS::MouseButtonID evt)
     }
 }
 
-void Menus::creer_root_window(void){
+void Menus::creer_root_window(void)
+{
     CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
     this->mainWdw= wmgr.createWindow ("DefaultWindow","Briquette/root");
 }

@@ -12,6 +12,7 @@
 #include <OgreBulletDynamicsRigidBody.h>
 #include <OgreBulletCollisionsPreRequisites.h>
 
+#include "collisionBullet.h"
 #include "mouseMove.h"
 #include "collisionBullet.h"
 #include "ClassRootSingleton.h"
@@ -122,7 +123,13 @@ class SelectionMouse: public ClassRootSingleton<SelectionMouse>
          * \brief Essaye d'attraper une briquette lors d'un clic de souris
          * \param rayTo Rayon à lancer
         */
-        OgreBulletDynamics::RigidBody * getBodyUnderCursorUsingBullet(Ogre::Ray rayTo);
+        OgreBulletDynamics::RigidBody * getBodyUnderCursorUsingBullet(Ogre::Ray &rayTo);
+        /*!
+         * \brief Essaye d'attraper le résultat lors d'un clic de souris
+         * Attention à supprimer le pointeur
+         * \param rayTo Rayon à lancer
+        */
+        OgreBulletCollisions::CollisionClosestRayResultCallback * getResultUnderCursorUsingBullet(Ogre::Ray &rayTo);
 };
 
 

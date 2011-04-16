@@ -11,6 +11,7 @@
 #include <OgreBulletCollisionsShape.h>
 #include <Shapes/OgreBulletCollisionsBoxShape.h>
 
+#include "collisionBullet.h"
 #include "GestSceneManager.h"
 #include "ListenerCollision.h"
 

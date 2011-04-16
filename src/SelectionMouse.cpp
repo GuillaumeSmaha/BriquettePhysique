@@ -80,27 +80,47 @@ void SelectionMouse::onMouseMoved(MouseMove_t &mouseMove)
 	{
         if(this->selectedBriquetteOnMove != NULL)
         {
-		
-			/*
-			Ogre::Vector3 plan = Ogre::Vector3(500.0, 1.0, 500.0);
+			Ogre::Vector3 plan = Ogre::Vector3(500.0, 10.0, 500.0);
 			
 			ObjBriquette * briquette = GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquetteOnMove);
 			Ogre::SceneNode * nodeTest = GestSceneManager::getSceneManager()->getSceneNode(NODE_NAME_GROUPE_TESTS);
 			
 			nodeTest->_setDerivedPosition(briquette->getSceneNode()->_getDerivedPosition());
 			
-			OgreBulletCollisions::CollisionShape * shapeTest = new OgreBulletCollisions::BoxCollisionShape();
-			OgreBulletDynamics::RigidBody * bodyTest = new OgreBulletDynamics::RigidBody("RigidBodyTest"+Utils::toString(Utils::unique()), ListenerCollision::getSingletonPtr()->getWorld(), BRIQUETTE_COLLIDES_WITH);
-			bodyTest->setShape(nodeTest, shapeTest, 0.6, 0.6, 10.0, pos, dir);
+			OgreBulletCollisions::CollisionShape * shapeTest = new OgreBulletCollisions::BoxCollisionShape(plan);
+			//~ OgreBulletDynamics::RigidBody * bodyTest = new OgreBulletDynamics::RigidBody("RigidBodyTest"+Utils::toString(Utils::unique()), ListenerCollision::getSingletonPtr()->getWorld(), COL_TEST_PLANE, TEST_PLANE_COLLIDES_WITH);
+			OgreBulletDynamics::RigidBody * bodyTest = new OgreBulletDynamics::RigidBody("RigidBodyTest", ListenerCollision::getSingletonPtr()->getWorld(), COL_TEST_PLANE, TEST_PLANE_COLLIDES_WITH);
+			bodyTest->setShape(nodeTest, shapeTest, 0.6, 0.6, 0.0, nodeTest->getPosition(), ObjBriquette::defaultOrientation);
+					
+			Ogre::Ray rayon;
+			OgreBulletCollisions::CollisionClosestRayResultCallback * mCollisionClosestRayResultCallback = getResultUnderCursorUsingBullet(rayon);
 			
-			*/
+			if (mCollisionClosestRayResultCallback->doesCollide())
+			{
+				OgreBulletDynamics::RigidBody * body = static_cast<OgreBulletDynamics::RigidBody *>(mCollisionClosestRayResultCallback->getCollidedObject());
+				std::cout << "bodyOnMove: " << body->getName() << std::endl;
+				
+				if(body->getName() == "RigidBodyTest")
+				{
+					this->selectedBriquetteOnMove->setPosition(
+						mCollisionClosestRayResultCallback->getCollisionPoint()[0],
+						0.0,
+						mCollisionClosestRayResultCallback->getCollisionPoint()[2]
+					);
+				}
+			}
+			else
+			{
+				this->selectedBriquetteOnMove->setPosition(
+					this->selectedBriquetteOnMove->getSceneNode()->getPosition()[0]-mouseMove.vector[0],
+					0.0,
+					this->selectedBriquetteOnMove->getSceneNode()->getPosition()[2]-mouseMove.vector[1]
+				);
+			}
 			
-            Ogre::Vector3 vecMouse= mouseMove.vector;
-            this->selectedBriquetteOnMove->setPosition(
-                this->selectedBriquetteOnMove->getSceneNode()->getPosition()[0]-mouseMove.vector[0],
-                0,
-                this->selectedBriquetteOnMove->getSceneNode()->getPosition()[2]-mouseMove.vector[1]
-            );
+			delete mCollisionClosestRayResultCallback;            
+            delete shapeTest;
+            delete bodyTest;
         }
     }
 }
@@ -168,7 +188,7 @@ void SelectionMouse::unselectBriquette()
     }
 }
 
-OgreBulletDynamics::RigidBody * SelectionMouse::getBodyUnderCursorUsingBullet(Ogre::Ray rayTo)
+OgreBulletDynamics::RigidBody * SelectionMouse::getBodyUnderCursorUsingBullet(Ogre::Ray &rayTo)
 {
     Ogre::Camera * curCam = GestCamera::getSingletonPtr()->getCurrentCamera()->getCamera();
     
@@ -196,4 +216,25 @@ OgreBulletDynamics::RigidBody * SelectionMouse::getBodyUnderCursorUsingBullet(Og
     delete mCollisionClosestRayResultCallback;
     
     return bodyResult;
+}
+
+OgreBulletCollisions::CollisionClosestRayResultCallback * SelectionMouse::getResultUnderCursorUsingBullet(Ogre::Ray &rayTo)
+{
+    Ogre::Camera * curCam = GestCamera::getSingletonPtr()->getCurrentCamera()->getCamera();
+    
+    Ogre::Real mouseScreenX = this->posMouse[0] + (this->mousePanel->getWidth() / 2.0);
+    Ogre::Real mouseScreenY = this->posMouse[1] + (this->mousePanel->getHeight() / 2.0);
+        
+    rayTo = curCam->getCameraToViewportRay(mouseScreenX, mouseScreenY);
+    
+    OgreBulletDynamics::DynamicsWorld * world = ListenerCollision::getSingletonPtr()->getWorld();
+    
+    
+    OgreBulletCollisions::CollisionClosestRayResultCallback *
+    mCollisionClosestRayResultCallback = new
+            OgreBulletCollisions::CollisionClosestRayResultCallback(rayTo, world, 5000);
+            
+    world->launchRay (*mCollisionClosestRayResultCallback);
+    
+    return mCollisionClosestRayResultCallback;
 }

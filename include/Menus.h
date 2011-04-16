@@ -1,8 +1,21 @@
+/*!
+ *  \file  GestCamera.h
+ * \brief Ce fichier contient la déclaration de la classe Menus. C'est la classe gérant les événements de la fenêtre.
+ */
 #ifndef __MENUS_H__
 #define __MENUS_H__
 
+/*!
+ * \brief Nombre de briquettes au niveau facile
+ */
 #define NB_BRIQ_SMALL 10
+/*!
+ * \brief Nombre de briquettes au niveau normal
+ */
 #define NB_BRIQ_MEDIUM 100
+/*!
+ * \brief Nombre de briquettes au niveau difficile
+ */
 #define NB_BRIQ_HARD 250
 
 
@@ -13,8 +26,35 @@
 #include "ClassRootSingleton.h"
 
 class PlayerControls;
-class Menus: public ClassRootSingleton<Menus>, public Fenetre
+
+/*!
+ * \class Menus
+ * \brief Classe permettant de gérer les menus.
+ */
+class Menus : public ClassRootSingleton<Menus>, public Fenetre
 {
+    private:
+		/*!
+		 * \class MenusBriquette
+		 * \brief Déclaration d'une classe interne qui gère finement le menus des briquettes pendant le jeu
+		 */
+        class MenusBriquette : public Fenetre
+        {
+            private:
+                int nb_briquetttes_total;
+                int nb_briquettes_en_jeux;
+                CEGUI::Window * addBriquetteWdw;
+            public:
+                MenusBriquette();
+                ~MenusBriquette(){};
+                void setNbMaxBriquette(int nb_max);
+                bool destroyWindow(const CEGUI::EventArgs & evt){return true;};
+                void actionFromPlayer(Controls::Controls key){};
+                CEGUI::Window * creer_menus_briquettes();   
+                void update_Nb_briquette_in_menus();
+                bool addBriquette(const CEGUI::EventArgs & evt);
+        };
+        
     private:
         /*!
         * \brief le renderer de cegui pour ogre
@@ -35,32 +75,20 @@ class Menus: public ClassRootSingleton<Menus>, public Fenetre
          /*!
          * \brief Indique si le menu est ouvert
          */
-        bool menu_open;
-
-    private:
-          // Déclaration d'une classe interne qui gère finement le menus des briquettes pendant le jeu
-        class MenusBriquette: public Fenetre {
-            private:
-                int nb_briquetttes_total;
-                int nb_briquettes_en_jeux;
-                CEGUI::Window * addBriquetteWdw;
-            public:
-                MenusBriquette();
-                ~MenusBriquette(){};
-                void setNbMaxBriquette(int nb_max);
-                bool destroyWindow(const CEGUI::EventArgs & evt){};
-                void actionFromPlayer(Controls::Controls key){};
-                CEGUI::Window * creer_menus_briquettes();   
-                void update_Nb_briquette_in_menus();
-                bool addBriquette(const CEGUI::EventArgs & evt);
-        };
-
-    MenusBriquette menusBriquette;
+        bool menu_open;        
+        /*!
+        * \brief Gère le menus des briquettes durant le jeu
+        */
+		MenusBriquette menusBriquette;
+    
     public:
          /*!
         * \brief Dispatché quand mis en pause ou reprise
         */
         Signal<bool> signalPaused;
+        
+        
+	public:
         /*!
         * \brief constructeur
         */
@@ -133,6 +161,9 @@ class Menus: public ClassRootSingleton<Menus>, public Fenetre
          */
         void cacher_menus();
 
+        /*!
+         * \brief Crée le WindowManager de cegui
+         */
         void creer_root_window(void);
         /*!
          * \brief Crée le menus permettant de choisir le niveau de difficulté au début du jeu
@@ -180,10 +211,8 @@ class Menus: public ClassRootSingleton<Menus>, public Fenetre
         /*!
         * \brief Permet de démarrer le jeux en mode difficile
         */
-        bool startDifficile(const CEGUI::EventArgs & evt);
-
-        
+        bool startDifficile(const CEGUI::EventArgs & evt);        
 };
 
 
-#endif//__MENUS_H__
+#endif //__MENUS_H__

@@ -1,6 +1,6 @@
 /*!
  *  \file  GestCamera.h
- * \brief Ce fichier contient la déclaration de la classe GestCamera. C'est la classe gérant les événements de la fenêtre.
+ * \brief Ce fichier contient la déclaration de la classe GestCamera. C'est la classe gérant les caméras.
  */
 #ifndef __GEST_CAMERA_H__
 #define __GEST_CAMERA_H__

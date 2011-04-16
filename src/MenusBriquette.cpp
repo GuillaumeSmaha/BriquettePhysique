@@ -1,21 +1,20 @@
 #include "Menus.h"
 
-Menus::MenusBriquette::MenusBriquette(){
+Menus::MenusBriquette::MenusBriquette()
+{
 
 
 }
 
-void Menus::MenusBriquette::setNbMaxBriquette(int nb_max){
-    this->nb_briquetttes_total= nb_max;
+void Menus::MenusBriquette::setNbMaxBriquette(int nb_max)
+{
+    this->nb_briquetttes_total = nb_max;
     this->update_Nb_briquette_in_menus();
 }
 
-void Menus::MenusBriquette::update_Nb_briquette_in_menus(){
-    this->addBriquetteWdw->setText(Utils::toString(nb_briquetttes_total-nb_briquettes_en_jeux));
 
-}
-
-CEGUI::Window * Menus::MenusBriquette::creer_menus_briquettes(void){
+CEGUI::Window * Menus::MenusBriquette::creer_menus_briquettes(void)
+{
     CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
 
     //the add briquette button
@@ -32,6 +31,11 @@ CEGUI::Window * Menus::MenusBriquette::creer_menus_briquettes(void){
     tblWin[0]=this->addBriquetteWdw;
 
      return create_std_window((CEGUI::utf8 *)"Controles du jeux", 0.0, 0.85, 1, 0.1,1, tblWin);
+}
+
+void Menus::MenusBriquette::update_Nb_briquette_in_menus(){
+    this->addBriquetteWdw->setText(Utils::toString(nb_briquetttes_total-nb_briquettes_en_jeux));
+
 }
 
 bool Menus::MenusBriquette::addBriquette(const CEGUI::EventArgs & evt){
