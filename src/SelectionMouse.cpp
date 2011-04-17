@@ -43,7 +43,7 @@ void SelectionMouse::createOverlay(Ogre::RenderWindow * win)
 	this->mouseOverlay = OverlayManager::getSingletonPtr()->create("GuiOverlay");
 	this->mouseOverlay->setZOrder(600);
 	this->mousePanel = (Ogre::OverlayElement *)OverlayManager::getSingletonPtr()->createOverlayElement("Panel", "GUIMouse");
-	this->mousePanel->setMaterialName("TargetSights");
+	//this->mousePanel->setMaterialName("TargetSights");
 
 	TexturePtr mouseTex = TextureManager::getSingleton().load("target.png", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
@@ -133,7 +133,17 @@ void SelectionMouse::onMouseMoved(MouseMove_t &mouseMove)
 					);
 				}
 			}
-			
+            //permet que l'objet soit correctement orienté               
+            GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquetteOnMove)
+                ->getSceneNode()->setOrientation(ObjBriquette::defaultOrientation);
+
+            this->selectedBriquetteOnMove->getBulletRigidBody()->getWorldTransform().
+                    setBasis(btMatrix3x3(btQuaternion(0,0,0,1)));
+
+            //ObjBriquette::updateBtBoundingBox(this->selectedBriquetteOnMove);
+
+
+
 			delete mCollisionClosestRayResultCallback;            
             delete shapeTest;
             delete bodyTest;
@@ -176,18 +186,9 @@ void SelectionMouse::selectBriquette()
     {
         this->selectedBriquetteOnMove = body;
         this->selectedBriquettePrevious = body;
-        
         body->getBulletRigidBody()->forceActivationState(false);
         this->clearAllForces();
-        
-        GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquetteOnMove)
-            ->getSceneNode()->setOrientation(ObjBriquette::defaultOrientation);
-
-        this->selectedBriquetteOnMove->getBulletRigidBody()->getWorldTransform().
-                setBasis(btMatrix3x3(btQuaternion(0,0,0,1)));
-
-
-
+ 
         std::cout << "body: " << this->selectedBriquetteOnMove->getName() <<std::endl;
         std::cout << "orientation : "<<GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquetteOnMove)->getSceneNode()->getOrientation()<<std::endl;
         std::cout << "orientation bullet : "<<*(this->selectedBriquetteOnMove->getBulletRigidBody()->getOrientation())<<std::endl;
@@ -203,7 +204,15 @@ void SelectionMouse::unselectBriquette()
     if(this->selectedBriquetteOnMove != NULL)
     {
         //mettre a jour la bounding permet de la placer à la nouvelle position de la briquette
-		ObjBriquette::updateBtBoundingBox(this->selectedBriquetteOnMove);
+	 
+//        GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquetteOnMove)
+//            ->getSceneNode()->setOrientation(ObjBriquette::defaultOrientation);
+//
+//        this->selectedBriquetteOnMove->getBulletRigidBody()->getWorldTransform().
+//                setBasis(btMatrix3x3(btQuaternion(0,0,0,1)));
+//
+	
+        ObjBriquette::updateBtBoundingBox(this->selectedBriquetteOnMove);
         
         
         this->selectedBriquetteOnMove = NULL;
