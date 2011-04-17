@@ -43,7 +43,7 @@ void SelectionMouse::createOverlay(Ogre::RenderWindow * win)
 	this->mouseOverlay = OverlayManager::getSingletonPtr()->create("GuiOverlay");
 	this->mouseOverlay->setZOrder(600);
 	this->mousePanel = (Ogre::OverlayElement *)OverlayManager::getSingletonPtr()->createOverlayElement("Panel", "GUIMouse");
-	//this->mousePanel->setMaterialName("TargetSights");
+	this->mousePanel->setMaterialName("TargetSights");
 
 	TexturePtr mouseTex = TextureManager::getSingleton().load("target.png", ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
@@ -68,9 +68,34 @@ void SelectionMouse::onMouseMoved(MouseMove_t &mouseMove)
 {
 	if(mouseMove.controlMouseId == Controls::NONE || mouseMove.controlMouseId == Controls::SELECT)
 	{
+        //réglage horizontal
 		this->posMouse[0] = this->posMouse[0] + (mouseMove.vector[0]/this->winWidth);
+
+        //Ces conditions permettent d'éviter que la souris ne sorte de la fenetre
+        //C'est nécéssaire car la souris CEGUI est prévu pour ne pas sortir de la fenetre, 
+        //on perd donc la correspondance si l'une sort et pas l'autre
+        if((posMouse[0] )<0-(this->mousePanel->getWidth()/2)){
+            this->posMouse[0]= 0 - this->mousePanel->getWidth()/2;
+        }
+        if((posMouse[0] )>1-(this->mousePanel->getWidth()/2)){
+            this->posMouse[0]= 1 - this->mousePanel->getWidth()/2;
+        }
+
+        //réglage vertical
 		this->posMouse[1] = this->posMouse[1] + (mouseMove.vector[1]/this->winHeight);
-		this->mousePanel->setPosition(posMouse[0], posMouse[1]);
+
+        //Ces conditions permettent d'éviter que la souris ne sorte de la fenetre
+        //C'est nécéssaire car la souris CEGUI est prévu pour ne pas sortir de la fenetre, 
+        //on perd donc la correspondance si l'une sort et pas l'autre
+        if((posMouse[1] )<0-(this->mousePanel->getHeight()/2)){
+            this->posMouse[1]= 0 - this->mousePanel->getHeight()/2;
+        }
+        if((posMouse[1] )>1-(this->mousePanel->getHeight()/2)){
+            this->posMouse[1]= 1 - this->mousePanel->getHeight()/2;
+        }
+
+
+        this->mousePanel->setPosition(posMouse[0], posMouse[1]);
         //permet de déplacer également la souris du menus CEGUI
         Menus::getSingletonPtr()->injectMouseMove (mouseMove.vector[0], mouseMove.vector[1]);
 	}
@@ -153,13 +178,22 @@ void SelectionMouse::selectBriquette()
         this->selectedBriquettePrevious = body;
         
         body->getBulletRigidBody()->forceActivationState(false);
-        //body->getBulletRigidBody()->clearForces();
         this->clearAllForces();
-        GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquetteOnMove)->getSceneNode()->setOrientation(ObjBriquette::defaultOrientation);
+        
+        GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquetteOnMove)
+            ->getSceneNode()->setOrientation(ObjBriquette::defaultOrientation);
+
+        this->selectedBriquetteOnMove->getBulletRigidBody()->getWorldTransform().
+                setBasis(btMatrix3x3(btQuaternion(0,0,0,1)));
+
+
+
+        std::cout << "body: " << this->selectedBriquetteOnMove->getName() <<std::endl;
+        std::cout << "orientation : "<<GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquetteOnMove)->getSceneNode()->getOrientation()<<std::endl;
+        std::cout << "orientation bullet : "<<*(this->selectedBriquetteOnMove->getBulletRigidBody()->getOrientation())<<std::endl;
         //~ this->selectedBriquetteOnMove->getBulletRigidBody()->setOrientation(0.0);
         
-        std::cout << "body: " << this->selectedBriquetteOnMove->getName() <<std::endl;
-        std::cout << "orientation : " << *(this->selectedBriquetteOnMove->getBulletRigidBody()->getOrientation()) << std::endl;
+        //std::cout << "orientation : " << *(this->selectedBriquetteOnMove->getBulletRigidBody()->getOrientation()) << std::endl;
     }
 }
 
