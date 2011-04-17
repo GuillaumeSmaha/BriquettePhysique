@@ -153,8 +153,8 @@ void SelectionMouse::selectBriquette()
         this->selectedBriquettePrevious = body;
         
         body->getBulletRigidBody()->forceActivationState(false);
-        body->getBulletRigidBody()->clearForces();
-        
+        //body->getBulletRigidBody()->clearForces();
+        this->clearAllForces();
         GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquetteOnMove)->getSceneNode()->setOrientation(ObjBriquette::defaultOrientation);
         //~ this->selectedBriquetteOnMove->getBulletRigidBody()->setOrientation(0.0);
         
@@ -228,4 +228,13 @@ OgreBulletCollisions::CollisionClosestRayResultCallback * SelectionMouse::getRes
     world->launchRay (*mCollisionClosestRayResultCallback);
     
     return mCollisionClosestRayResultCallback;
+}
+
+void SelectionMouse::clearAllForces(){
+    std::vector<ObjBriquette *> lstBriquettes = GestObj::getSingletonPtr()->getListBriquettes();
+    std::vector<ObjBriquette *>::iterator it;
+    for(it = lstBriquettes.begin() ; it <lstBriquettes.end() ; it ++){
+        (*it)->getRigidBody()->getBulletRigidBody()->forceActivationState(false);
+        (*it)->getRigidBody()->getBulletRigidBody()->clearForces();
+    }
 }

@@ -130,6 +130,11 @@ class SelectionMouse: public ClassRootSingleton<SelectionMouse>
          * \param rayTo Rayon à lancer
         */
         OgreBulletCollisions::CollisionClosestRayResultCallback * getResultUnderCursorUsingBullet(Ogre::Ray &rayTo);
+        /*!
+         * \brief clear les forces de toutes les briquettes en jeux
+         * Ca permet d'avoir un déplacement de briquettes immédiat.
+        */
+        void clearAllForces();
 };
 
 
