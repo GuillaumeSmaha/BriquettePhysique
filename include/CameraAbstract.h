@@ -6,13 +6,14 @@
 #define __CAMERA_ABSTRACT_H__
 
 #include <Ogre.h>
+#include "ClassRoot.h"
 #include "GestSceneManager.h"
 
 /*!
  * \class CameraAbstract
  * \brief Classe abstraite entre le programme principale et la caméra effectivement utilisé. Elle ne peut donc pas être instancié directement
  */
-class CameraAbstract
+class CameraAbstract : public ClassRoot
 {
 	public:
 

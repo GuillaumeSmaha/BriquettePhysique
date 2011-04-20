@@ -1,29 +1,16 @@
 /*!
- *  \file  GestCamera.h
+ *  \file  Menus.h
  * \brief Ce fichier contient la déclaration de la classe Menus. C'est la classe gérant les événements de la fenêtre.
  */
 #ifndef __MENUS_H__
 #define __MENUS_H__
 
-/*!
- * \brief Nombre de briquettes au niveau facile
- */
-#define NB_BRIQ_SMALL 10
-/*!
- * \brief Nombre de briquettes au niveau normal
- */
-#define NB_BRIQ_MEDIUM 100
-/*!
- * \brief Nombre de briquettes au niveau difficile
- */
-#define NB_BRIQ_HARD 250
-
-
 #include "controls.h"
-#include "PlayerControls.h"
-#include "Application.h"
-#include "Fenetre.h"
 #include "ClassRootSingleton.h"
+#include "Fenetre.h"
+#include "PlayerControls.h"
+#include "GestGame.h"
+
 
 class PlayerControls;
 
@@ -41,18 +28,46 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
         class MenusBriquette : public Fenetre
         {
             private:
-                int nb_briquetttes_total;
-                int nb_briquettes_en_jeux;
+				/*!
+				* \brief Bouton pour ajouter une briquette
+				*/
                 CEGUI::Window * addBriquetteWdw;
+                
             public:
+				/*!
+				* \brief Constructeur
+				*/
                 MenusBriquette();
-                ~MenusBriquette(){};
-                void setNbMaxBriquette(int nb_max);
-                bool destroyWindow(const CEGUI::EventArgs & evt){return true;};
-                void actionFromPlayer(Controls::Controls key){};
-                CEGUI::Window * creer_menus_briquettes();   
+				/*!
+				* \brief Destructeur
+				*/
+                ~MenusBriquette();
+                
+				/*!
+				* \brief Créer le menu des briquettes
+				*/
+                CEGUI::Window * creer_menus_briquettes(); 
+                
+				/*!
+				* \brief Met à jour le nombre de briquette affiché dans le bouton
+				*/
                 void update_Nb_briquette_in_menus();
+				/*!
+				* \brief Ajoute une briquette
+				* \param evt Evenement CEGUI
+				*/
                 bool addBriquette(const CEGUI::EventArgs & evt);
+                
+				/*!
+				* \brief Action à effectuer lors de la destruction de la fenetre
+				* \param evt Evenement CEGUI
+				*/
+                bool destroyWindow(const CEGUI::EventArgs & evt);
+				/*!
+				* \brief Action du joueur
+				* \param key Touche appuyer par le joueur
+				*/
+                void actionFromPlayer(Controls::Controls key); 
         };
         
     private:
@@ -79,7 +94,7 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
         /*!
         * \brief Gère le menus des briquettes durant le jeu
         */
-		MenusBriquette menusBriquette;
+		MenusBriquette * menusBriquette;
     
     public:
          /*!
@@ -102,6 +117,10 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
          * \brief Lance l'affichage des différents éléments du menus lors de l'activation de celui ci
          */
         void afficher_menus();
+        /*!
+         * \brief Retire le menus lorsque l'on le quitte.
+         */
+        void cacher_menus();
 
         /*!
          * \brief Permet de déplacer la souris en lui injectant le vecteur x, y.
@@ -116,63 +135,29 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
 
     private:
         /*!
-         * \brief Permet de récupérer appuis sur touche dans cegui
-        */
-        void keyPressed(const OIS::KeyEvent &evt);
-
-        /*!
-         * \brief Permet de récupérer les relachements d'une touche dans cegui
-        */
-        void keyReleased(const OIS::KeyEvent &evt);
-
-
-        /*!
-         * \brief Permet de récupérer les relachement de touche dans cegui
-        */
-        void keyReleased(OIS::MouseButtonID evt);
-
-        /*!
-         * \brief Permet de récupérer les clics de souris dans cegui
-        */
-        void mousePressed(OIS::MouseButtonID evt);
-
-        /*!
-         * \brief Permet de récupérer les relachements de la souris dans cegui
-        */
-        void mouseReleased(OIS::MouseButtonID evt);
-
-        /*!
-         * \brief Permet de récupérer les déplacements de la souris
-        */
-        void mouseMoved(MouseMove_t &mouse);
-
-        /*!
-         * \brief Permet de convertir les clics de souris pour cegui (utilisé par mousePressed).
-        */
-        CEGUI::MouseButton convertButton(OIS::MouseButtonID evt);
-
-        /*!
         * \brief Réagis aux actions de player, en particulier pour gérer l'ouverture/fermeture du menus
+        * \param key Touche appuyé par le joueur
         */
-
         void actionFromPlayer(Controls::Controls key);
-        /*!
-         * \brief Retire le menus lorsque l'on le quitte.
-         */
-        void cacher_menus();
-
+        
         /*!
          * \brief Crée le WindowManager de cegui
          */
         void creer_root_window(void);
+        
+        
         /*!
          * \brief Crée le menus permettant de choisir le niveau de difficulté au début du jeu
          */
         void creer_demarrage_window(void);
+        
+        
         /*!
          * \brief Crée le menus de gestion des briquettes en jeu
          */
         void creer_menus_briquettes();
+        
+        
         /*!
          * \brief Affiche le menus principal
          */
@@ -181,29 +166,26 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
          * \brief Cache le menus principal
          */
         void cacher_main_window(void);
+        
 
         /*!
         * \brief Permet d'afficher un curseur de souris
         */
         void creer_souris(void);
-
         /*!
          * \brief Affiche la souris
          */
         void afficher_souris(void);
-
         /*!
          * \brief cache la souris
         */
         void cacher_souris(void);
-        /*!
-        * \brief Permet de supprimer une fenetre (appeler par create_std_window, ne devrait pas être utilisé ailleurs).
-        */
-        bool destroyWindow(const CEGUI::EventArgs & evt);
+        
+        
          /*!
         * \brief Permet de démarrer le jeux en mode facile
         */       
-        bool startFacile(const CEGUI::EventArgs & evt);
+        bool startEasy(const CEGUI::EventArgs & evt);
         /*!
         * \brief Permet de démarrer le jeux en mode moyen
         */
@@ -211,7 +193,47 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
         /*!
         * \brief Permet de démarrer le jeux en mode difficile
         */
-        bool startDifficile(const CEGUI::EventArgs & evt);        
+        bool startHard(const CEGUI::EventArgs & evt); 
+        
+        
+        /*!
+        * \brief action lors de la fermeture de la fenetre avec le bouton fermer
+        */
+        bool actionButtonClose(const CEGUI::EventArgs & evt);
+        /*!
+        * \brief Permet de supprimer une fenetre (appeler par create_std_window, ne devrait pas être utilisé ailleurs).
+        */
+        bool destroyWindow(const CEGUI::EventArgs & evt);
+        
+        /*!
+         * \brief Permet de récupérer appuis sur touche dans cegui
+        */
+        void keyPressed(const OIS::KeyEvent &evt);
+        /*!
+         * \brief Permet de récupérer les relachements d'une touche dans cegui
+        */
+        void keyReleased(const OIS::KeyEvent &evt);
+        /*!
+         * \brief Permet de récupérer les relachement de touche dans cegui
+        */
+        void keyReleased(OIS::MouseButtonID evt);
+        /*!
+         * \brief Permet de récupérer les clics de souris dans cegui
+        */
+        void mousePressed(OIS::MouseButtonID evt);
+        /*!
+         * \brief Permet de récupérer les relachements de la souris dans cegui
+        */
+        void mouseReleased(OIS::MouseButtonID evt);
+        /*!
+         * \brief Permet de récupérer les déplacements de la souris
+        */
+        void mouseMoved(MouseMove_t &mouse);
+
+        /*!
+         * \brief Permet de convertir les clics de souris pour cegui (utilisé par mousePressed).
+        */
+        CEGUI::MouseButton convertButton(OIS::MouseButtonID evt);       
 };
 
 

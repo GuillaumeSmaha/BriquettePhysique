@@ -6,7 +6,7 @@ CEGUI::Window * Fenetre::create_std_window(CEGUI::utf8 * name, float posX, float
 {
     //création de la nouvelle fenetre
     CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
-    CEGUI::Window * Wdw= wmgr.createWindow("DefaultWindow", "Briquette/"+(CEGUI::String)name+"main");
+    CEGUI::Window * Wdw = wmgr.createWindow("DefaultWindow", "Briquette/"+(CEGUI::String)name+"main");
 
     //Titlebar
     CEGUI::Window * titlebar = wmgr.createWindow("TaharezLook/Titlebar", "Briquette/titlebar"+(CEGUI::String)name);
@@ -35,11 +35,16 @@ CEGUI::Window * Fenetre::create_std_window(CEGUI::utf8 * name, float posX, float
     quit->setSize(CEGUI::UVector2(CEGUI::UDim(0.2, 0), CEGUI::UDim(0.14,0)));
     quit->setPosition( UVector2( UDim( 0.8, 0.0f ), UDim( 0.85, 0.0f) ) );
     //menuBackground->addChildWindow(quit);
-    quit->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Fenetre::destroyWindow, this));
+    quit->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Fenetre::actionButtonClose, this));
     menuBackground->addChildWindow(quit);
     Wdw->addChildWindow(menuBackground);
     
     return Wdw;
 }
 
+
+bool Fenetre::actionButtonClose(const CEGUI::EventArgs & evt)
+{
+	return this->destroyWindow(evt);
+}
 

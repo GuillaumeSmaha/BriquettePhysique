@@ -30,6 +30,7 @@ bool ListenerFrame::frameRenderingQueued(const Ogre::FrameEvent& evt)
     }
 
     this->signalFrameRendering.dispatch();
+    
 	return true;
 }
 
@@ -51,8 +52,8 @@ void ListenerFrame::shutdown()
     this->shutdown(NULL);
 
 }
+
 void ListenerFrame::shutdown(void*)
 {
     this->closed = true;
-
 }

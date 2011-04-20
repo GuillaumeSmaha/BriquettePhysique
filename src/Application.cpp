@@ -18,7 +18,6 @@ Application::Application() : ClassRootSingleton<Application>()
 	this->pluginsCfg = "plugins.cfg";
 #endif
 
-	this->shutDown = false;
 	this->isStatsOn = false;
 
 }
@@ -86,8 +85,14 @@ bool Application::start()
 	// create the scene graph
 	this->initSceneGraph();
 
+	// init the scene menus
+	this->initSceneMenus();
+
+	// init the scene base
+	this->initSceneBase();
+
 	// init the scene
-	this->initScene();
+	//~ this->initScene();
 
 	// activate debugging overlay
 	this->debugOverlay = OverlayManager::getSingleton().getByName("Core/DebugOverlay");
@@ -144,6 +149,9 @@ void Application::initListeners()
     //create the collision system
     ListenerCollision::createSingleton();
     
+	//Create GestGame Singleton
+	GestGame::createSingleton();
+    
 	//Create GestSnapShoot Singleton
 	GestSnapShoot::createSingleton();
 
@@ -155,7 +163,7 @@ void Application::initListeners()
 	ListenerFrame::getSingletonPtr()->signalFrameRendering.add(&ListenerKeyboard::capture, ListenerKeyboard::getSingletonPtr());
 	ListenerFrame::getSingletonPtr()->signalFrameRendering.add(&ListenerMouse::capture, ListenerMouse::getSingletonPtr());
 
-    PlayerControls::getSingletonPtr()->signalKeyPressed.add(&Application::onKeyPressed, this);
+    PlayerControls::getSingletonPtr()->signalKeyPressed.add(&GestGame::onKeyPressed, GestGame::getSingletonPtr());
     
 	//Create Menus Singleton
 	Menus::createSingleton();
@@ -169,33 +177,25 @@ void Application::initSceneGraph()
 	GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode(NODE_NAME_GROUPE_TESTS);
 }
 
-void Application::initScene()
+void Application::initSceneMenus()
 {
-    //GestSceneManager::getSceneManager()->setAmbientLight(Ogre::ColourValue(1.0, 1.0, 1.0));
-	//GestSceneManager::getSceneManager()->setAmbientLight(Ogre::ColourValue::White);
+    //Menus
+    Menus::getSingletonPtr()->afficher_menus();
+}
 
-    GestSceneManager::getSceneManager()->createLight("MainLight");
-    //Ogre::Light * l = GestSceneManager::getSceneManager()->createLight("MainLight");
-    //l->setPosition(0,0,0);
-    //Ogre::SceneNode *nodeLight1 = GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode("NodeLight1");
-    //nodeLight1->attachObject(l);
-
+void Application::initSceneBase()
+{
     GestObj * gestObj = GestObj::getSingletonPtr();
     
     ObjTable * tableBackground = new ObjTable(2500.0, -500.0);
     ObjTable * table = new ObjTable();
+    
+	tableBackground->getEntity()->setVisible(false);
+	table->getEntity()->setVisible(false);
    
     gestObj->setTableBackground(tableBackground);
     gestObj->setTable(table);
     
-    for(int i = 0 ; i < 1 ; i++)
-	{
-		for(int j = 0 ; j < 1 ; j++)
-		{
-			Ogre::Vector3 vect(i, j, 50.0);
-			gestObj->addBriquette(vect);
-		}
-    }
     
     CameraTarget * gestCamera = new CameraTarget("mainCam", GestObj::getSingletonPtr()->getTable()->getNode());
     
@@ -203,10 +203,20 @@ void Application::initScene()
     
     GestCamera::getSingletonPtr()->addCamera(gestCamera);
     SelectionMouse::createSingleton(ListenerWindow::getSingletonPtr()->getRenderWindow());
+}
 
-    //menus
-    Menus * menus = Menus::getSingletonPtr();
-    menus->afficher_menus();
+void Application::initScene()
+{
+    GestSceneManager::getSceneManager()->createLight("MainLight");
+    //Ogre::Light * l = GestSceneManager::getSceneManager()->createLight("MainLight");
+    //l->setPosition(0,0,0);
+    //Ogre::SceneNode *nodeLight1 = GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode("NodeLight1");
+    //nodeLight1->attachObject(l);
+    
+    GestObj * gestObj = GestObj::getSingletonPtr();
+    
+	gestObj->getTable()->getEntity()->setVisible(true);
+	gestObj->getTableBackground()->getEntity()->setVisible(true);    
 }
 
 
@@ -255,24 +265,4 @@ void Application::showDebugOverlay(bool show)
 		else
 			this->debugOverlay->hide();
 	}
-}
-
-void Application::killApplication()
-{
-    this->setShutDown(true);
-    ListenerFrame::getSingletonPtr()->shutdown();
-}
-
-
-
-void Application::onKeyPressed(Controls::Controls key){
-    switch(key)
-    {
-        case Controls::QUIT :
-            this->killApplication();
-            break;
-
-        default:
-            break;
-    }
 }

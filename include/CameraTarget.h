@@ -17,7 +17,7 @@ class GestSceneManager;
  * \class CameraTarget
  * \brief Classe permettant de gérer une caméra libre.
  */
-class CameraTarget : public CameraAbstract, public ClassRoot
+class CameraTarget : public CameraAbstract
 {
 
     private:

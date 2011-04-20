@@ -13,49 +13,49 @@ namespace Controls
 		///None (Don't delete !!!)
 		NONE = 0,
 		///Quit the application
-		QUIT = 1,
+		QUIT,
 		///Move the camera at right
-		CAM_MOVE_RIGHT = 2,
+		CAM_MOVE_RIGHT,
 		///Move the camera at left
-		CAM_MOVE_LEFT = 3,
+		CAM_MOVE_LEFT,
 		///Move the camera at up
-		CAM_MOVE_UP = 4,
+		CAM_MOVE_UP,
 		///Move the camera at down
-		CAM_MOVE_DOWN = 5,
+		CAM_MOVE_DOWN,
 		///Move the camera at bottom
-		CAM_ZOOM_IN = 6,
+		CAM_ZOOM_IN,
 		///Move the camera at behind
-		CAM_ZOOM_OUT = 7,
+		CAM_ZOOM_OUT,
 		///Rotate the camera left
-		CAM_ROTATE_LEFT = 8,
+		CAM_ROTATE_LEFT,
 		///Rotate right
-		CAM_ROTATE_RIGHT = 9,
+		CAM_ROTATE_RIGHT,
 		///Rotate the camera left
-		CAM_ROTATE_UP = 10,
+		CAM_ROTATE_UP,
 		///Rotate right
-		CAM_ROTATE_DOWN = 11,
+		CAM_ROTATE_DOWN,
 		///Open the menu
-		OPEN_MENU = 12,
+		OPEN_MENU,
 		///Switch with the next camera
-		SWITCH_NEXT_CAMERA = 13,
+		SWITCH_NEXT_CAMERA,
 		///Switch with the previous camera
-		SWITCH_PREV_CAMERA = 14,
+		SWITCH_PREV_CAMERA,
 		///Select an object
-		SELECT = 15,
+		SELECT,
 		///Undo a modification
-		UNDO = 16,
+		UNDO,
 		///Redo a modification
-		REDO = 17,
+		REDO,
 		///Delete an object
-		SUPPR = 18,
+		SUPPR,
 		///Save the objects
-		SAVE = 19,
+		SAVE,
         ///Mouse move to rotate the camera
-        MOUSE_CAMERA_ROTATE = 20,
+        MOUSE_CAMERA_ROTATE,
         ///Mouse move to zoom the camera
-        MOUSE_CAMERA_ZOOM = 21,
+        MOUSE_CAMERA_ZOOM,
         ///Define if the physic engine (bullet) is started
-        SWITCH_BULLET_STATE = 22
+        SWITCH_BULLET_STATE
 	};
 }
 

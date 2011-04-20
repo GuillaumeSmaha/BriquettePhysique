@@ -56,7 +56,7 @@ void SelectionMouse::createOverlay(Ogre::RenderWindow * win)
 	this->posMouse[0] = 0.5-mousePanel->getWidth()/2;        //correspond à la position horizontale
 	this->posMouse[1] = 0.5-mousePanel->getHeight()/2;        //correspond à la position verticale
 	this->mousePanel->setPosition(this->posMouse[0], this->posMouse[1]);
-
+  
 	Ogre::OverlayContainer * mouseContainer = (Ogre::OverlayContainer*)OverlayManager::getSingletonPtr()->createOverlayElement("Panel", "GUIContainer");
 	this->mouseOverlay->add2D(mouseContainer);
 	mouseContainer->addChild(this->mousePanel);
@@ -74,32 +74,35 @@ void SelectionMouse::onMouseMoved(MouseMove_t &mouseMove)
         //Ces conditions permettent d'éviter que la souris ne sorte de la fenetre
         //C'est nécéssaire car la souris CEGUI est prévu pour ne pas sortir de la fenetre, 
         //on perd donc la correspondance si l'une sort et pas l'autre
-        if((posMouse[0] )<0-(this->mousePanel->getWidth()/2)){
-            this->posMouse[0]= 0 - this->mousePanel->getWidth()/2;
+        if(posMouse[0] < (0.0 - this->mousePanel->getWidth() / 2.0))
+        {
+            this->posMouse[0] = 0.0 - this->mousePanel->getWidth()/2;
         }
-        if((posMouse[0] )>1-(this->mousePanel->getWidth()/2)){
-            this->posMouse[0]= 1 - this->mousePanel->getWidth()/2;
+        if(posMouse[0] > (1.0 - this->mousePanel->getWidth() / 2.0))
+        {
+            this->posMouse[0] = 1.0 - this->mousePanel->getWidth()/2;
         }
 
         //réglage vertical
-		this->posMouse[1] = this->posMouse[1] + (mouseMove.vector[1]/this->winHeight);
+		this->posMouse[1] = this->posMouse[1] + (mouseMove.vector[1] / this->winHeight);
 
         //Ces conditions permettent d'éviter que la souris ne sorte de la fenetre
         //C'est nécéssaire car la souris CEGUI est prévu pour ne pas sortir de la fenetre, 
         //on perd donc la correspondance si l'une sort et pas l'autre
-        if((posMouse[1] )<0-(this->mousePanel->getHeight()/2)){
-            this->posMouse[1]= 0 - this->mousePanel->getHeight()/2;
+        if(posMouse[1] < (0.0 - this->mousePanel->getHeight() / 2.0))
+        {
+            this->posMouse[1] = 0.0 - this->mousePanel->getHeight() / 2.0;
         }
-        if((posMouse[1] )>1-(this->mousePanel->getHeight()/2)){
-            this->posMouse[1]= 1 - this->mousePanel->getHeight()/2;
+        if(posMouse[1] > (1.0 - this->mousePanel->getHeight() / 2.0))
+        {
+            this->posMouse[1] = 1.0 - this->mousePanel->getHeight() / 2.0;
         }
-
 
         this->mousePanel->setPosition(posMouse[0], posMouse[1]);
-        //permet de déplacer également la souris du menus CEGUI
-        Menus::getSingletonPtr()->injectMouseMove (mouseMove.vector[0], mouseMove.vector[1]);
-	}
 	
+		//permet de déplacer également la souris du menus CEGUI
+		Menus::getSingletonPtr()->injectMouseMove(mouseMove.vector[0], mouseMove.vector[1]);
+	}
 	
 	if(mouseMove.controlMouseId == Controls::SELECT)
 	{
@@ -179,23 +182,26 @@ void SelectionMouse::onKeyReleased(Controls::Controls key)
 
 void SelectionMouse::selectBriquette()
 {
-    Ogre::Ray rayon;
-    OgreBulletDynamics::RigidBody * body = getBodyUnderCursorUsingBullet(rayon);
-   
-    if((body != NULL) && (!body->isStaticObject()))
-    {
-        this->selectedBriquetteOnMove = body;
-        this->selectedBriquettePrevious = body;
-        body->getBulletRigidBody()->forceActivationState(false);
-        this->clearAllForces();
- 
-        std::cout << "body: " << this->selectedBriquetteOnMove->getName() <<std::endl;
-        std::cout << "orientation : "<<GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquetteOnMove)->getSceneNode()->getOrientation()<<std::endl;
-        std::cout << "orientation bullet : "<<*(this->selectedBriquetteOnMove->getBulletRigidBody()->getOrientation())<<std::endl;
-        //~ this->selectedBriquetteOnMove->getBulletRigidBody()->setOrientation(0.0);
-        
-        //std::cout << "orientation : " << *(this->selectedBriquetteOnMove->getBulletRigidBody()->getOrientation()) << std::endl;
-    }
+	if(GestGame::getSingletonPtr()->getGameLauched())
+	{
+		Ogre::Ray rayon;
+		OgreBulletDynamics::RigidBody * body = getBodyUnderCursorUsingBullet(rayon);
+	   
+		if((body != NULL) && (!body->isStaticObject()))
+		{
+			this->selectedBriquetteOnMove = body;
+			this->selectedBriquettePrevious = body;
+			body->getBulletRigidBody()->forceActivationState(false);
+			this->clearAllForces();
+	 
+			std::cout << "body: " << this->selectedBriquetteOnMove->getName() <<std::endl;
+			std::cout << "orientation : "<<GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquetteOnMove)->getSceneNode()->getOrientation()<<std::endl;
+			std::cout << "orientation bullet : "<<*(this->selectedBriquetteOnMove->getBulletRigidBody()->getOrientation())<<std::endl;
+			//~ this->selectedBriquetteOnMove->getBulletRigidBody()->setOrientation(0.0);
+			
+			//std::cout << "orientation : " << *(this->selectedBriquetteOnMove->getBulletRigidBody()->getOrientation()) << std::endl;
+		}
+	}
 }
 
 

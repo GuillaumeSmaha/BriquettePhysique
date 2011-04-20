@@ -10,7 +10,8 @@ Menus::Menus() : ClassRootSingleton<Menus>()
     this->pControl = PlayerControls::getSingletonPtr();
 
     this->mainWdw = NULL;
-
+    this->menusBriquette = NULL;
+    
    //démarre le menusRenderer
     menusRenderer = &CEGUI::OgreRenderer::bootstrapSystem();
 
@@ -36,13 +37,11 @@ Menus::Menus() : ClassRootSingleton<Menus>()
 
     //enregistre les signaux sur PlayerControls (même si réagit uniquement à l'appui sur la touche permettant d'ouvrir le menus
     pControl->signalKeyPressed.add(&Menus::actionFromPlayer, this);
-    this->menu_open=false;
+    this->menu_open = false;
     creer_root_window();
     creer_souris();
-    //this->menusBriquette= new MenusBriquette();
-    this->mainWdw->addChildWindow(this->menusBriquette.creer_menus_briquettes());
-    creer_demarrage_window();
-    //creer_menus_start();
+    
+	creer_demarrage_window();
 }
 
 Menus::~Menus()
@@ -63,31 +62,33 @@ Menus::~Menus()
     //~ CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
     //~ wmgr.destroyAllWindows(); // Executer à l'appel du return dans main.cpp (eh oui etrange xD)
     //~ CEGUI::OgreRenderer::destroySystem(); // Executer à l'appel du return dans main.cpp (eh oui etrange xD)
-}
-
-bool Menus::destroyWindow(const CEGUI::EventArgs & evt)
-{
-    if(mainWdw ==( static_cast<const CEGUI::WindowEventArgs&>(evt).window->getParent()->getParent()))
-    {
-        actionFromPlayer(Controls::OPEN_MENU);
-        signalPaused.dispatch(false);
-    }
-    else
-    {
-        CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
-        wmgr.destroyWindow((static_cast<const CEGUI::WindowEventArgs&>(evt)).window->getParent()->getParent());
-    }
     
-    return true;
+    if(this->menusBriquette != NULL)
+		delete this->menusBriquette;
 }
 
 
-void Menus::keyPressed(const OIS::KeyEvent &evt)
+void Menus::afficher_menus()
 {
-    CEGUI::System &sys = CEGUI::System::getSingleton();
-    sys.injectKeyDown(evt.key);
-    sys.injectChar(evt.text);
+    afficher_souris();
+    afficher_main_window();
+    signalPaused.dispatch(true);
 }
+
+void Menus::cacher_menus()
+{
+    cacher_souris();
+    cacher_main_window();
+    signalPaused.dispatch(false);
+}
+
+void Menus::injectMouseMove(float delta_x, float delta_y)
+{
+    CEGUI::System::getSingleton().injectMouseMove(delta_x, delta_y);
+}
+
+
+
 
 void Menus::actionFromPlayer(Controls::Controls key)
 {
@@ -115,58 +116,75 @@ void Menus::actionFromPlayer(Controls::Controls key)
 }
 
 
-void Menus::afficher_menus()
-{
-    afficher_souris();
-    afficher_main_window();
-    signalPaused.dispatch(true);
-}
-
-void Menus::cacher_menus()
-{
-    cacher_souris();
-    cacher_main_window();
-    signalPaused.dispatch(false);
-}
-
-void Menus::keyReleased(const OIS::KeyEvent &evt)
-{
-    CEGUI::System::getSingleton().injectKeyUp(evt.key);
-}
-
-void Menus::mousePressed(OIS::MouseButtonID evt)
-{
-    CEGUI::System::getSingleton().injectMouseButtonDown(convertButton(evt));
-}
-void Menus::mouseReleased(OIS::MouseButtonID evt)
-{
-    CEGUI::System::getSingleton().injectMouseButtonUp(convertButton(evt));
-}
-
-
-CEGUI::MouseButton Menus::convertButton(OIS::MouseButtonID evt)
-{
-    switch (evt)
-    {
-        case OIS::MB_Left:
-            return CEGUI::LeftButton;
-
-        case OIS::MB_Right:
-            return CEGUI::RightButton;
-
-        case OIS::MB_Middle:
-            return CEGUI::MiddleButton;
-
-        default:
-            return CEGUI::LeftButton;
-    }
-}
-
 void Menus::creer_root_window(void)
 {
     CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
-    this->mainWdw= wmgr.createWindow ("DefaultWindow","Briquette/root");
+    this->mainWdw = wmgr.createWindow ("DefaultWindow","Briquette/root");
 }
+
+
+void Menus::creer_demarrage_window(void)
+{
+
+    CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
+
+    //the easy button
+    CEGUI::Window * facileWdw = wmgr.createWindow("SleekSpace/Button", "Briquette/facileButton");
+    facileWdw->setText("Facile");
+    facileWdw->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.3,0)));
+    facileWdw->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.05, 0.0f ), CEGUI::UDim( 0.32, 0.0f) ) );
+    facileWdw->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Menus::startEasy, this));
+
+    //the medium button
+    CEGUI::Window * mediumWdw = wmgr.createWindow("SleekSpace/Button", "Briquette/mediumButton");
+    mediumWdw->setText("Facile");
+    mediumWdw->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.3,0)));
+    mediumWdw->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.25, 0.0f ), CEGUI::UDim( 0.32, 0.0f) ) );
+    mediumWdw->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Menus::startMedium, this));
+
+    //the hard button
+    CEGUI::Window * hardWdw = wmgr.createWindow("SleekSpace/Button", "Briquette/QuitButton");
+    hardWdw->setText("Difficile");
+    hardWdw->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.3,0)));
+    hardWdw->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.45, 0.0f ), CEGUI::UDim( 0.32, 0.0f) ) );
+    hardWdw->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Menus::startHard, this));
+
+
+
+    CEGUI::Window * tblWin[3];
+    tblWin[0] = facileWdw;
+    tblWin[1] = mediumWdw;
+    tblWin[2] = hardWdw;
+
+    this->mainWdw->addChildWindow(create_std_window((CEGUI::utf8 *)"Le jeux des briquettes", 0.1, 0.05, 0.8, 0.2,3, tblWin));
+
+    this->mainWdw->hide();
+}
+
+
+void Menus::creer_menus_briquettes(void)
+{
+	this->menusBriquette = new Menus::MenusBriquette();
+   
+    this->mainWdw->addChildWindow(this->menusBriquette->creer_menus_briquettes());
+}
+
+
+
+
+void Menus::cacher_main_window(void)
+{
+    mainWdw->hide();
+}
+
+void Menus::afficher_main_window(void)
+{
+    CEGUI::System::getSingleton().setGUISheet(this->mainWdw);
+
+    mainWdw->show();
+}
+
+
 
 void Menus::creer_souris(void)
 {
@@ -186,65 +204,16 @@ void Menus::cacher_souris(void)
 }
 
 
-void Menus::creer_demarrage_window(void)
+
+
+bool Menus::startEasy(const CEGUI::EventArgs & evt)
 {
-
-    CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
-
-    //the easy button
-    CEGUI::Window * facileWdw = wmgr.createWindow("SleekSpace/Button", "Briquette/facileButton");
-    facileWdw->setText("Facile");
-    facileWdw->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.3,0)));
-    facileWdw->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.05, 0.0f ), CEGUI::UDim( 0.32, 0.0f) ) );
-    facileWdw->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Menus::startFacile, this));
-
-    //the medium button
-    CEGUI::Window * mediumWdw = wmgr.createWindow("SleekSpace/Button", "Briquette/mediumButton");
-    mediumWdw->setText("Facile");
-    mediumWdw->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.3,0)));
-    mediumWdw->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.25, 0.0f ), CEGUI::UDim( 0.32, 0.0f) ) );
-    mediumWdw->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Menus::startMedium, this));
-
-    //the hard button
-    CEGUI::Window * hardWdw = wmgr.createWindow("SleekSpace/Button", "Briquette/QuitButton");
-    hardWdw->setText("Difficile");
-    hardWdw->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.3,0)));
-    hardWdw->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.45, 0.0f ), CEGUI::UDim( 0.32, 0.0f) ) );
-    hardWdw->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Menus::startDifficile, this));
-
-
-
-    CEGUI::Window * tblWin[3];
-    tblWin[0]=facileWdw;
-    tblWin[1]=mediumWdw;
-    tblWin[2]=hardWdw;
-
-    this->mainWdw->addChildWindow(
-        create_std_window((CEGUI::utf8 *)"Le jeux des briquettes", 0.1, 0.05, 0.8, 0.2,3, tblWin));
-
-    this->mainWdw->hide();
-}
-
-
-
-void Menus::cacher_main_window(void)
-{
-    mainWdw->hide();
-}
-
-void Menus::afficher_main_window(void)
-{
-    CEGUI::System::getSingleton().setGUISheet(this->mainWdw);
-
-    mainWdw->show();
-}
-
-
-bool Menus::startFacile(const CEGUI::EventArgs & evt)
-{
-    Application * app = Application::getSingletonPtr();
-    this->menusBriquette.setNbMaxBriquette(NB_BRIQ_SMALL);
-    app->startFacile();
+    GestGame::getSingletonPtr()->setDifficulty(GestGame::DIFFICULTY_EASY);
+    
+    creer_menus_briquettes();
+    
+    this->menusBriquette->update_Nb_briquette_in_menus();
+    
     destroyWindow(evt);
     //static_cast<const CEGUI::WindowEventArgs&>(evt).window->getParent()->getParent()->hide();
     return true;
@@ -252,25 +221,95 @@ bool Menus::startFacile(const CEGUI::EventArgs & evt)
 
 bool Menus::startMedium(const CEGUI::EventArgs & evt)
 {
-    Application * app = Application::getSingletonPtr();
-    this->menusBriquette.setNbMaxBriquette(NB_BRIQ_MEDIUM);
-    app->startMedium();
+    GestGame::getSingletonPtr()->setDifficulty(GestGame::DIFFICULTY_MEDIUM);
+    
+    creer_menus_briquettes();
+    
+    this->menusBriquette->update_Nb_briquette_in_menus();
+    
     destroyWindow(evt);
     //static_cast<const CEGUI::WindowEventArgs&>(evt).window->getParent()->getParent()->hide();
     return true;
 }
 
-bool Menus::startDifficile(const CEGUI::EventArgs & evt)
+bool Menus::startHard(const CEGUI::EventArgs & evt)
 {
-    Application * app = Application::getSingletonPtr();
-    this->menusBriquette.setNbMaxBriquette(NB_BRIQ_HARD);
-    app->startDifficile();
+    GestGame::getSingletonPtr()->setDifficulty(GestGame::DIFFICULTY_HARD);
+    
+    creer_menus_briquettes();
+    
+    this->menusBriquette->update_Nb_briquette_in_menus();
+    
     destroyWindow(evt);
     //static_cast<const CEGUI::WindowEventArgs&>(evt).window->getParent()->getParent()->hide();
     return true;
 }
 
-void Menus::injectMouseMove (float delta_x, float delta_y)
+
+
+bool Menus::actionButtonClose(const CEGUI::EventArgs & evt)
 {
-    CEGUI::System::getSingleton().injectMouseMove(delta_x, delta_y);
+	bool res = this->destroyWindow(evt);
+	GestGame::getSingletonPtr()->quitGame();
+	return res;
+}
+
+
+bool Menus::destroyWindow(const CEGUI::EventArgs & evt)
+{
+    if(this->mainWdw == (static_cast<const CEGUI::WindowEventArgs&>(evt).window->getParent()->getParent()))
+    {
+        actionFromPlayer(Controls::OPEN_MENU);
+        signalPaused.dispatch(false);
+    }
+    else
+    {
+        CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
+        wmgr.destroyWindow((static_cast<const CEGUI::WindowEventArgs&>(evt)).window->getParent()->getParent());
+    }
+    
+    return true;
+}
+
+
+
+
+void Menus::keyPressed(const OIS::KeyEvent &evt)
+{
+    CEGUI::System &sys = CEGUI::System::getSingleton();
+    sys.injectKeyDown(evt.key);
+    sys.injectChar(evt.text);
+}
+
+void Menus::keyReleased(const OIS::KeyEvent &evt)
+{
+    CEGUI::System::getSingleton().injectKeyUp(evt.key);
+}
+
+void Menus::mousePressed(OIS::MouseButtonID evt)
+{
+    CEGUI::System::getSingleton().injectMouseButtonDown(convertButton(evt));
+}
+
+void Menus::mouseReleased(OIS::MouseButtonID evt)
+{
+    CEGUI::System::getSingleton().injectMouseButtonUp(convertButton(evt));
+}
+
+CEGUI::MouseButton Menus::convertButton(OIS::MouseButtonID evt)
+{
+    switch (evt)
+    {
+        case OIS::MB_Left:
+            return CEGUI::LeftButton;
+
+        case OIS::MB_Right:
+            return CEGUI::RightButton;
+
+        case OIS::MB_Middle:
+            return CEGUI::MiddleButton;
+
+        default:
+            return CEGUI::LeftButton;
+    }
 }

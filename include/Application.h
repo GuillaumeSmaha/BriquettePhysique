@@ -71,28 +71,12 @@ class Application : public ClassRootSingleton<Application>
 		* \brief Définit si on affiche les stats
 		*/
 		bool isStatsOn;
-    	/*!
-		* \brief Définit si on arrête le jeu
-		*/
-		bool shutDown;
 		
     	/*!
 		* \brief Identifiant du viewport
 		*/
 		int idViewport;	
-		
-	private:
-         /*!
-         * \brief Permet de terminer le programme
-        */
-        void killApplication();
-
-	    /*!
-		* \brief Permet de recevoir un evènement quand une touche est appuyé
-        *   Ici, permet de fermer l'application
-		*/	
-        void onKeyPressed(Controls::Controls key);
-        
+		        
         
     public:
         /*!
@@ -125,19 +109,25 @@ class Application : public ClassRootSingleton<Application>
         void initSceneGraph();
 
          /*!
-         * \brief charge la scène
+         * \brief Charge la scène de base
+        */
+        void initSceneBase();
+
+         /*!
+         * \brief Charge les menus
+        */
+        void initSceneMenus();
+
+         /*!
+         * \brief Charge la scène
         */
         void initScene();
-
-        void startFacile(){};
-        void startMedium(){};
-        void startDifficile(){};
 
         /*!
          * \brief mise à jour des statistiques (nb frames...)
         */
         void updateStats(void *);
-        
+                
         
         //Getter/Setter
         
@@ -165,24 +155,6 @@ class Application : public ClassRootSingleton<Application>
 			return this->debugOverlay;
 		}
 		
-		/*!
-		* \brief [Setter] Define if the application die
-		* \return Set the value of shutdown
-		*/	
-        void setShutDown(bool shutDown)
-        {
-            this->shutDown=shutDown;
-        }
-
-		/*!
-		* \brief [Getter] Returns if the application die
-		* \return Get the value of shutdown
-		*/	
-        bool getShutDown()
-        {
-            return shutDown;
-        }
-
 };
 
 #endif 

@@ -5,6 +5,7 @@ template<> GestObj * ClassRootSingleton<GestObj>::_instance = NULL;
 
 GestObj::GestObj() : ClassRootSingleton<GestObj>()
 {
+    this->tableBackground = NULL;
     this->table = NULL;
 }
 
