@@ -17,8 +17,9 @@ int main(void)
 	{
 		std::cerr << "An exception has occured: " << e.getFullDescription().c_str() << std::endl;
 		Application::destroySingleton();
-		return 1;
+		
+		return EXIT_FAILURE;
 	}
 
-	return 0;
+	return EXIT_SUCCESS;
 }

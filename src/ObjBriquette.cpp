@@ -63,14 +63,14 @@ ObjBriquette::ObjBriquette(const ObjBriquette& briquette)
 }
 
 ObjBriquette::~ObjBriquette()
-{
+{	
+	this->removePhysicalObj();
+	
 	if(this->briquetteNode != NULL)
 	{
 		this->briquetteNode->removeAndDestroyAllChildren();
 		this->briquetteNode->getParentSceneNode()->removeAndDestroyChild(this->briquetteNode->getName());
 	}
-	
-	this->removePhysicalObj();
 }
 
 void ObjBriquette::setPosition(Ogre::Vector3 pos)
@@ -108,10 +108,16 @@ void ObjBriquette::removePhysicalObj()
 	GestObj::getSingletonPtr()->getListRigidBodyToBriquette().erase(this->bodyBriquette);
 	
 	if(this->bodyBriquette != NULL)
+	{
 		delete this->bodyBriquette;
+		this->bodyBriquette = NULL;
+	}
 	
 	if(this->shapeBriquette != NULL)
+	{
 		delete this->shapeBriquette;
+		this->shapeBriquette = NULL;
+	}
 }
 
 

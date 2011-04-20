@@ -52,21 +52,21 @@ bool GestCamera::removeCamera(CameraAbstract * cam)
 
 bool GestCamera::removeCamera(unsigned int id)
 {
-	if(id > this->listCameras.size())
+	if(id >= this->listCameras.size())
 	{
 		return false;
 	}
 	
 	CameraAbstract * cam = this->listCameras.at(id);
-	delete cam;
 	this->listCameras.erase(this->listCameras.begin()+id);
+	delete cam;
 	
 	return true;
 }
 
 CameraAbstract * GestCamera::getCamera(unsigned int id)
 {
-    if(id > this->listCameras.size())
+    if(id >= this->listCameras.size())
     {
         return NULL;
     }

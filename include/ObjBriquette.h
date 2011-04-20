@@ -94,12 +94,11 @@ class ObjBriquette
 		/*!
 		 * \brief Permet de créer l'objet physique (avec les propriétés de ogre bullet, une fois que l'objet est positionné
 		*/
-        void createPhysicalObj(); 
-
+        void createPhysicalObj();
 		/*!
 		 * \brief Permet de supprimer l'objet physique (avec les propriétés de ogre bullet, une fois que l'objet est positionné
 		*/
-        void removePhysicalObj(); 
+        void removePhysicalObj();
         
         
 

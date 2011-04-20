@@ -51,7 +51,6 @@ class SnapShoot
 	public:
 		/*!
 		 * \brief Constructor
-		 * \param lastSnapShoot SnapShoot précédent celui-ci
 		*/
 		SnapShoot();
 		/*!

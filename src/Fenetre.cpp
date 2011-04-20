@@ -38,9 +38,8 @@ CEGUI::Window * Fenetre::create_std_window(CEGUI::utf8 * name, float posX, float
     quit->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Fenetre::destroyWindow, this));
     menuBackground->addChildWindow(quit);
     Wdw->addChildWindow(menuBackground);
+    
     return Wdw;
-
-
 }
 
 

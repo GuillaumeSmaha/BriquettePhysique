@@ -26,15 +26,29 @@ Application::Application() : ClassRootSingleton<Application>()
 
 Application::~Application()
 {
-	std::cout << "-" << std::endl << "Stop	application !!" << std::endl;
+	std::cerr << "-" << std::endl << "Stop	application !!" << std::endl;
 		
+	Menus::destroySingleton();
+	GestCamera::destroySingleton();
+	GestSnapShoot::destroySingleton();
+	GestObj::destroySingleton();
+	GestViewport::destroySingleton();
 	PlayerControls::destroySingleton();
+	ListenerCollision::destroySingleton();
 	ListenerMouse::destroySingleton();
 	ListenerKeyboard::destroySingleton();
 	ListenerInputManager::destroySingleton();
 	ListenerFrame::destroySingleton();
 	ListenerWindow::destroySingleton();
     ListenerCollision::destroySingleton();
+    
+    std::cerr << "Singleton destroyed" << std::endl;
+    
+    GestSceneManager::getSceneManager()->clearScene();
+    
+	std::cerr << "Scene cleaned" << std::endl;
+    
+	GestSceneManager::destroySingleton();
 }
 
 bool Application::start()
@@ -142,6 +156,9 @@ void Application::initListeners()
 	ListenerFrame::getSingletonPtr()->signalFrameRendering.add(&ListenerMouse::capture, ListenerMouse::getSingletonPtr());
 
     PlayerControls::getSingletonPtr()->signalKeyPressed.add(&Application::onKeyPressed, this);
+    
+	//Create Menus Singleton
+	Menus::createSingleton();
 }
 
 void Application::initSceneGraph()

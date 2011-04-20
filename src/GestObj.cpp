@@ -13,10 +13,16 @@ GestObj::~GestObj()
 {
     //désalloue la table et l'ensemble des briquettes
 	if(this->tableBackground != NULL)
+	{
+		this->tableBackground = NULL;
 		delete this->tableBackground;
+	}
 		
 	if(this->table != NULL)
+	{
+		this->table = NULL;
 		delete this->table;
+	}
 		
     std::vector<ObjBriquette *>::iterator it;
     for(it = this->lstBriquettes.begin() ; it <this->lstBriquettes.end() ; it ++)

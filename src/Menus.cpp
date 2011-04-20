@@ -3,13 +3,13 @@
 
 template<> Menus * ClassRootSingleton<Menus>::_instance = NULL;
 
-Menus::Menus(): ClassRootSingleton<Menus>()
+Menus::Menus() : ClassRootSingleton<Menus>()
 {
-    this->mouseControl=ListenerMouse::getSingletonPtr();
-    this->keyControl=ListenerKeyboard::getSingletonPtr();
-    this->pControl=PlayerControls::getSingletonPtr();
+    this->mouseControl = ListenerMouse::getSingletonPtr();
+    this->keyControl = ListenerKeyboard::getSingletonPtr();
+    this->pControl = PlayerControls::getSingletonPtr();
 
-    this->mainWdw=NULL;
+    this->mainWdw = NULL;
 
    //démarre le menusRenderer
     menusRenderer = &CEGUI::OgreRenderer::bootstrapSystem();
@@ -55,20 +55,19 @@ Menus::~Menus()
     keyControl->signalKeyReleased.remove(&Menus::keyReleased, this);
 
     pControl->signalKeyPressed.remove(&Menus::actionFromPlayer, this);
+    
+    this->menusRenderer->destroyAllGeometryBuffers();
+    this->menusRenderer->destroyAllTextureTargets();
+    this->menusRenderer->destroyAllTextures();
 
-    CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
-    wmgr.destroyAllWindows();
-    this->menusRenderer->destroyAllGeometryBuffers ();
-    this->menusRenderer->destroyAllTextureTargets ();
-    this->menusRenderer->destroyAllTextures ();
-    CEGUI::OgreRenderer::destroySystem ();
-
-
+    //~ CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
+    //~ wmgr.destroyAllWindows(); // Executer à l'appel du return dans main.cpp (eh oui etrange xD)
+    //~ CEGUI::OgreRenderer::destroySystem(); // Executer à l'appel du return dans main.cpp (eh oui etrange xD)
 }
 
 bool Menus::destroyWindow(const CEGUI::EventArgs & evt)
 {
-    if(mainWdw==(static_cast<const CEGUI::WindowEventArgs&>(evt).window->getParent()->getParent()))
+    if(mainWdw ==( static_cast<const CEGUI::WindowEventArgs&>(evt).window->getParent()->getParent()))
     {
         actionFromPlayer(Controls::OPEN_MENU);
         signalPaused.dispatch(false);
@@ -78,6 +77,7 @@ bool Menus::destroyWindow(const CEGUI::EventArgs & evt)
         CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
         wmgr.destroyWindow((static_cast<const CEGUI::WindowEventArgs&>(evt)).window->getParent()->getParent());
     }
+    
     return true;
 }
 
@@ -87,7 +87,6 @@ void Menus::keyPressed(const OIS::KeyEvent &evt)
     CEGUI::System &sys = CEGUI::System::getSingleton();
     sys.injectKeyDown(evt.key);
     sys.injectChar(evt.text);
-
 }
 
 void Menus::actionFromPlayer(Controls::Controls key)
@@ -271,7 +270,7 @@ bool Menus::startDifficile(const CEGUI::EventArgs & evt)
     return true;
 }
 
-void Menus::injectMouseMove (float delta_x, float delta_y){
-    CEGUI::System::getSingleton().injectMouseMove (delta_x, delta_y);
-
+void Menus::injectMouseMove (float delta_x, float delta_y)
+{
+    CEGUI::System::getSingleton().injectMouseMove(delta_x, delta_y);
 }

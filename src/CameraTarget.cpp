@@ -3,8 +3,9 @@
 
 CameraTarget::CameraTarget(Ogre::String cameraName, Ogre::SceneNode * targetNode) : CameraAbstract(cameraName)
 {
-    this->targetNode = targetNode;
-    
+    this->targetNode = GestSceneManager::getSceneManager()->getSceneNode(NODE_NAME_GROUPE_CAMERA)->createChildSceneNode("nodeTargetCamera_"+cameraName+"_"+Utils::toString(Utils::unique()));
+    this->targetNode->_setDerivedPosition(targetNode->_getDerivedPosition());
+   
     this->nodeCamera = GestSceneManager::getSceneManager()->getSceneNode(NODE_NAME_GROUPE_CAMERA)->createChildSceneNode("nodeCamera_"+cameraName+"_"+Utils::toString(Utils::unique()));
     this->nodeCamera->attachObject(this->camera);
 
@@ -24,10 +25,18 @@ CameraTarget::CameraTarget(Ogre::String cameraName, Ogre::SceneNode * targetNode
 
 
     this->camera->setFixedYawAxis(true, Ogre::Vector3::UNIT_Z);    
-    this->camera->setAutoTracking(true, targetNode);
+    this->camera->setAutoTracking(true, this->targetNode);
 
 	PlayerControls::getSingletonPtr()->signalMouseMoved.add(&CameraTarget::onMouseMoved, this);
 	PlayerControls::getSingletonPtr()->signalKeyPressed.add(&CameraTarget::onKeyPressed, this);
+}
+
+
+CameraTarget::~CameraTarget()
+{
+	this->nodeCamera->detachObject(this->camera);
+	GestSceneManager::getSceneManager()->destroySceneNode(this->nodeCamera);
+	GestSceneManager::getSceneManager()->destroySceneNode(this->targetNode);
 }
 		
 void CameraTarget::init_camera()
@@ -91,6 +100,50 @@ void CameraTarget::onKeyPressed(Controls::Controls key)
         case Controls::CAM_ROTATE_RIGHT :
         {
             this->manuallyRotate(Ogre::Radian(-PI/36.0));
+            break;
+        }
+        
+        case Controls::CAM_MOVE_LEFT :
+        {
+			Ogre::Real dist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
+			Ogre::Vector3 vec = this->targetNode->getPosition() + Ogre::Vector3(0.0, -10.0, 0.0);
+            this->targetNode->setPosition(vec);
+			Ogre::Real newDist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
+			
+			this->zoom(dist-newDist);
+            break;
+        }
+        
+        case Controls::CAM_MOVE_RIGHT :
+        {
+			Ogre::Real dist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
+			Ogre::Vector3 vec = this->targetNode->getPosition() + Ogre::Vector3(0.0, 10.0, 0.0);
+            this->targetNode->setPosition(vec);
+			Ogre::Real newDist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
+			
+			this->zoom(dist-newDist);
+            break;
+        }
+        
+        case Controls::CAM_MOVE_UP :
+        {
+			Ogre::Real dist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
+			Ogre::Vector3 vec = this->targetNode->getPosition() + Ogre::Vector3(10.0, 0.0, 0.0);
+            this->targetNode->setPosition(vec);
+			Ogre::Real newDist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
+			
+			this->zoom(dist-newDist);
+            break;
+        }
+        
+        case Controls::CAM_MOVE_DOWN :
+        {
+			Ogre::Real dist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
+			Ogre::Vector3 vec = this->targetNode->getPosition() + Ogre::Vector3(-10.0, 0.0, 0.0);
+            this->targetNode->setPosition(vec);
+			Ogre::Real newDist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
+			
+			this->zoom(dist-newDist);
             break;
         }
         

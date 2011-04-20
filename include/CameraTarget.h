@@ -37,6 +37,10 @@ class CameraTarget : public CameraAbstract, public ClassRoot
 		 * \param targetNode Cible de la caméra
 		 */
 		CameraTarget(Ogre::String cameraName, Ogre::SceneNode * targetNode = NULL);
+		/*!
+		 * \brief Destructeur
+		 */
+		~CameraTarget();
 		
 		/*!
 		 * \brief Initialise la position de la caméra
