@@ -44,6 +44,11 @@ class GestGame : public ClassRootSingleton<GestGame>
     
     private:
         /*!
+        * \brief Position for the new briquette
+        */
+        Ogre::Vector3 positionCreationBriquette; 
+        
+        /*!
         * \brief Number maximum of Briquette
         */
         unsigned int numberMaxBriquette; 
@@ -155,6 +160,24 @@ class GestGame : public ClassRootSingleton<GestGame>
         unsigned int getNumberBriquetteRemaining()
         {
 			return (this->numberMaxBriquette - this->numberBriquetteInGame);
+		}
+		
+		/*!
+		 * \brief Retourne la posiiton des nouvelles briquettes
+		 * \return Valeur de positionCreationBriquette
+		*/
+        Ogre::Vector3 getPositionCreationBriquette()
+        {
+			return this->positionCreationBriquette;
+		}
+		
+		/*!
+		 * \brief Définit la posiiton des nouvelles briquettes
+		 * \param positionCreationBriquette Valeur de positionCreationBriquette
+		*/
+        void setPositionCreationBriquette(Ogre::Vector3 positionCreationBriquette)
+        {
+			this->positionCreationBriquette = positionCreationBriquette;
 		}
         
 };

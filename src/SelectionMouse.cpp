@@ -113,7 +113,12 @@ void SelectionMouse::onMouseMoved(MouseMove_t &mouseMove)
 			ObjBriquette * briquette = GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquetteOnMove);
 			Ogre::SceneNode * nodeTest = GestSceneManager::getSceneManager()->getSceneNode(NODE_NAME_GROUPE_TESTS);
 			
-			nodeTest->_setDerivedPosition(briquette->getSceneNode()->_getDerivedPosition());
+			std::cerr << "briquette pos : " << briquette->getSceneNode()->getPosition()[1] << std::endl;
+			
+			//~ nodeTest->setPosition(GestGame::getSingletonPtr()->getPositionCreationBriquette()+briquette->getSceneNode()->getPosition());
+			nodeTest->setPosition(GestGame::getSingletonPtr()->getPositionCreationBriquette());
+			
+			std::cerr << "\t nodeTest pos : " << briquette->getSceneNode()->getPosition()[1] << "\t pos base : " << GestGame::getSingletonPtr()->getPositionCreationBriquette()[1] << std::endl;
 			
 			OgreBulletCollisions::CollisionShape * shapeTest = new OgreBulletCollisions::BoxCollisionShape(plan);
 			OgreBulletDynamics::RigidBody * bodyTest = new OgreBulletDynamics::RigidBody("RigidBodyTest", ListenerCollision::getSingletonPtr()->getWorld(), COL_TEST_PLANE, TEST_PLANE_COLLIDES_WITH);
@@ -129,22 +134,21 @@ void SelectionMouse::onMouseMoved(MouseMove_t &mouseMove)
 				
 				if(body->getName() == "RigidBodyTest")
 				{
-					this->selectedBriquetteOnMove->setPosition(
+					//~ this->selectedBriquetteOnMove->setPosition(
+					briquette->setPosition(Ogre::Vector3(
 						mCollisionClosestRayResultCallback->getCollisionPoint()[0],
-						0.0,
-						mCollisionClosestRayResultCallback->getCollisionPoint()[2]
+						GestGame::getSingletonPtr()->getPositionCreationBriquette()[1],
+						//~ mCollisionClosestRayResultCallback->getCollisionPoint()[1],
+						mCollisionClosestRayResultCallback->getCollisionPoint()[2])
 					);
 				}
 			}
             //permet que l'objet soit correctement orienté               
-            GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquetteOnMove)
-                ->getSceneNode()->setOrientation(ObjBriquette::defaultOrientation);
+            GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquetteOnMove)->getSceneNode()->setOrientation(ObjBriquette::defaultOrientation);
 
-            this->selectedBriquetteOnMove->getBulletRigidBody()->getWorldTransform().
-                    setBasis(btMatrix3x3(btQuaternion(0,0,0,1)));
+            this->selectedBriquetteOnMove->getBulletRigidBody()->getWorldTransform().setBasis(btMatrix3x3(btQuaternion(0.0, 0.0, 0.0, 1.0)));
 
-            //ObjBriquette::updateBtBoundingBox(this->selectedBriquetteOnMove);
-
+            //~ ObjBriquette::updateBtBoundingBox(this->selectedBriquetteOnMove);
 
 
 			delete mCollisionClosestRayResultCallback;            
@@ -222,8 +226,7 @@ void SelectionMouse::unselectBriquette()
         
         
         this->selectedBriquetteOnMove = NULL;
-        
-        
+                
         GestSnapShoot::getSingletonPtr()->addModification();
     }
 }
@@ -241,10 +244,9 @@ OgreBulletDynamics::RigidBody * SelectionMouse::getBodyUnderCursorUsingBullet(Og
     
     
     OgreBulletCollisions::CollisionClosestRayResultCallback *
-    mCollisionClosestRayResultCallback = new
-            OgreBulletCollisions::CollisionClosestRayResultCallback(rayTo, world, 5000);
+    mCollisionClosestRayResultCallback = new OgreBulletCollisions::CollisionClosestRayResultCallback(rayTo, world, 5000);
             
-    world->launchRay (*mCollisionClosestRayResultCallback);
+    world->launchRay(*mCollisionClosestRayResultCallback);
     std::cout << "ray lauched" << std::endl;
     
     OgreBulletDynamics::RigidBody * bodyResult = NULL;
@@ -271,10 +273,9 @@ OgreBulletCollisions::CollisionClosestRayResultCallback * SelectionMouse::getRes
     
     
     OgreBulletCollisions::CollisionClosestRayResultCallback *
-    mCollisionClosestRayResultCallback = new
-            OgreBulletCollisions::CollisionClosestRayResultCallback(rayTo, world, 5000);
+    mCollisionClosestRayResultCallback = new OgreBulletCollisions::CollisionClosestRayResultCallback(rayTo, world, 5000);
             
-    world->launchRay (*mCollisionClosestRayResultCallback);
+    world->launchRay(*mCollisionClosestRayResultCallback);
     
     return mCollisionClosestRayResultCallback;
 }

@@ -8,6 +8,7 @@ GestGame::GestGame() : ClassRootSingleton<GestGame>()
     this->numberBriquetteInGame = 0;
     this->numberMaxBriquette = 0;
     this->gameLauched = false;
+    this->positionCreationBriquette = Ogre::Vector3(0.0, 0.0, 0.0);
 }
 
 
@@ -53,7 +54,8 @@ bool GestGame::addBriquette()
     if(this->numberBriquetteInGame < this->numberMaxBriquette)
     {
         this->numberBriquetteInGame++;
-		GestObj::getSingletonPtr()->addBriquette(Ogre::Vector3(0.0, 0.0, 10.0));
+        Ogre::Vector3 vec = this->positionCreationBriquette + Ogre::Vector3(0.0, 0.0, 10.0);
+		GestObj::getSingletonPtr()->addBriquette(vec);
 		
     
 		return true;

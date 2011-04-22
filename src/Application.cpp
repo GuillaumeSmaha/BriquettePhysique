@@ -43,7 +43,8 @@ Application::~Application()
     
     std::cerr << "Singleton destroyed" << std::endl;
     
-    GestSceneManager::getSceneManager()->clearScene();
+    if(GestSceneManager::getSceneManager() != NULL)
+		GestSceneManager::getSceneManager()->clearScene();
     
 	std::cerr << "Scene cleaned" << std::endl;
     
@@ -90,9 +91,6 @@ bool Application::start()
 
 	// init the scene base
 	this->initSceneBase();
-
-	// init the scene
-	//~ this->initScene();
 
 	// activate debugging overlay
 	this->debugOverlay = OverlayManager::getSingleton().getByName("Core/DebugOverlay");
@@ -175,6 +173,11 @@ void Application::initSceneGraph()
 	GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode(NODE_NAME_GROUPE_BRIQUETTES);
 	GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode(NODE_NAME_GROUPE_CAMERA);
 	GestSceneManager::getSceneManager()->getRootSceneNode()->createChildSceneNode(NODE_NAME_GROUPE_TESTS);
+	
+	GestSceneManager::getSceneManager()->getSceneNode(NODE_NAME_GROUPE_TABLE)->setPosition(0.0, 0.0, 0.0);
+	GestSceneManager::getSceneManager()->getSceneNode(NODE_NAME_GROUPE_BRIQUETTES)->setPosition(0.0, 0.0, 0.0);
+	GestSceneManager::getSceneManager()->getSceneNode(NODE_NAME_GROUPE_CAMERA)->setPosition(0.0, 0.0, 0.0);
+	GestSceneManager::getSceneManager()->getSceneNode(NODE_NAME_GROUPE_TESTS)->setPosition(0.0, 0.0, 0.0);
 }
 
 void Application::initSceneMenus()
@@ -196,6 +199,7 @@ void Application::initSceneBase()
     gestObj->setTableBackground(tableBackground);
     gestObj->setTable(table);
     
+    GestGame::getSingletonPtr()->setPositionCreationBriquette(GestObj::getSingletonPtr()->getTable()->getNode()->_getDerivedPosition());
     
     CameraTarget * gestCamera = new CameraTarget("mainCam", GestObj::getSingletonPtr()->getTable()->getNode());
     

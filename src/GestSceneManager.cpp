@@ -4,24 +4,27 @@ template<> GestSceneManager * ClassRootSingleton<GestSceneManager>::_instance = 
 
 void GestSceneManager::createSingleton()
 {
-	new GestSceneManager(NULL);
+	GestSceneManager::createSingleton(NULL);
 }
 
 void GestSceneManager::createSingleton(Ogre::Root * root)
 {
-	if (root != NULL)
+	if (root == NULL)
 	{
-		new GestSceneManager(root);
+		std::cerr << "@GestSceneManager::createSingleton() : root is NULL" << std::endl;
 	}
 	else
 	{
-		std::cerr << "@GestSceneManager::createSingleton() : root is NULL" << std::endl;
+		new GestSceneManager(root);
 	}
 }
 
 Ogre::SceneManager * GestSceneManager::getSceneManager()
 {
-	return GestSceneManager::getSingletonPtr()->sceneMgr;
+	if(GestSceneManager::getSingletonPtr() != NULL)
+		return GestSceneManager::getSingletonPtr()->sceneMgr;
+		
+	return NULL;
 }
 
 GestSceneManager::GestSceneManager(Ogre::Root * root) : ClassRootSingleton<GestSceneManager>()
