@@ -6,7 +6,10 @@
 #define __APPLICATION_H__
 
 
+#ifndef DOXYGEN_SKIP
 #include <Ogre.h>
+#endif
+
 #include "controls.h"
 #include "nodeName.h"
 #include "ClassRootSingleton.h"

@@ -5,7 +5,10 @@
 #ifndef __CAMERA_ABSTRACT_H__
 #define __CAMERA_ABSTRACT_H__
 
+#ifndef DOXYGEN_SKIP
 #include <Ogre.h>
+#endif
+
 #include "ClassRoot.h"
 #include "GestSceneManager.h"
 

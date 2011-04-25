@@ -5,8 +5,11 @@
 #ifndef __LISTENER_FRAME_H__
 #define __LISTENER_FRAME_H__
 
+#ifndef DOXYGEN_SKIP
 #include <iostream>
 #include <Ogre.h>
+#endif
+
 #include "Signal.h"
 #include "ClassRootSingleton.h"
 

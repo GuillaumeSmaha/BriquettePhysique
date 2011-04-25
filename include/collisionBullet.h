@@ -5,8 +5,9 @@
 #ifndef __COLLISION_BULLET_H__
 #define __COLLISION_BULLET_H__
 
+#ifndef DOXYGEN_SKIP
 #include <BulletCollision/BroadphaseCollision/btBroadphaseProxy.h>
-
+#endif
 
 #define BIT(x) (1<<(x))
 

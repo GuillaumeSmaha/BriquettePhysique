@@ -5,8 +5,11 @@
 #ifndef __GEST_VIEWPORT_H__
 #define __GEST_VIEWPORT_H__
 
+#ifndef DOXYGEN_SKIP
 #include <vector>
 #include <Ogre.h>
+#endif
+
 #include "ClassRootSingleton.h"
 #include "ListenerWindow.h"
 #include "CameraAbstract.h"

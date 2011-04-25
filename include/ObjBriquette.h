@@ -6,12 +6,14 @@
 #ifndef __OBJ_BRIQUETTE_H__
 #define __OBJ_BRIQUETTE_H__
 
+#ifndef DOXYGEN_SKIP
 #include <Ogre.h>
 #include <OgreBulletDynamicsRigidBody.h>
 #include <OgreBulletCollisionsShape.h>
 #include <Shapes/OgreBulletCollisionsBoxShape.h>
 #include <Utils/OgreBulletConverter.h>
 #include <Utils/OgreBulletCollisionsMeshToShapeConverter.h>
+#endif
 
 #include "collisionBullet.h"
 #include "nodeName.h"

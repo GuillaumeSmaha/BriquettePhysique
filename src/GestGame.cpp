@@ -59,9 +59,11 @@ bool GestGame::addBriquette()
     {
         this->numberBriquetteInGame++;
         Ogre::Vector3 vec = this->positionCreationBriquette + Ogre::Vector3(0.0, 0.0, 10.0);
-		GestObj::getSingletonPtr()->addBriquette(vec);
+        
+		GestObj * gest = GestObj::getSingletonPtr();
 		
-    
+		gest->addBriquette(vec);
+		
 		return true;
     }
     
@@ -112,7 +114,8 @@ void GestGame::alignBriquette()
 
 void GestGame::addModification()
 {
-	GestSnapShoot::getSingletonPtr()->addModification();
+	GestSnapShoot * gest = GestSnapShoot::getSingletonPtr();
+	gest->addModification();
 
 	if(Menus::getSingletonPtr()->getMenusBriquette() != NULL)
 		Menus::getSingletonPtr()->getMenusBriquette()->updateTextButtons();
@@ -120,7 +123,9 @@ void GestGame::addModification()
 
 void GestGame::undo(unsigned int numberModification)
 {
-	GestSnapShoot::getSingletonPtr()->undo(numberModification);
+	GestSnapShoot * gest = GestSnapShoot::getSingletonPtr();
+	gest->undo(numberModification);
+	
 	this->numberBriquetteInGame = GestObj::getSingletonPtr()->getCountBriquetteDrawed();
 
 	if(Menus::getSingletonPtr()->getMenusBriquette() != NULL)
@@ -129,7 +134,9 @@ void GestGame::undo(unsigned int numberModification)
 
 void GestGame::undoAll()
 {
-	GestSnapShoot::getSingletonPtr()->undoAll();
+	GestSnapShoot * gest = GestSnapShoot::getSingletonPtr();
+	gest->undoAll();
+
 	this->numberBriquetteInGame = GestObj::getSingletonPtr()->getCountBriquetteDrawed();
 
 	if(Menus::getSingletonPtr()->getMenusBriquette() != NULL)
@@ -138,7 +145,9 @@ void GestGame::undoAll()
 
 void GestGame::redo(unsigned int numberModification)
 {
-	GestSnapShoot::getSingletonPtr()->redo(numberModification);
+	GestSnapShoot * gest = GestSnapShoot::getSingletonPtr();
+	gest->redo(numberModification);
+	
 	this->numberBriquetteInGame = GestObj::getSingletonPtr()->getCountBriquetteDrawed();
 
 	if(Menus::getSingletonPtr()->getMenusBriquette() != NULL)
@@ -147,7 +156,9 @@ void GestGame::redo(unsigned int numberModification)
 
 void GestGame::redoAll()
 {
-	GestSnapShoot::getSingletonPtr()->redoAll();
+	GestSnapShoot * gest = GestSnapShoot::getSingletonPtr();
+	gest->redoAll();
+
 	this->numberBriquetteInGame = GestObj::getSingletonPtr()->getCountBriquetteDrawed();
 
 	if(Menus::getSingletonPtr()->getMenusBriquette() != NULL)

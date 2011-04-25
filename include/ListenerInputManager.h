@@ -5,7 +5,10 @@
 #ifndef __LISTENER_INPUT_MANAGER_H__
 #define __LISTENER_INPUT_MANAGER_H__
 
+#ifndef DOXYGEN_SKIP
 #include <OISInputManager.h>
+#endif
+
 #include "ClassRootSingleton.h"
 #include "ListenerWindow.h"
 

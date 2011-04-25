@@ -5,8 +5,11 @@
 #ifndef __LISTENER_MOUSE_H__
 #define __LISTENER_MOUSE_H__
 
+#ifndef DOXYGEN_SKIP
 #include <list>
 #include <OISMouse.h>
+#endif
+
 #include "mouseMove.h"
 #include "ClassRootSingleton.h"
 #include "Signal.h"

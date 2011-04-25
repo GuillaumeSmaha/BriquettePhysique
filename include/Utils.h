@@ -5,13 +5,16 @@
 #ifndef __UTILS_H__
 #define __UTILS_H__
 
+#ifndef DOXYGEN_SKIP
 #include <Ogre.h>
 #include <math.h>
 #include <time.h>
 #include <sstream>
 #include <iostream>
 #include <fstream>
+#endif
 
+///Approximation du chiffre PI
 #define PI Ogre::Math::PI
 
 /*!

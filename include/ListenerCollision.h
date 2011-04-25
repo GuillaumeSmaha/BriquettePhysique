@@ -5,6 +5,7 @@
 #ifndef __LISTENER_COLLISION_H__
 #define __LISTENER_COLLISION_H__
 
+#ifndef DOXYGEN_SKIP
 #include <iostream>
 #include <Ogre.h>
 #include <OgreBulletCollisionsPreRequisites.h>
@@ -12,6 +13,7 @@
 #include <OgreBulletDynamicsPreRequisites.h>
 #include <OgreBulletDynamicsRigidBody.h>
 #include <Shapes/OgreBulletCollisionsSphereShape.h>
+#endif
 
 #include "ClassRootSingleton.h"
 #include "GestSceneManager.h"

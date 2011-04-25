@@ -6,7 +6,10 @@
 #ifndef __GEST_SNAP_SHOOT_H__
 #define __GEST_SNAP_SHOOT_H__
 
+#ifndef DOXYGEN_SKIP
 #include <deque>
+#endif
+
 #include "ClassRootSingleton.h"
 #include "PlayerControls.h"
 #include "SnapShoot.h"

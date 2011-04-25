@@ -2,10 +2,8 @@
  *  \file  GestObj.h
  * \brief Ce fichier contient la déclaration de la classe GestObj. Permet de gérer les différents objets du monde, création, utilisation, destruction
  */
-
 #ifndef __GEST_OBJ_H__
 #define __GEST_OBJ_H__
-
 
 #include "nodeName.h"
 #include "ClassRootSingleton.h"

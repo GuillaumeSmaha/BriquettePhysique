@@ -5,7 +5,10 @@
 #ifndef __GEST_SCENE_MANAGER_H__
 #define __GEST_SCENE_MANAGER_H__
 
+#ifndef DOXYGEN_SKIP
 #include <Ogre.h>
+#endif
+
 #include "ClassRootSingleton.h"
 
 

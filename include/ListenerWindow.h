@@ -5,10 +5,13 @@
 #ifndef __LISTENER_WINDOW_H__
 #define __LISTENER_WINDOW_H__
 
+#ifndef DOXYGEN_SKIP
 #include <Ogre.h>
+#include <OISMouse.h>
+#endif
+
 #include "ClassRootSingleton.h"
 #include "Signal.h"
-#include "OISMouse.h"
 #include "ListenerMouse.h"
 
 

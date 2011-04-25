@@ -7,7 +7,11 @@
 #define __MAIN_H__
 
 
+#ifndef DOXYGEN_SKIP
 #include <iostream>
+#endif
+
+#include "Application.h"
 
 /*!
  * \brief Main function

@@ -5,12 +5,14 @@
 #ifndef __SELECTION_MOUSE_H__
 #define __SELECTION_MOUSE_H__
 
+#ifndef DOXYGEN_SKIP
 #include <Ogre.h>
 #include <OgreBulletCollisions.h>
 #include <OgreBulletDynamics.h>
 #include <OgreBulletCollisionsShape.h>
 #include <OgreBulletDynamicsRigidBody.h>
 #include <OgreBulletCollisionsPreRequisites.h>
+#endif
 
 #include "collisionBullet.h"
 #include "mouseMove.h"

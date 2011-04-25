@@ -6,8 +6,11 @@
 #ifndef __SNAP_SHOOT_H__
 #define __SNAP_SHOOT_H__
 
+#ifndef DOXYGEN_SKIP
 #include <vector>
 #include <Ogre.h>
+#endif
+
 #include "GestObj.h"
 #include "ListenerCollision.h"
 

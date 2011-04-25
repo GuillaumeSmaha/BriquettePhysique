@@ -5,8 +5,11 @@
 #ifndef __MOUSE_MOVE_H__
 #define __MOUSE_MOVE_H__
 
+#ifndef DOXYGEN_SKIP
 #include <Ogre.h>
 #include <OISMouse.h>
+#endif
+
 #include "controls.h"
 
 /// Define a structure contening the mouse button id or player control button and the vector of the mouse mouse

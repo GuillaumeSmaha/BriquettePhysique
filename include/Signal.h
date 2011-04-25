@@ -5,7 +5,10 @@
 #ifndef __SIGNAL_H__
 #define __SIGNAL_H__
 
+#ifndef DOXYGEN_SKIP
 #include <vector>
+#endif
+
 #include "ClassRoot.h"
 
 

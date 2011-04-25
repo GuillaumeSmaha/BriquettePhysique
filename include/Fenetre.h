@@ -5,16 +5,17 @@
 #ifndef __FENETRE_H__
 #define __FENETRE_H__
 
-
-
+#ifndef DOXYGEN_SKIP
 #include <CEGUI.h>
 #include <RendererModules/Ogre/CEGUIOgreRenderer.h>
+#endif
+
 #include "PlayerControls.h"
+
 /*!
 * \class Fenetre
 * \brief Elle utilise cegui pour offrir des fenetre standard. Utiliser par le Menus et Annonce
 */
-
 class Fenetre
 {
     protected:

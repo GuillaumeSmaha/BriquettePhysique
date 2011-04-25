@@ -5,7 +5,10 @@
 #ifndef __LISTENER_KEYBOARD_H__
 #define __LISTENER_KEYBOARD_H__
 
+#ifndef DOXYGEN_SKIP
 #include <OISKeyboard.h>
+#endif
+
 #include "ClassRootSingleton.h"
 #include "Signal.h"
 #include "ListenerInputManager.h"

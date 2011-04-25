@@ -10,12 +10,14 @@ GestViewport::GestViewport() : ClassRootSingleton<GestViewport>()
 GestViewport::~GestViewport()
 {
 	while(this->removeViewport(0)) {};
-	ListenerWindow::getSingletonPtr()->getRenderWindow()->removeAllViewports();
+	ListenerWindow * listenerWindow = ListenerWindow::getSingletonPtr();
+	listenerWindow->getRenderWindow()->removeAllViewports();
 }
 
 int GestViewport::addViewport(CameraAbstract * gestCamera)
 {
-	Ogre::Viewport * viewport = ListenerWindow::getSingletonPtr()->getRenderWindow()->addViewport(gestCamera->getCamera(), this->countViewport());
+	ListenerWindow * listenerWindow = ListenerWindow::getSingletonPtr();
+	Ogre::Viewport * viewport = listenerWindow->getRenderWindow()->addViewport(gestCamera->getCamera(), this->countViewport());
 	viewport->setBackgroundColour(Ogre::ColourValue(0.0f, 0.0f, 0.0f));
 	
 	this->listViewport.push_back(viewport);
@@ -63,9 +65,10 @@ bool GestViewport::removeViewport(int idViewport)
 	}
 	
 	Ogre::Viewport * viewport = this->listViewport.at(idViewport);
+	ListenerWindow * listenerWindow = ListenerWindow::getSingletonPtr();
 		
 	this->listViewport.erase(this->listViewport.begin()+idViewport);
-	ListenerWindow::getSingletonPtr()->getRenderWindow()->removeViewport(viewport->getZOrder());
+	listenerWindow->getRenderWindow()->removeViewport(viewport->getZOrder());
 	
 	if(this->countViewport() > 0)
 	{

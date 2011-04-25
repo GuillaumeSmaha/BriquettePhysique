@@ -5,7 +5,10 @@
 #ifndef __CLASS_ROOT_SINGLETON_H__
 #define __CLASS_ROOT_SINGLETON_H__
 
+#ifndef DOXYGEN_SKIP
 #include <stddef.h>
+#endif
+
 #include "ClassRoot.h"
 
 /*!

@@ -5,7 +5,10 @@
 #ifndef __PLAYER_CONTROLS_H__
 #define __PLAYER_CONTROLS_H__
 
+#ifndef DOXYGEN_SKIP
 #include <vector>
+#endif
+
 #include "controls.h"
 #include "mouseMove.h"
 #include "ClassRootSingleton.h"
