@@ -11,14 +11,12 @@ GestSnapShoot::GestSnapShoot() : ClassRootSingleton<GestSnapShoot>()
 	SnapShoot * snapShoot = new SnapShoot();
     
 	this->lstSnapShoot.push_back(snapShoot);
-    
-    PlayerControls::getSingletonPtr()->signalKeyPressed.add(&GestSnapShoot::onKeyPressed, this);
 }
 
 
 GestSnapShoot::~GestSnapShoot()
 {
-	PlayerControls::getSingletonPtr()->signalKeyPressed.remove(&GestSnapShoot::onKeyPressed, this);
+	
 }
 
 void GestSnapShoot::addModification()
@@ -133,7 +131,7 @@ void GestSnapShoot::_applyRevision(int iVersion)
 	
 	//Hide all briquettte
 	std::vector<ObjBriquette *>::iterator itB = GestObj::getSingletonPtr()->getListBriquettes().begin();
-	while (itB !=GestObj::getSingletonPtr()->getListBriquettes().end())
+	while (itB != GestObj::getSingletonPtr()->getListBriquettes().end())
 	{
 		ObjBriquette * briquette = *itB;
 		
@@ -158,22 +156,4 @@ void GestSnapShoot::_applyRevision(int iVersion)
 				
 		itS++;
 	}
-}
-
-
-void GestSnapShoot::onKeyPressed(Controls::Controls key)
-{
-    switch(key)
-    {
-        case Controls::UNDO:
-            this->undo();
-            break;
-            
-        case Controls::REDO:
-            this->redo();
-            break;
-            
-        default:
-            break;
-    }
 }

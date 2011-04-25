@@ -24,7 +24,7 @@ void ObjBriquette::updateBtBoundingBox(OgreBulletDynamics::RigidBody * rigidBody
     rigidBody->enableActiveState();
     
         
-	rigidBody->getBulletRigidBody()->activate(true);
+	rigidBody->getBulletRigidBody()->forceActivationState(true);
 }
 
 

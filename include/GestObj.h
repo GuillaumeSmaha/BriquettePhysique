@@ -51,7 +51,14 @@ class GestObj : public ClassRootSingleton<GestObj>
         /*!
          * \brief Destructor
          */
-        virtual ~GestObj();
+        virtual ~GestObj();       
+		
+        
+		/*!
+		 * \brief Retourne le nombre de briquette affichée
+		 * \return Nombre de briquette
+		*/
+        int getCountBriquetteDrawed();
         
          /*!
          * \brief Ajoute une nouvelle briquettes
@@ -61,9 +68,16 @@ class GestObj : public ClassRootSingleton<GestObj>
 
 		/*!
 		 * \brief Vérifie si la briquette existe dans la liste
+		 * \param briquette Pointeur à vérifier
 		 * \return Vrai ou faux
 		*/
 		bool existBriquette(ObjBriquette * briquette);
+
+		/*!
+		 * \brief Vérifie si la briquette existe dans la liste
+		 * \param briquette Pointeur à supprimer
+		*/
+		void removeBriquette(ObjBriquette * briquette);
 
 
          //#######GETTER /SETTER########

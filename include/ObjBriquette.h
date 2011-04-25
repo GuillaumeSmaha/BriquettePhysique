@@ -117,7 +117,6 @@ class ObjBriquette
 		 * \return Valeur de _isDrawing
 		*/
 		bool isDrawing(); 
-		
         
 		/*!
 		 * \brief Retourne l'entité de la briquette

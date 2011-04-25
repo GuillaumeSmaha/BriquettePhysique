@@ -82,8 +82,40 @@ class GestGame : public ClassRootSingleton<GestGame>
      
         /*!
         * \brief Ajoute une briquette au jeu
+        * \return Si la briquette à été ajouté
         */
         bool addBriquette();
+     
+        /*!
+        * \brief Retire une briquette au jeu
+        * \param briquette Briquette à supprimer
+        */
+        void removeBriquette(ObjBriquette * briquette);
+        
+        /*!
+        * \brief Vérifie si une briquette ne doit pas etre supprimer de l'affichage
+        */
+        void checkBriquette(const Ogre::FrameEvent & null);
+        
+         /*!
+         * \brief Annule plusieurs modifications
+         * \param numberModification Nombre de modification (par défaut = 1)
+         */
+        void undo(unsigned int numberModification = 1);
+         /*!
+         * \brief Annule toutes les modifications
+         */
+        void undoAll();
+               
+         /*!
+         * \brief Re-effectue plusieurs modifications
+         * \param numberModification Nombre de modification (par défaut = 1)
+         */
+        void redo(unsigned int numberModification = 1);
+         /*!
+         * \brief Re-effectue toutes les modifications
+         */
+        void redoAll();
      
         /*!
         * \brief Quitte le jeu

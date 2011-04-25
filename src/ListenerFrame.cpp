@@ -37,12 +37,14 @@ bool ListenerFrame::frameRenderingQueued(const Ogre::FrameEvent& evt)
 bool ListenerFrame::frameStarted(const Ogre::FrameEvent &evt)
 {
 	this->signalFrameStarted.dispatch(evt);
+	
     return true;
 }
 
 bool ListenerFrame::frameEnded(const Ogre::FrameEvent &evt)
 {
 	this->signalFrameEnded.dispatch(evt);
+	
 	return true;
 }
 

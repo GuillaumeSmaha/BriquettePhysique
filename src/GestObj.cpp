@@ -27,8 +27,22 @@ GestObj::~GestObj()
 		
     std::vector<ObjBriquette *>::iterator it;
     for(it = this->lstBriquettes.begin() ; it <this->lstBriquettes.end() ; it ++)
-        delete *it ;
+        delete *it;
 }
+
+
+int GestObj::getCountBriquetteDrawed()
+{
+	int countRes = 0;
+	std::vector<ObjBriquette *>::iterator it;
+		
+    for(it = this->lstBriquettes.begin() ; it <this->lstBriquettes.end() ; it ++)
+        if((*it)->isDrawing())
+			countRes++;
+			
+	return countRes;
+}
+
 
 void GestObj::addBriquette(const Ogre::Vector3 &pos)
 {
@@ -50,9 +64,31 @@ bool GestObj::existBriquette(ObjBriquette * briquette)
     {
 		if(*it == briquette)
 			return true;
+			
+		it++;
 	}
 	
 	return false;
+}
+
+
+void GestObj::removeBriquette(ObjBriquette * briquette)
+{
+	if(this->existBriquette(briquette))
+	{
+		std::vector<ObjBriquette *>::iterator it = this->lstBriquettes.begin();
+		while (it != this->lstBriquettes.end())
+		{
+			if(*it == briquette)
+			{
+				this->lstBriquettes.erase(it);
+				delete briquette;
+				break;
+			}
+			
+			it++;
+		}
+	}
 }
 
 
