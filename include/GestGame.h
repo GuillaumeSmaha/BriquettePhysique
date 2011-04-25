@@ -23,6 +23,7 @@
 #include "ClassRootSingleton.h"
 #include "Application.h"
 #include "ListenerFrame.h"
+#include "ObjBriquette.h"
 
 /*!
  * \class GestGame
@@ -97,6 +98,15 @@ class GestGame : public ClassRootSingleton<GestGame>
         */
         void checkBriquette(const Ogre::FrameEvent & null);
         
+        /*!
+        * \brief Aligne les briquettes
+        */
+        void alignBriquette();
+        
+         /*!
+         * \brief Ajoute une nouvelle modification
+         */
+        void addModification();
          /*!
          * \brief Annule plusieurs modifications
          * \param numberModification Nombre de modification (par défaut = 1)

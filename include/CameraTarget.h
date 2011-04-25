@@ -72,6 +72,11 @@ class CameraTarget : public CameraAbstract
         */
         void zoom(Ogre::Real zoomDist);
         /*!
+         * \brief Déplace la cible de la caméra
+         * \param vector Vecteur de déplacement
+        */
+        void moveTarget(Ogre::Vector3 vector);
+        /*!
          * \brief Vérifie la rotation de la caméra et met à jour en conséquence
          * \return Vrai si on ne sort pas des limites
         */

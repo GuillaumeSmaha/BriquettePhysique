@@ -129,7 +129,7 @@ void GestSnapShoot::_applyRevision(int iVersion)
 	
 	std::cerr << "Apply the revision " << this->currentSnapShoot << std::endl;
 	
-	//Hide all briquettte
+	//Hide all briquette
 	std::vector<ObjBriquette *>::iterator itB = GestObj::getSingletonPtr()->getListBriquettes().begin();
 	while (itB != GestObj::getSingletonPtr()->getListBriquettes().end())
 	{
@@ -140,7 +140,7 @@ void GestSnapShoot::_applyRevision(int iVersion)
 		itB++;
 	}
 	
-	//Show only the good briquettte
+	//Show only the good briquette
 	SnapShoot * snapShoot = this->lstSnapShoot.at(this->currentSnapShoot);
 	
 	std::vector<SnapShootData *>::iterator itS = snapShoot->getListData().begin();
@@ -153,6 +153,8 @@ void GestSnapShoot::_applyRevision(int iVersion)
 			
 		briquette->setPosition(data->position);
 		briquette->setOrientation(data->orientation);
+		
+		briquette->setMaterielUnselected();
 				
 		itS++;
 	}

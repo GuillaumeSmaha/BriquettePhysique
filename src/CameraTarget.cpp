@@ -103,49 +103,21 @@ void CameraTarget::onKeyPressed(Controls::Controls key)
             break;
         }
         
-        case Controls::CAM_MOVE_LEFT :
-        {
-			Ogre::Real dist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
-			Ogre::Vector3 vec = this->targetNode->getPosition() + Ogre::Vector3(0.0, -10.0, 0.0);
-            this->targetNode->setPosition(vec);
-			Ogre::Real newDist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
-			
-			this->zoom(dist-newDist);
+        case Controls::CAM_TARGET_MOVE_LEFT :
+			this->moveTarget(Ogre::Vector3(0.0, -10.0, 0.0));
             break;
-        }
         
-        case Controls::CAM_MOVE_RIGHT :
-        {
-			Ogre::Real dist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
-			Ogre::Vector3 vec = this->targetNode->getPosition() + Ogre::Vector3(0.0, 10.0, 0.0);
-            this->targetNode->setPosition(vec);
-			Ogre::Real newDist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
-			
-			this->zoom(dist-newDist);
+        case Controls::CAM_TARGET_MOVE_RIGHT :
+			this->moveTarget(Ogre::Vector3(0.0, 10.0, 0.0));
             break;
-        }
         
-        case Controls::CAM_MOVE_UP :
-        {
-			Ogre::Real dist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
-			Ogre::Vector3 vec = this->targetNode->getPosition() + Ogre::Vector3(10.0, 0.0, 0.0);
-            this->targetNode->setPosition(vec);
-			Ogre::Real newDist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
-			
-			this->zoom(dist-newDist);
+        case Controls::CAM_TARGET_MOVE_UP :
+			this->moveTarget(Ogre::Vector3(10.0, 0.0, 0.0));
             break;
-        }
-        
-        case Controls::CAM_MOVE_DOWN :
-        {
-			Ogre::Real dist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
-			Ogre::Vector3 vec = this->targetNode->getPosition() + Ogre::Vector3(-10.0, 0.0, 0.0);
-            this->targetNode->setPosition(vec);
-			Ogre::Real newDist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
-			
-			this->zoom(dist-newDist);
+                    
+        case Controls::CAM_TARGET_MOVE_DOWN :
+			this->moveTarget(Ogre::Vector3(-10.0, 0.0, 0.0));
             break;
-        }
         
         default:
             break;
@@ -172,6 +144,17 @@ void CameraTarget::zoom(Ogre::Real zoomDist)
 		this->camera->moveRelative(Ogre::Vector3(0.0, 0.0, zoomDist));
 	}
 }
+
+
+void CameraTarget::moveTarget(Ogre::Vector3 vector)
+{
+	Ogre::Real dist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
+	Ogre::Vector3 vec = this->targetNode->getPosition() + vector;
+	this->targetNode->setPosition(vec);
+	Ogre::Real newDist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
+	this->zoom(dist-newDist);
+}
+
 
 
 bool CameraTarget::checkRotation(Ogre::Degree yaw, Ogre::Degree pitch)

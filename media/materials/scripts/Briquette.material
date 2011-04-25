@@ -12,3 +12,18 @@ material Briquette
 		}
 	}
 }
+
+material BriquetteSelected
+{
+	receive_shadows on
+	technique
+	{
+		pass
+		{
+			ambient 0.785000 0.000000 0.785000 1.000000
+			diffuse 0.551517 0.341167 0.143130 1.000000
+			specular 0.500000 0.500000 0.500000 1.000000 12.500000
+			emissive 0.000000 0.000000 0.000000 1.000000
+		}
+	}
+}

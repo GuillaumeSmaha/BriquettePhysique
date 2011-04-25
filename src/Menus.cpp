@@ -95,18 +95,21 @@ void Menus::actionFromPlayer(Controls::Controls key)
     switch(key)
     {
         case Controls::OPEN_MENU:
-            if(!this->menu_open)
+			if(this->menusBriquette != NULL)
             {
-                //suspendre_jeux(); marcheuh paaaas
-                afficher_menus();
-                this->menu_open = true;
+				if(!this->menu_open)
+				{
+					//suspendre_jeux(); marcheuh paaaas
+					afficher_menus();
+					this->menu_open = true;
 
-            }
-            else
-            {
-                cacher_menus();
-                //redemarrer_jeux();
-                this->menu_open = false;
+				}
+				else
+				{
+					cacher_menus();
+					//redemarrer_jeux();
+					this->menu_open = false;
+				}
             }
             break;
             
@@ -119,7 +122,7 @@ void Menus::actionFromPlayer(Controls::Controls key)
 void Menus::creer_root_window(void)
 {
     CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
-    this->mainWdw = wmgr.createWindow ("DefaultWindow","Briquette/root");
+    this->mainWdw = wmgr.createWindow ("DefaultWindow", "Briquette/root");
 }
 
 
@@ -129,7 +132,7 @@ void Menus::creer_demarrage_window(void)
     CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
 
     //the easy button
-    CEGUI::Window * facileWdw = wmgr.createWindow("SleekSpace/Button", "Briquette/facileButton");
+    CEGUI::Window * facileWdw = wmgr.createWindow("SleekSpace/Button", "Briquette/easyButton");
     facileWdw->setText("Facile");
     facileWdw->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.3,0)));
     facileWdw->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.05, 0.0f ), CEGUI::UDim( 0.32, 0.0f) ) );
@@ -137,13 +140,13 @@ void Menus::creer_demarrage_window(void)
 
     //the medium button
     CEGUI::Window * mediumWdw = wmgr.createWindow("SleekSpace/Button", "Briquette/mediumButton");
-    mediumWdw->setText("Facile");
+    mediumWdw->setText("Normal");
     mediumWdw->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.3,0)));
     mediumWdw->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.25, 0.0f ), CEGUI::UDim( 0.32, 0.0f) ) );
     mediumWdw->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Menus::startMedium, this));
 
     //the hard button
-    CEGUI::Window * hardWdw = wmgr.createWindow("SleekSpace/Button", "Briquette/QuitButton");
+    CEGUI::Window * hardWdw = wmgr.createWindow("SleekSpace/Button", "Briquette/hardButton");
     hardWdw->setText("Difficile");
     hardWdw->setSize(CEGUI::UVector2(CEGUI::UDim(0.15, 0), CEGUI::UDim(0.3,0)));
     hardWdw->setPosition( CEGUI::UVector2( CEGUI::UDim( 0.45, 0.0f ), CEGUI::UDim( 0.32, 0.0f) ) );
@@ -165,6 +168,7 @@ void Menus::creer_demarrage_window(void)
 void Menus::creer_menus_briquettes(void)
 {
 	this->menusBriquette = new Menus::MenusBriquette();
+	this->menu_open = true;
    
     this->mainWdw->addChildWindow(this->menusBriquette->creer_menus_briquettes());
 }
@@ -212,7 +216,7 @@ bool Menus::startEasy(const CEGUI::EventArgs & evt)
     
     creer_menus_briquettes();
     
-    this->menusBriquette->update_Nb_briquette_in_menus();
+    this->menusBriquette->updateTextButtons();
     
     destroyWindow(evt);
     //static_cast<const CEGUI::WindowEventArgs&>(evt).window->getParent()->getParent()->hide();
@@ -225,7 +229,7 @@ bool Menus::startMedium(const CEGUI::EventArgs & evt)
     
     creer_menus_briquettes();
     
-    this->menusBriquette->update_Nb_briquette_in_menus();
+    this->menusBriquette->updateTextButtons();
     
     destroyWindow(evt);
     //static_cast<const CEGUI::WindowEventArgs&>(evt).window->getParent()->getParent()->hide();
@@ -238,7 +242,7 @@ bool Menus::startHard(const CEGUI::EventArgs & evt)
     
     creer_menus_briquettes();
     
-    this->menusBriquette->update_Nb_briquette_in_menus();
+    this->menusBriquette->updateTextButtons();
     
     destroyWindow(evt);
     //static_cast<const CEGUI::WindowEventArgs&>(evt).window->getParent()->getParent()->hide();

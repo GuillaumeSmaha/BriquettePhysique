@@ -90,28 +90,68 @@ void GestGame::checkBriquette(const Ogre::FrameEvent & null)
 	}		
 }
 
+
+void GestGame::alignBriquette()
+{
+    std::vector<ObjBriquette *>::iterator it;
+    for(it = GestObj::getSingletonPtr()->getListBriquettes().begin() ; it < GestObj::getSingletonPtr()->getListBriquettes().end() ; it++)
+    {
+		Ogre::Vector3 vec = Ogre::Vector3((*it)->getSceneNode()->getPosition()[0], this->positionCreationBriquette[1], (*it)->getSceneNode()->getPosition()[0]);
+		if((*it)->isDrawing())
+		{
+			(*it)->setPosition(vec);
+			(*it)->setOrientation(ObjBriquette::defaultOrientation);
+		}
+		else
+		{
+			(*it)->getSceneNode()->setPosition(vec);
+			(*it)->getSceneNode()->setOrientation(ObjBriquette::defaultOrientation);
+		}		
+	}		
+}
+
+void GestGame::addModification()
+{
+	GestSnapShoot::getSingletonPtr()->addModification();
+
+	if(Menus::getSingletonPtr()->getMenusBriquette() != NULL)
+		Menus::getSingletonPtr()->getMenusBriquette()->updateTextButtons();
+}
+
 void GestGame::undo(unsigned int numberModification)
 {
 	GestSnapShoot::getSingletonPtr()->undo(numberModification);
 	this->numberBriquetteInGame = GestObj::getSingletonPtr()->getCountBriquetteDrawed();
+
+	if(Menus::getSingletonPtr()->getMenusBriquette() != NULL)
+		Menus::getSingletonPtr()->getMenusBriquette()->updateTextButtons();
 }
 
 void GestGame::undoAll()
 {
 	GestSnapShoot::getSingletonPtr()->undoAll();
 	this->numberBriquetteInGame = GestObj::getSingletonPtr()->getCountBriquetteDrawed();
+
+	if(Menus::getSingletonPtr()->getMenusBriquette() != NULL)
+		Menus::getSingletonPtr()->getMenusBriquette()->updateTextButtons();
 }
 
 void GestGame::redo(unsigned int numberModification)
 {
 	GestSnapShoot::getSingletonPtr()->redo(numberModification);
 	this->numberBriquetteInGame = GestObj::getSingletonPtr()->getCountBriquetteDrawed();
+
+	if(Menus::getSingletonPtr()->getMenusBriquette() != NULL)
+		Menus::getSingletonPtr()->getMenusBriquette()->updateTextButtons();
 }
 
 void GestGame::redoAll()
 {
 	GestSnapShoot::getSingletonPtr()->redoAll();
 	this->numberBriquetteInGame = GestObj::getSingletonPtr()->getCountBriquetteDrawed();
+
+	if(Menus::getSingletonPtr()->getMenusBriquette() != NULL)
+		Menus::getSingletonPtr()->getMenusBriquette()->updateTextButtons();
 }
 
 void GestGame::quitGame()
@@ -124,12 +164,16 @@ void GestGame::onKeyPressed(Controls::Controls key)
 {
     switch(key)
     {
-        case Controls::UNDO:
+        case Controls::UNDO :
             this->undo();
             break;
             
-        case Controls::REDO:
+        case Controls::REDO :
             this->redo();
+            break;
+            
+        case Controls::ADD_REVISION :
+            this->addModification();
             break;
             
         case Controls::QUIT :

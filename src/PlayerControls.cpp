@@ -33,24 +33,29 @@ void PlayerControls::setDefaultKeys()
 	this->setMouseControl(Controls::MOUSE_CAMERA_ZOOM, OIS::MB_Middle);
 	this->setMouseControl(Controls::MOUSE_CAMERA_ROTATE, OIS::MB_Right);
 	
-	this->setKeyControl(Controls::CAM_MOVE_RIGHT, OIS::KC_RIGHT);
-	this->setKeyControl(Controls::CAM_MOVE_LEFT, OIS::KC_LEFT);
-	this->setKeyControl(Controls::CAM_MOVE_UP, OIS::KC_UP);
-	this->setKeyControl(Controls::CAM_MOVE_DOWN, OIS::KC_DOWN);
+	this->setKeyControl(Controls::CAM_TARGET_MOVE_RIGHT, OIS::KC_RIGHT);
+	this->setKeyControl(Controls::CAM_TARGET_MOVE_LEFT, OIS::KC_LEFT);
+	this->setKeyControl(Controls::CAM_TARGET_MOVE_UP, OIS::KC_UP);
+	this->setKeyControl(Controls::CAM_TARGET_MOVE_DOWN, OIS::KC_DOWN);
+	
 	this->setKeyControl(Controls::CAM_ZOOM_IN, OIS::KC_Z);
 	this->setKeyControl(Controls::CAM_ZOOM_OUT, OIS::KC_S);
 	this->setKeyControl(Controls::CAM_ROTATE_LEFT, OIS::KC_Q);
 	this->setKeyControl(Controls::CAM_ROTATE_RIGHT, OIS::KC_D);
     
-	this->setKeyControl(Controls::OPEN_MENU, OIS::KC_ESCAPE);
-	this->setKeyControl(Controls::QUIT, OIS::KC_F10);
-	this->setKeyControl(Controls::UNDO, OIS::KC_U);
-	this->setKeyControl(Controls::REDO, OIS::KC_I);
-	this->setKeyControl(Controls::SAVE, OIS::KC_G);
 	this->setKeyControl(Controls::SUPPR, OIS::KC_DELETE);
+	
+	this->setKeyControl(Controls::UNDO, OIS::KC_U);
+	this->setKeyControl(Controls::ADD_REVISION, OIS::KC_I);
+	this->setKeyControl(Controls::REDO, OIS::KC_O);
+	
+	
+	this->setKeyControl(Controls::LOAD, OIS::KC_F);
+	this->setKeyControl(Controls::SAVE, OIS::KC_G);
 	
 	this->setKeyControl(Controls::OPEN_MENU, OIS::KC_ESCAPE);
 	this->setKeyControl(Controls::SWITCH_BULLET_STATE, OIS::KC_W);
+	this->setKeyControl(Controls::QUIT, OIS::KC_F10);
 }
 
 void PlayerControls::resetControls(void)

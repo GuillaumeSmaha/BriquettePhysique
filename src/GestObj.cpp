@@ -53,7 +53,7 @@ void GestObj::addBriquette(const Ogre::Vector3 &pos)
     //ajout dans la liste des briquettes
     this->lstBriquettes.push_back(briquettePtr);
     
-    GestSnapShoot::getSingletonPtr()->addModification();
+    GestGame::getSingletonPtr()->addModification();
 }
 
 

@@ -105,6 +105,15 @@ class ObjBriquette
         //###########GETTER / SETTER ############
 		
 		/*!
+		 * \brief Attribue le matériel d'une briquette désélectionnée
+		*/
+        void setMaterielUnselected();
+		/*!
+		 * \brief Attribue le matériel d'une briquette sélectionnée
+		*/
+        void setMaterielSelected();
+        
+		/*!
 		 * \brief Cache la briquette
 		*/
 		void hide(); 

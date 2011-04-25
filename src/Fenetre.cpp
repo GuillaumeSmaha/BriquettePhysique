@@ -21,7 +21,7 @@ CEGUI::Window * Fenetre::create_std_window(CEGUI::utf8 * name, float posX, float
     menuBackground->setPosition(CEGUI::UVector2(CEGUI::UDim(posX,0.0),CEGUI::UDim((posY+0.05),0.0)));
 
     CEGUI::Window * tmp_contenu;
-    int i=0;
+    int i = 0;
     while(i < nbEl)
     {
         tmp_contenu = contenu[i];

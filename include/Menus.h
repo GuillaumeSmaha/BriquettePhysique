@@ -32,6 +32,10 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
 				* \brief Bouton pour ajouter une briquette
 				*/
                 CEGUI::Window * addBriquetteWdw;
+				/*!
+				* \brief Pour afficher le status des revisions
+				*/
+                CEGUI::Window * idRevisionWdw;
                 
             public:
 				/*!
@@ -51,7 +55,7 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
 				/*!
 				* \brief Met à jour le nombre de briquette affiché dans le bouton
 				*/
-                void update_Nb_briquette_in_menus();
+                void updateTextButtons();
 				/*!
 				* \brief Ajoute une briquette
 				* \param evt Evenement CEGUI
@@ -234,6 +238,19 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
          * \brief Permet de convertir les clics de souris pour cegui (utilisé par mousePressed).
         */
         CEGUI::MouseButton convertButton(OIS::MouseButtonID evt);       
+        
+        
+        //Getter - Setter
+
+	public:
+        /*!
+         * \brief Retourne un pointeur sur le menu des briquettes
+         * \return Pointeur sur l'attribut menusBriquette
+        */
+        MenusBriquette * getMenusBriquette()
+        {
+			return this->menusBriquette;
+		}
 };
 
 

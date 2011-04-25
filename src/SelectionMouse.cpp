@@ -108,7 +108,8 @@ void SelectionMouse::onMouseMoved(MouseMove_t &mouseMove)
 	{
         if(this->selectedBriquetteOnMove != NULL)
         {
-			Ogre::Vector3 plan = Ogre::Vector3(1000.0, 0.001, 1000.0);
+			//~ Ogre::Vector3 plan = Ogre::Vector3(1000.0, 0.001, 1000.0);
+			Ogre::Vector3 plan = Ogre::Vector3(1000.0, 2.0, 1000.0);
 			
 			ObjBriquette * briquette = GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquetteOnMove);
 			Ogre::SceneNode * nodeTest = GestSceneManager::getSceneManager()->getSceneNode(NODE_NAME_GROUPE_TESTS);
@@ -163,6 +164,12 @@ void SelectionMouse::onKeyPressed(Controls::Controls key)
             selectBriquette();
             break;
             
+        case Controls::UNDO:
+        case Controls::REDO:
+            this->selectedBriquetteOnMove = NULL;
+            this->selectedBriquettePrevious = NULL;
+            break;
+            
         default:
             break;
     }
@@ -190,17 +197,37 @@ void SelectionMouse::selectBriquette()
 	   
 		if((body != NULL) && (!body->isStaticObject()))
 		{
-			this->selectedBriquetteOnMove = body;
-			this->selectedBriquettePrevious = body;
-			body->getBulletRigidBody()->forceActivationState(false);
-			this->clearAllForces();
-	 
-			std::cout << "body: " << this->selectedBriquetteOnMove->getName() <<std::endl;
-			std::cout << "orientation : "<<GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquetteOnMove)->getSceneNode()->getOrientation()<<std::endl;
-			std::cout << "orientation bullet : "<<*(this->selectedBriquetteOnMove->getBulletRigidBody()->getOrientation())<<std::endl;
-			//~ this->selectedBriquetteOnMove->getBulletRigidBody()->setOrientation(0.0);
+			ObjBriquette * briquette = GestObj::getSingletonPtr()->getBriquetteByRigidBody(body);
 			
-			//std::cout << "orientation : " << *(this->selectedBriquetteOnMove->getBulletRigidBody()->getOrientation()) << std::endl;
+			if(briquette != NULL)
+			{
+				if(this->selectedBriquettePrevious != NULL)
+					GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquettePrevious)->setMaterielUnselected();
+				
+				this->selectedBriquetteOnMove = body;
+				this->selectedBriquettePrevious = body;
+				
+				briquette->setMaterielSelected();
+				
+				body->getBulletRigidBody()->forceActivationState(false);
+				this->clearAllForces();
+		 
+				std::cout << "body: " << this->selectedBriquetteOnMove->getName() << std::endl;
+				std::cout << "orientation : " << briquette->getSceneNode()->getOrientation() << std::endl;
+				std::cout << "orientation bullet : " << *(this->selectedBriquetteOnMove->getBulletRigidBody()->getOrientation()) << std::endl;
+				//~ this->selectedBriquetteOnMove->getBulletRigidBody()->setOrientation(0.0);
+				
+				//std::cout << "orientation : " << *(this->selectedBriquetteOnMove->getBulletRigidBody()->getOrientation()) << std::endl;
+			}
+		}
+		else
+		{
+			if(this->selectedBriquettePrevious != NULL)
+			{
+				GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquettePrevious)->setMaterielUnselected();
+				
+				this->selectedBriquettePrevious = NULL;
+			}
 		}
 	}
 }
@@ -224,7 +251,7 @@ void SelectionMouse::unselectBriquette()
         
         this->selectedBriquetteOnMove = NULL;
                 
-        GestSnapShoot::getSingletonPtr()->addModification();
+        GestGame::getSingletonPtr()->addModification();
     }
 }
 
@@ -281,8 +308,12 @@ void SelectionMouse::clearAllForces()
 {
     std::vector<ObjBriquette *> lstBriquettes = GestObj::getSingletonPtr()->getListBriquettes();
     std::vector<ObjBriquette *>::iterator it;
-    for(it = lstBriquettes.begin() ; it <lstBriquettes.end() ; it ++){
-        (*it)->getRigidBody()->getBulletRigidBody()->forceActivationState(false);
-        (*it)->getRigidBody()->getBulletRigidBody()->clearForces();
+    for(it = lstBriquettes.begin() ; it <lstBriquettes.end() ; it ++)
+    {
+		if((*it)->isDrawing())
+		{
+			(*it)->getRigidBody()->getBulletRigidBody()->forceActivationState(false);
+			(*it)->getRigidBody()->getBulletRigidBody()->clearForces();
+		}
     }
 }

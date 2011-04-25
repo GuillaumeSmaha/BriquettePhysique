@@ -14,14 +14,14 @@ namespace Controls
 		NONE = 0,
 		///Quit the application
 		QUIT,
-		///Move the camera at right
-		CAM_MOVE_RIGHT,
-		///Move the camera at left
-		CAM_MOVE_LEFT,
-		///Move the camera at up
-		CAM_MOVE_UP,
-		///Move the camera at down
-		CAM_MOVE_DOWN,
+		///Move the target camera at right
+		CAM_TARGET_MOVE_RIGHT,
+		///Move the target camera at left
+		CAM_TARGET_MOVE_LEFT,
+		///Move the target camera at up
+		CAM_TARGET_MOVE_UP,
+		///Move the target camera at down
+		CAM_TARGET_MOVE_DOWN,
 		///Move the camera at bottom
 		CAM_ZOOM_IN,
 		///Move the camera at behind
@@ -30,24 +30,20 @@ namespace Controls
 		CAM_ROTATE_LEFT,
 		///Rotate right
 		CAM_ROTATE_RIGHT,
-		///Rotate the camera left
-		CAM_ROTATE_UP,
-		///Rotate right
-		CAM_ROTATE_DOWN,
 		///Open the menu
 		OPEN_MENU,
-		///Switch with the next camera
-		SWITCH_NEXT_CAMERA,
-		///Switch with the previous camera
-		SWITCH_PREV_CAMERA,
 		///Select an object
 		SELECT,
 		///Undo a modification
 		UNDO,
+		///Add a revision
+		ADD_REVISION,
 		///Redo a modification
 		REDO,
 		///Delete an object
 		SUPPR,
+		///Save the objects
+		LOAD,
 		///Save the objects
 		SAVE,
         ///Mouse move to rotate the camera

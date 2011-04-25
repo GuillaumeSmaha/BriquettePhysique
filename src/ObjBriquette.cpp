@@ -15,16 +15,14 @@ void ObjBriquette::updateBtBoundingBox(OgreBulletDynamics::RigidBody * rigidBody
     
     btVector3 posBt = OgreBulletCollisions::OgreBtConverter::to(posOgre);
     btQuaternion dirBt = OgreBulletCollisions::OgreBtConverter::to(dirOgre);
-    
 
     rigidBody->getBulletDynamicsWorld()->removeCollisionObject(rigidBody->getBulletRigidBody());
     rigidBody->getBulletObject()->getWorldTransform().setOrigin(posBt);
     rigidBody->getBulletObject()->getWorldTransform().setRotation(dirBt);
     rigidBody->getBulletDynamicsWorld()->addRigidBody(rigidBody->getBulletRigidBody());
-    rigidBody->enableActiveState();
-    
+    rigidBody->enableActiveState();    
         
-	rigidBody->getBulletRigidBody()->forceActivationState(true);
+	rigidBody->getBulletRigidBody()->activate(true);
 }
 
 
@@ -120,6 +118,17 @@ void ObjBriquette::removePhysicalObj()
 	}
 }
 
+
+void ObjBriquette::setMaterielUnselected()
+{
+    this->entBriquette->setMaterialName("Briquette");
+}
+
+
+void ObjBriquette::setMaterielSelected()
+{
+    this->entBriquette->setMaterialName("BriquetteSelected");
+}
 
 
 void ObjBriquette::hide()

@@ -10,13 +10,11 @@
 #include "nodeName.h"
 #include "ClassRootSingleton.h"
 #include "Utils.h"
-#include "GestSnapShoot.h"
+#include "GestGame.h"
 #include "ObjTable.h"
 #include "ObjBriquette.h"
 
 class ObjBriquette;
-class GestSnapShoot;
-class SnapShoot;
 
 /*!
 * \class GestObj
