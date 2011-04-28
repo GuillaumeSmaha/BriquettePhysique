@@ -1,0 +1,53 @@
+%\usepackage{listings}
+
+%\renewcommand{\lstlistlistingname}{Liste des codes}
+%\renewcommand{\lstlistingname}{Code}
+
+%\addextratables{%
+%	\lstlistoflistings
+%}
+
+%\swapAuthorsAndSupervisors
+
+% le compteur de references
+\makeatletter
+\newcounter{reference}%
+\renewcommand \thereference
+ {\@arabic\c@reference}
+\makeatother
+
+\newenvironment{bibliographie}{\begin{small}\begin{enumerate}}{\end{enumerate}\end{small}}
+
+
+\newcommand{\biblioentry}[2]{%
+	\refstepcounter{reference}
+	\label{#1}
+	\ifthenelse{\equal{#2}{}}{%	
+		\item[{[\ref{#1}]}] \xspace
+	}{%
+		\item[{[#2]}] \xspace
+	}
+}
+
+\newcommand{\biblioentryFull}[5]{%
+	\refstepcounter{reference}
+	\label{#1}
+	\ifthenelse{\equal{#2}{}}{%	
+		\item[{[\ref{#1}]}] \xspace #3, \og \textit{#4} \fg, \url{#5}
+	}{%
+		\ifthenelse{\equal{#5}{}}{%	
+			\item[{[#2]}] \xspace \xspace #3, \og \textit{#4} \fg
+		}{%
+			\item[{[#2]}] \xspace \xspace #3, \og \textit{#4} \fg, \url{#5}
+		}
+	}
+}
+
+\newcommand{\refMot}[1]{%
+	\up{[\ref{#1}]}
+}
+
+\newcommand{\labelMot}[1]{%
+	\refstepcounter{reference}
+	\label{#1}
+}
