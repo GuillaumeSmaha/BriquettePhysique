@@ -102,6 +102,25 @@
         \item Bullet\refMot{bib:librairie_bullet}: Librairie de simulation de la physique http://bulletphysics.org/
     \end{itemize}
 
+\chapter{Réalisation}
+    \section{Gestion des évènements claviers/souris}
+
+    \section{Gestion de la caméra}
+        Dans ce projet, il n'y a pas besoin de fournir de multiples caméras à
+        l'utilisateur. Nous avons convenu que la caméra la plus adapté serait
+        une caméra capable de pivoter autours de la table. La caméra est
+        toujours orienté vers le point central de la table, cela permet d'avoir
+        une orientation correcte, de plus son axe de lacet est fixé sur l'axe
+        Z de façon à ce que la table soit toujours vue droite. Les rotations se
+        font à l'aide de la souris, il est également possible de zoomer à
+        l'aide des touches du clavier. introduire des translations de la caméra
+        pourrait être intéressant mais cela est complexe car il faut alors
+        reprendre l'orientation de la caméra et les rotations ne se font plus
+        alors autours du centre de la table mais d'un autre point qu'il faut
+        déplacer en conséquence. On aurait également pu imaginer un système ou
+        la caméra plutôt que de s'orienter vers le centre de la table,
+        s'oriente sur la dernière briquette sélectionné, mais cela peut
+        également désorienté l'utilisateur.
 
 \chapter{Conclusion}
 
