@@ -1,23 +1,61 @@
-\documentclass{report}
+\documentclass[frenchb,twoside]{EPURapport}
 
-\usepackage[latin1]{inputenc}
-\usepackage{color}
+\input{include.tex}
+
+%\usepackage[utf8]{inputenc}
+\usepackage[utf8x]{inputenc}
+\usepackage{ucs}
+\usepackage{eurosym}
 \usepackage{graphicx}
 \usepackage{url}
+\usepackage{pdfpages}
+\usepackage[makeindex]{glossaries}
+%\usepackage{makeidx}
+%\usepackage{showidx}
 
-\RequirePackage{hyperref} %% Clicka-proof links
 \urlstyle{sf}
 
-\usepackage{listings}
 
-\addtolength{\hoffset}{-2cm}
-\addtolength{\textwidth}{3cm} 
 
-\title{Projet de réalité virtuelle: Construction en Kapla}
-\author{Pierre Vittet, Guillamue Smaha}
+%%%%%%%%%%%%Commande personnalisée
+\newcommand\motClef[1]{\textbf{\gls{#1}}}
+\newcommand{\exemple}{\textbf}
+\newcommand{\info}{\textbf}
+
+
+%\makeindex
+\makeglossaries
+\thedocument{Projet de r\'{e}alit\'{e} virtuelle}{Construction en Kapla}{Construction en Kapla}
+
+\grade{Département Informatique\\ 5\ieme{} année\\ 2010 - 2011}
+
+\authors{%
+	\category{Étudiants}{%
+		\name{Guillaume Smaha} \mail{guillaume.smaha@etu.univ-tours.fr}
+		\name{Pierre Vittet} \mail{pierre.vittet@etu.univ-tours.fr}
+	}
+	\details{DI5 2010 - 2011}
+}
+
+\supervisors{%
+	\category{Encadrant}{%
+		\name{Sebastien Aupetit} \mail{aupetit@univ-tours.fr}
+		\name{Emmanuel Néron} \mail{emmanuel.neron@univ-tours.fr}
+	}
+	\details{Université François-Rabelais, Tours}
+}
+
+\abstracts{Ce rapport présentera notre projet de construction de Kapla. L'objectif de ce projet était de développer une simulation physique d'un jeu de Kapla. Nous y expliquerons les différentes techniques utilisées (signaux, déplacements, ...) pour obtenir le résultat le plus réaliste possible.}
+{Ogre3D, Bullet, Kapla, simulation}
+{This report will describe our project of construction Kapla. The main goal of this project was to develop a physic simulation of a Kapla game. We will describe the different techniques (signals, movement, …) used to obtain the most realistic result.}
+{Ogre3D, Bullet, Kapla, simulation}
+
+
 \begin{document}
 
+
 \chapter{Introduction}
+
 \section{Présentation du projet}
     L'objectif du projet est de proposer un environnement 3D dans lequel un
     utilisateur peut positionner un ensemble de briquettes afin de créer des
@@ -26,7 +64,11 @@
     éloigné autant que possible du bord de la table.
     Bien sur, chaque briquette est soumis à la force de gravité rendant plus
     complexe l'élaboration de structures stables.
+
 \section{Objectifs}
+
+
+\section{}
     Aprés avoir discuter avec notre encadrant, nous nous sommes données les objectifs suivants:
     \begin{itemize}
         \item Un menus permettant de gérer différents niveaux de difficulté.
@@ -39,6 +81,9 @@
         permet d'y revenir.
         
     \end{itemize}
+   
+    
+    
 \chapter{Choix techniques}
     \section{Contexte}
     L'encadrant de projet nous à laissé libre de choisir les technologies et
@@ -52,11 +97,27 @@
 
     \section{Liste des outils}
     \begin{itemize}
-        \item Ogre: Moteur 3D open source (http://www.ogre3d.org/) supportant aussi bien OpenGL que Direct3D. 
-        \item CEGUI: Crazy Eddie's GUI System (http://www.cegui.org.uk) fournissant des outils de créations de menus et de fenetre dans un environnement 3D.
-        \item Bullet: Librairie de simulation de la physique (http://bulletphysics.org/), on peut l'utiliser avec Ogre via le plugin OgreBullet (http://www.ogre3d.org/tikiwiki/OgreBullet).
+        \item Ogre\refMot{bib:librairie_ogre}: Moteur 3D open source (http://www.ogre3d.org/) supportant aussi bien OpenGL que Direct3D. 
+        \item CEGUI\refMot{bib:librairie_cegui}: Crazy Eddie's GUI System (http://www.cegui.org.uk) fournissant des outils de créations de menus et de fenetre dans un environnement 3D.
+        \item Bullet\refMot{bib:librairie_bullet}: Librairie de simulation de la physique http://bulletphysics.org/
     \end{itemize}
 
+
+\chapter{Conclusion}
+
+
+
+
+\chapter{Bibliographie}
+
+\begin{bibliographie}	
+	\biblioentry{bib:ogre_quaternion}{} Ogre Wiki, \textit{Utilisation des quaternions dans Ogre}, \url{http://www.ogre3d.org/tikiwiki/Quaternion+and+Rotation+Primer}
+	\biblioentry{bib:librairie_ogre}{} Ogre Documentation, \textit{Documentation Doxygen d'Ogre}, \url{http://www.ogre3d.org/docs/api/html/index.html}
+	\biblioentry{bib:librairie_cegui}{} CEGUI Wiki, \textit{Utilisation de CEGUI}, \url{http://www.cegui.org.uk/wiki/index.php/Main_Page}
+	\biblioentry{bib:librairie_bullet}{} Bullet Wiki, \textit{Utilisation de Bullet}, \url{http://bulletphysics.org/wordpress/}
+	\biblioentry{bib:librairie_ogrebullet}{} Ogre Wiki, \textit{Tutorial d'utilisation d'OgreBullet}, \url{http://www.ogre3d.org/tikiwiki/OgreBullet}
+	\biblioentry{bib:signaux_qt}{} Site du Zéro, \textit{Signaux avec QT}, \url{http://www.siteduzero.com/tutoriel-3-11268-les-signaux-et-les-slots.html}
+	\end{bibliographie}	
 
 
 \end{document}
