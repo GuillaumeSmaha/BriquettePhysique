@@ -104,6 +104,10 @@
 
 \chapter{Réalisation}
     \section{Gestion des évènements claviers/souris}
+        Nous utilisons une classe PlayerControl qui redirige l'ensemble des
+        évènements claviers et souris en des évènements logiques. C'est cette
+        classe qui permet de lier les touches à des actions, permettant
+        d'abstraire la configuration des touches par la suite.
 
     \section{Gestion de la caméra}
         Dans ce projet, il n'y a pas besoin de fournir de multiples caméras à
@@ -121,6 +125,27 @@
         la caméra plutôt que de s'orienter vers le centre de la table,
         s'oriente sur la dernière briquette sélectionné, mais cela peut
         également désorienté l'utilisateur.
+
+    \section{Gestion de la physique des briquettes}
+        La physique est géré avec la librairie Bullet. La technique consite à
+        lier à l'objet d'Ogre, un 'corps' particulier à bullet sur lequel
+        s'exerceront des forces et sur lequel on surveillera les possibles
+        collisions. Bullet permet de rajouter une force d'attraction globale au
+        monde et un poid à chacun des objets. Une des difficultés était de
+        pouvoir outre-passer la gestion de la physique offerte par bullet lors
+        de la sélection des briquettes pour les replacer. Pour cela il a faut
+        désactiver l'ensemble des forces s'exercant sur l'objet, permettre les
+        deplacements de l'objet (lorsqu'un objet est stable, et qu'il n'y a pas
+        de risque que celui ci subisse de nouvelle collision, bullet le bloque
+        de façon à ne pas avoir à contrôler continuellement son état), et enfin
+        empécher la mise à jour de l'objet et l'application des nouvelles
+        forces avant que l'utilisateur n'est fini de positionner l'objet. 
+
+        On utilise en réalité Bullet via OgreBullet pour l'intégrer avec Ogre,
+        cependant OgreBullet est limité dans ces possiblités et il nous a
+        parfois fallut travailler directement sur l'objet Bullet pour pouvoir
+        obtenir le comportement souhaité.
+
 
 \chapter{Conclusion}
 
