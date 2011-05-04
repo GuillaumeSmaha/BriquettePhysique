@@ -13,15 +13,14 @@ CameraAbstract::CameraAbstract(Ogre::String cameraName)
 	if (Ogre::Root::getSingleton().getRenderSystem()->getCapabilities()->hasCapability(Ogre::RSC_INFINITE_FAR_PLANE))
 		this->camera->setFarClipDistance(0);
     //permet de gérer les déplacements de caméra
-    
-
-
 }
+
 
 CameraAbstract::~CameraAbstract()
 {
 	GestSceneManager::getSceneManager()->destroyCamera(this->cameraName);
 }
+
 
 void CameraAbstract::setDirection( Ogre::Real x, Ogre::Real y, Ogre::Real z )
 {

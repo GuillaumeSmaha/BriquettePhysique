@@ -25,6 +25,8 @@
 #include "ListenerFrame.h"
 #include "ObjBriquette.h"
 
+class ObjBriquette;
+
 /*!
  * \class GestGame
  * \brief Classe permettant de gérer le jeu.

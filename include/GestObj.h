@@ -13,6 +13,7 @@
 #include "ObjBriquette.h"
 
 class ObjBriquette;
+class ObjTable;
 
 /*!
 * \class GestObj

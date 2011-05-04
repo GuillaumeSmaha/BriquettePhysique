@@ -19,6 +19,7 @@
 #include "GestSceneManager.h"
 #include "ListenerFrame.h"
 #include "PlayerControls.h"
+#include "GestCamera.h"
 
 /*!
  * \class ListenerCollision
@@ -60,23 +61,16 @@ class ListenerCollision : public ClassRootSingleton<ListenerCollision>
 		~ListenerCollision();
 		
 		/*!
-		 * \brief Switch the value of the attribute physicEngineState
-		 * \param locker Pointeur vers l'objet demandant l'utilisation
-		 * \return Retourne si la modification a été autorisé
+		 * \brief Met à jour les collision
+		 * \param evt Evenement du controlleur de frame
 		 */
-		bool switchPhysicEngineState(void * locker = NULL);
+		void updateCollision(const Ogre::FrameEvent &evt);
 		
         /*!
          * \brief Permet de réagir a l'appui sur touche/button souris, permet de lancer la prise de briquettes
          * \param key Evénement du clavier
         */
         void onKeyPressed(Controls::Controls key);
-
-		/*!
-		 * \brief Met à jour les collision
-		 * \param evt Evenement du controlleur de frame
-		 */
-		void updateCollision(const Ogre::FrameEvent &evt);
 		
 		
 		/*!
@@ -92,6 +86,20 @@ class ListenerCollision : public ClassRootSingleton<ListenerCollision>
 		 */
 		void physicEngineMutexUnLock(void * locker);
 		
+		/*!
+		 * \brief Switch the value of the attribute physicEngineState
+		 * \param locker Pointeur vers l'objet demandant l'utilisation
+		 * \return Retourne si la modification a été autorisé
+		 */
+		bool switchPhysicEngineState(void * locker = NULL);
+		
+		/*!
+		 * \brief [Setter] Définit de l'attribut physicEngineState
+		 * \param physicEngineState Définit l'état du moteur physique
+		 * \param locker Pointeur vers l'objet demandant l'utilisation
+		 * \return Retourne si la modification a été autorisé
+		 */
+		bool setPhysicEngineState(bool physicEngineState, void * locker = NULL);
 		
 		//Getter - Setter
 		
@@ -113,13 +121,6 @@ class ListenerCollision : public ClassRootSingleton<ListenerCollision>
 		{
 			return this->physicEngineState;
 		}
-		/*!
-		 * \brief [Setter] Définit de l'attribut physicEngineState
-		 * \param physicEngineState Définit l'état du moteur physique
-		 * \param locker Pointeur vers l'objet demandant l'utilisation
-		 * \return Retourne si la modification a été autorisé
-		 */
-		bool setPhysicEngineState(bool physicEngineState, void * locker = NULL);
 };
 
 #endif //__LISTENER_COLLISION_H__

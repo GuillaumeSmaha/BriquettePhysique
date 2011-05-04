@@ -17,6 +17,7 @@
 class GestObj;
 class ObjBriquette;
 
+
 /*!
 * \struct SnapShootData
 * \brief Structure d'une donnée du SnapShoot
