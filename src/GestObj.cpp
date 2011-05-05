@@ -92,6 +92,20 @@ void GestObj::removeBriquette(ObjBriquette * briquette)
 }
 
 
+void GestObj::clearAllForces()
+{
+    std::vector<ObjBriquette *> lstBriquettes = this->getListBriquettes();
+    std::vector<ObjBriquette *>::iterator it;
+    for(it = lstBriquettes.begin() ; it < lstBriquettes.end() ; it ++)
+    {
+		if((*it)->isDrawing())
+		{
+			(*it)->getRigidBody()->getBulletRigidBody()->forceActivationState(false);
+			(*it)->getRigidBody()->getBulletRigidBody()->clearForces();
+		}
+    }
+}
+
 void GestObj::setTableBackground(ObjTable * tableBackground)
 {
     if(this->tableBackground == NULL)

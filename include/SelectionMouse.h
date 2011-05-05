@@ -121,12 +121,7 @@ class SelectionMouse: public ClassRootSingleton<SelectionMouse>
         /*!
          * \brief Permet en particulier de reprendre le comportement physique de la briquette aprés mise à jour de sa position
         */
-        void unselectBriquette();        
-        /*!
-         * \brief clear les forces de toutes les briquettes en jeux
-         * Ca permet d'avoir un déplacement de briquettes immédiat.
-        */
-        void clearAllForces();
+        void unselectBriquette();
         
         
 	public:

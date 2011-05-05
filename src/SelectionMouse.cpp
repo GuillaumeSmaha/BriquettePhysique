@@ -108,7 +108,6 @@ void SelectionMouse::onMouseMoved(MouseMove_t &mouseMove)
 	{
         if(this->selectedBriquetteOnMove != NULL)
         {
-			//~ Ogre::Vector3 plan = Ogre::Vector3(50.0, 3.0, 50.0);
 			Ogre::Vector3 plan = Ogre::Vector3(1000.0, 3.0, 1000.0);
 			
 			ObjBriquette * briquette = GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquetteOnMove);
@@ -116,10 +115,9 @@ void SelectionMouse::onMouseMoved(MouseMove_t &mouseMove)
 			
 			OgreBulletCollisions::CollisionShape * shapeTest = new OgreBulletCollisions::BoxCollisionShape(plan);
 			
-			//~ OgreBulletDynamics::RigidBody * bodyTest = new OgreBulletDynamics::RigidBody("RigidBodyTest", ListenerCollision::getSingletonPtr()->getWorld());
 			OgreBulletDynamics::RigidBody * bodyTest = new OgreBulletDynamics::RigidBody("RigidBodyTest", ListenerCollision::getSingletonPtr()->getWorld(), COL_TEST_PLANE, TEST_PLANE_COLLIDES_WITH);
 			
-			bodyTest->setShape(nodeTest, shapeTest, 0.6, 0.6, 0.0, GestGame::getSingletonPtr()->getPositionCreationBriquette(), ObjBriquette::defaultOrientation);
+			bodyTest->setShape(nodeTest, shapeTest, 0.0, 0.0, 0.0, GestGame::getSingletonPtr()->getPositionCreationBriquette(), ObjBriquette::defaultOrientation);
             		
 			Ogre::Ray rayon;
 			OgreBulletCollisions::CollisionClosestRayResultCallback * mCollisionClosestRayResultCallback = this->getResultUnderCursorUsingBullet(rayon);
@@ -130,7 +128,6 @@ void SelectionMouse::onMouseMoved(MouseMove_t &mouseMove)
 				
 				if(body->getName() == "RigidBodyTest")
 				{
-					//~ this->selectedBriquetteOnMove->setPosition(
 					briquette->setPosition(
 						Ogre::Vector3(
 							mCollisionClosestRayResultCallback->getCollisionPoint()[0],
@@ -210,14 +207,11 @@ void SelectionMouse::selectBriquette()
 				briquette->setMaterielSelected();
 				
 				body->getBulletRigidBody()->forceActivationState(false);
-				this->clearAllForces();
+				GestObj::getSingletonPtr()->clearAllForces();
 		 
 				std::cout << "body: " << this->selectedBriquetteOnMove->getName() << std::endl;
 				std::cout << "orientation : " << briquette->getSceneNode()->getOrientation() << std::endl;
 				std::cout << "orientation bullet : " << *(this->selectedBriquetteOnMove->getBulletRigidBody()->getOrientation()) << std::endl;
-				//~ this->selectedBriquetteOnMove->getBulletRigidBody()->setOrientation(0.0);
-				
-				//std::cout << "orientation : " << *(this->selectedBriquetteOnMove->getBulletRigidBody()->getOrientation()) << std::endl;
 			}
 		}
 		else
@@ -238,35 +232,11 @@ void SelectionMouse::unselectBriquette()
     if(this->selectedBriquetteOnMove != NULL)
     {
         //mettre a jour la bounding permet de la placer à la nouvelle position de la briquette
-	 
-//        GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquetteOnMove)
-//            ->getSceneNode()->setOrientation(ObjBriquette::defaultOrientation);
-//
-//        this->selectedBriquetteOnMove->getBulletRigidBody()->getWorldTransform().
-//                setBasis(btMatrix3x3(btQuaternion(0,0,0,1)));
-//
-	
         ObjBriquette::updateBtBoundingBox(this->selectedBriquetteOnMove);
-        
-        
+           
         this->selectedBriquetteOnMove = NULL;
                 
         GestGame::getSingletonPtr()->addModification();
-    }
-}
-
-
-void SelectionMouse::clearAllForces()
-{
-    std::vector<ObjBriquette *> lstBriquettes = GestObj::getSingletonPtr()->getListBriquettes();
-    std::vector<ObjBriquette *>::iterator it;
-    for(it = lstBriquettes.begin() ; it <lstBriquettes.end() ; it ++)
-    {
-		if((*it)->isDrawing())
-		{
-			(*it)->getRigidBody()->getBulletRigidBody()->forceActivationState(false);
-			(*it)->getRigidBody()->getBulletRigidBody()->clearForces();
-		}
     }
 }
 

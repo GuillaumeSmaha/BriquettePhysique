@@ -12,7 +12,6 @@ GestGame::GestGame() : ClassRootSingleton<GestGame>()
     
     
     ListenerFrame::getSingletonPtr()->signalFrameStarted.add(&GestGame::checkBriquette, this);
-    //~ PlayerControls::getSingletonPtr()->signalKeyPressed.add(&GestGame::onKeyPressed, GestGame::getSingletonPtr());
 }
 
 
@@ -93,12 +92,12 @@ void GestGame::checkBriquette(const Ogre::FrameEvent & null)
 }
 
 
-void GestGame::alignBriquette()
+void GestGame::alignBriquettes()
 {
     std::vector<ObjBriquette *>::iterator it;
     for(it = GestObj::getSingletonPtr()->getListBriquettes().begin() ; it < GestObj::getSingletonPtr()->getListBriquettes().end() ; it++)
     {
-		Ogre::Vector3 vec = Ogre::Vector3((*it)->getSceneNode()->getPosition()[0], this->positionCreationBriquette[1], (*it)->getSceneNode()->getPosition()[0]);
+		Ogre::Vector3 vec = Ogre::Vector3((*it)->getSceneNode()->getPosition()[0], this->positionCreationBriquette[1], (*it)->getSceneNode()->getPosition()[2]);
 		if((*it)->isDrawing())
 		{
 			(*it)->setPosition(vec);
@@ -109,7 +108,13 @@ void GestGame::alignBriquette()
 			(*it)->getSceneNode()->setPosition(vec);
 			(*it)->getSceneNode()->setOrientation(ObjBriquette::defaultOrientation);
 		}		
-	}		
+		
+		(*it)->getRigidBody()->getBulletRigidBody()->forceActivationState(false);
+		(*it)->getRigidBody()->getBulletRigidBody()->clearForces();
+		(*it)->getRigidBody()->getBulletRigidBody()->activate(true);
+	}
+	
+	this->addModification();
 }
 
 void GestGame::addModification()

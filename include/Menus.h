@@ -36,6 +36,14 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
 				* \brief Pour afficher le status des revisions
 				*/
                 CEGUI::Window * idRevisionWdw;
+				/*!
+				* \brief Pour switcher le moteur physique
+				*/
+                CEGUI::Window * physicEngineStateWdw;
+				/*!
+				* \brief Pour ré-aligner les briquettes
+				*/
+                CEGUI::Window * alignBriquettesWdw;
                 
             public:
 				/*!
@@ -61,6 +69,16 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
 				* \param evt Evenement CEGUI
 				*/
                 bool addBriquette(const CEGUI::EventArgs & evt);
+				/*!
+				* \brief Switch l'état du moteur physique
+				* \param evt Evenement CEGUI
+				*/
+                bool switchPhysicEngineState(const CEGUI::EventArgs & evt);
+				/*!
+				* \brief Aligne les briquettes
+				* \param evt Evenement CEGUI
+				*/
+                bool alignBriquettes(const CEGUI::EventArgs & evt);
                 
 				/*!
 				* \brief Action à effectuer lors de la destruction de la fenetre

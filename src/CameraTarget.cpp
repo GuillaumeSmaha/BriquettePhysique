@@ -255,7 +255,6 @@ void CameraTarget::moveOnBriquette()
 		{
 			Ogre::Vector3 vec = briquette->getSceneNode()->getPosition();
 			vec[2] = this->targetNode->getPosition()[2];
-			//~ vec[2] = 0.0;
 			this->targetPosition = vec;
 		}
 	}

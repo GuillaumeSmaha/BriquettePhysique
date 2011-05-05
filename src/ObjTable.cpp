@@ -32,8 +32,7 @@ void ObjTable::createPhysicalObj()
 
     this->shapeTable = new OgreBulletCollisions::BoxCollisionShape(this->tableNode->getScale());
     this->bodyTable = new OgreBulletDynamics::RigidBody("RigidBodyTable"+Utils::toString(Utils::unique()), ListenerCollision::getSingletonPtr()->getWorld(), COL_TABLE, TABLE_COLLIDES_WITH);
-    //~ this->bodyTable = new OgreBulletDynamics::RigidBody("RigidBodyTable"+Utils::toString(Utils::unique()), ListenerCollision::getSingletonPtr()->getWorld());
-    this->bodyTable->setStaticShape(this->tableNode, this->shapeTable, 0.6, 0.6, pos, dir);
+    this->bodyTable->setStaticShape(this->tableNode, this->shapeTable, 0.0, 0.0, pos, dir);
     this->entTable->setCastShadows(true);
 }
 

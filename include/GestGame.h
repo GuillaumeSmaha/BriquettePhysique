@@ -103,7 +103,7 @@ class GestGame : public ClassRootSingleton<GestGame>
         /*!
         * \brief Aligne les briquettes
         */
-        void alignBriquette();
+        void alignBriquettes();
         
          /*!
          * \brief Ajoute une nouvelle modification

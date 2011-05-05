@@ -87,13 +87,11 @@ void ObjBriquette::createPhysicalObj()
 {
     this->briquetteNode->setScale(5.0, 3.0, 0.5);
     Ogre::Vector3 pos = this->briquetteNode->getPosition();
-    //~ Ogre::Quaternion dir = this->briquetteNode->getOrientation();
     Ogre::Quaternion dir = ObjBriquette::defaultOrientation;
 
     this->shapeBriquette = new OgreBulletCollisions::BoxCollisionShape(briquetteNode->getScale());
     this->bodyBriquette = new OgreBulletDynamics::RigidBody("RigidBody"+this->nom, ListenerCollision::getSingletonPtr()->getWorld(), COL_BRIQUETTE, BRIQUETTE_COLLIDES_WITH);
-    //~ this->bodyBriquette = new OgreBulletDynamics::RigidBody("RigidBody"+this->nom, ListenerCollision::getSingletonPtr()->getWorld());
-    this->bodyBriquette->setShape(this->briquetteNode, this->shapeBriquette, 0.6, 0.6, 10.0, pos, dir);
+    this->bodyBriquette->setShape(this->briquetteNode, this->shapeBriquette, 0.0, 0.0, 20.0, pos, dir);
     
     
 	std::pair<OgreBulletDynamics::RigidBody *, ObjBriquette *> ret = std::pair<OgreBulletDynamics::RigidBody *, ObjBriquette *>(this->bodyBriquette, this);
@@ -135,7 +133,6 @@ void ObjBriquette::hide()
 {
 	if(this->_isDrawing)
 	{
-		//~ this->briquetteNode->detachObject(this->entBriquette);
 		this->entBriquette->setVisible(false);
 		this->_isDrawing = false;
 		this->bodyBriquette->getBulletRigidBody()->activate(false);
@@ -148,7 +145,6 @@ void ObjBriquette::draw()
 {
 	if(!this->_isDrawing)
 	{
-		//~ this->briquetteNode->attachObject(this->entBriquette);
 		this->_isDrawing = true;
 		this->entBriquette->setVisible(true);
 		this->createPhysicalObj();

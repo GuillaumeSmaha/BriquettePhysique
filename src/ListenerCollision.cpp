@@ -78,17 +78,14 @@ void ListenerCollision::physicEngineMutexUnLock(void * locker)
 
 bool ListenerCollision::switchPhysicEngineState(void * locker)
 {
-	if(this->physicEngineMutex == false || (this->physicEngineMutex == true && locker == this->physicEngineMutexLocker))
-	{
-		if(this->physicEngineState)
-			this->physicEngineState = false;
-		else
-			this->physicEngineState = true;
+	bool result;
+	
+	if(this->physicEngineState)
+		result = this->setPhysicEngineState(false, locker);
+	else
+		result = this->setPhysicEngineState(true, locker);
 			
-		return true;
-	}
-		
-	return false;
+	return result;
 }
 
 
@@ -97,6 +94,10 @@ bool ListenerCollision::setPhysicEngineState(bool physicEngineState, void * lock
 	if(this->physicEngineMutex == false || (this->physicEngineMutex == true && locker == this->physicEngineMutexLocker))
 	{
 		this->physicEngineState = physicEngineState;
+		
+		if(Menus::getSingletonPtr()->getMenusBriquette() != NULL)
+			Menus::getSingletonPtr()->getMenusBriquette()->updateTextButtons();
+			
 		return true;
 	}
 		
