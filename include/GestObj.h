@@ -77,6 +77,11 @@ class GestObj : public ClassRootSingleton<GestObj>
 		void removeBriquette(ObjBriquette * briquette);    
 		
         /*!
+         * \brief Met à jour les forces de toutes les briquettes en jeux
+         * Ca permet d'avoir les briquettes en mouvement immédiatement.
+        */
+        void updateAllForces();
+        /*!
          * \brief Clear les forces de toutes les briquettes en jeux
          * Ca permet d'avoir un déplacement de briquettes immédiat.
         */

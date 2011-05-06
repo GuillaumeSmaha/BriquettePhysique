@@ -92,6 +92,20 @@ void GestObj::removeBriquette(ObjBriquette * briquette)
 }
 
 
+void GestObj::updateAllForces()
+{
+    std::vector<ObjBriquette *> lstBriquettes = this->getListBriquettes();
+    std::vector<ObjBriquette *>::iterator it;
+    for(it = lstBriquettes.begin() ; it < lstBriquettes.end() ; it ++)
+    {
+		if((*it)->isDrawing())
+		{
+			ObjBriquette::updateBtBoundingBox((*it)->getRigidBody());
+		}
+    }
+}
+
+
 void GestObj::clearAllForces()
 {
     std::vector<ObjBriquette *> lstBriquettes = this->getListBriquettes();
