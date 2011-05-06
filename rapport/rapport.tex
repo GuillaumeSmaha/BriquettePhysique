@@ -57,6 +57,7 @@
 \chapter{Introduction}
 
 \section{Présentation du projet}
+\section{Objectifs}
     L'objectif du projet est de proposer un environnement 3D dans lequel un
     utilisateur peut positionner un ensemble de briquettes afin de créer des
     structures. A partir d'une table, l'utilisateur doit essayer d'obtenir une
@@ -65,10 +66,9 @@
     Bien sur, chaque briquette est soumis à la force de gravité rendant plus
     complexe l'élaboration de structures stables.
 
-\section{Objectifs}
 
 
-\section{}
+\section{détail}
     Aprés avoir discuter avec notre encadrant, nous nous sommes données les objectifs suivants:
     \begin{itemize}
         \item Un menus permettant de gérer différents niveaux de difficulté.
@@ -146,7 +146,29 @@
         parfois fallut travailler directement sur l'objet Bullet pour pouvoir
         obtenir le comportement souhaité.
 
+    \section{Menus}
+        Le menus à été réalisé en utilisant la bibliothèque CEGUI. Une classe
+        virtuelle Fenetre à été utilisé pour permettre de créer différents
+        types de Fenetre. Elle permet en particulier de mettre en place des
+        mécanismes en gardant la même apparence graphique pour les différentes
+        fenêtres que l'on crée, en offrant des méthodes pour les créer
+        simplements. Il suffit d'insérer les boutons ou les éléments graphiques
+        sur une fenetre créé automatiquement.
+        La charte graphique provient de deux "skins" CEGUI pré-existants et
+        placé sous licence libre. Il s'agit de "TaharezLook" qui est le thème
+        par défaut de CEGUI et le thème "Sleekspace" que l'on peut télécharger
+        sur le site. Ce thème est élégant mais n'est ni complet ni à jour. Je
+        l'ai légèrement modifié pour le faire fonctionner (par exemple les
+        labels n'apparaissaient plus correctement). Les thèmes utilisent un
+        document xml pour décrire le apparence qui est appelé le "Falagard
+        looknfell system". J'ai donc travailler dans le fichier xml présent
+        dans media/CEGUI/looknfeel/TaharezLook.looknfeel.
+        Le logiciel dispose d'un menus d'introdution, simple qui permet de
+        choisir le niveau de difficulté via 3 boutons: facile, intérmédiaire,
+        difficile.
+        Pendant le jeux, un menus est disponible en bas de l'écran. Il est également très simple.
 
+        Une des difficultés à été la synchronisation de la souris de Bullet et de CEGUI
 \chapter{Conclusion}
 
 
