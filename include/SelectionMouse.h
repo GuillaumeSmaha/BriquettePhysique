@@ -56,17 +56,6 @@ class SelectionMouse: public ClassRootSingleton<SelectionMouse>
         */
         OgreBulletDynamics::RigidBody * selectedBriquettePrevious;  
 
-       /*!
-         * \brief Overlay ne contenant que le curseur de la souris
-        */
-        Ogre::Overlay * mouseOverlay;
-        /*!
-         * \brief Panel contenant la texture de la souris
-        */
-        Ogre::OverlayElement * mousePanel;
-        /*!
-         * \brief Position de la souris
-        */
         Ogre::Vector3 posMouse;
         /*!
          * \brief Permet de conserver la largeur la fenetre
@@ -94,10 +83,10 @@ class SelectionMouse: public ClassRootSingleton<SelectionMouse>
        ~SelectionMouse();
 
         /*!
-         * \brief Crée l'overlay de la souris (affichage, texture...)
+         * \brief Initialise la souris au milieu de l'écran
          * \param win Le renderWindow permet d'avoir la taille de la fenetre et donc d'adapter la taille du curseur à celle ci
         */
-        void createOverlay(Ogre::RenderWindow * win);
+        void initMouse(Ogre::RenderWindow * win);
 
         /*!
          * \brief Permet de déplacer la souris sur l'écran
