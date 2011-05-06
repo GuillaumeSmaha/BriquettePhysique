@@ -79,9 +79,14 @@
         \item Possibilité de revenir à un état précédant ou sucesseur du jeu:
         Aprés chaque placement de briquette, l'état du jeu est mémorisé et on
         permet d'y revenir.
-        
+        \item Les briquettes ne doivent pas pouvoir être posés n'importe ou
+        mais seulement le long d'un axe. De même, leur orientation est
+        vérouillé, l'utilisateur ne pouvant pas placer ces briquettes en
+        travers.
+        Le jeu n'est donc en réalité pas un jeu 3D mais 2D, seul la visualisation est en 3D.
+
     \end{itemize}
-   
+    
     
     
 \chapter{Choix techniques}
@@ -144,7 +149,14 @@
         On utilise en réalité Bullet via OgreBullet pour l'intégrer avec Ogre,
         cependant OgreBullet est limité dans ces possiblités et il nous a
         parfois fallut travailler directement sur l'objet Bullet pour pouvoir
-        obtenir le comportement souhaité.
+        obtenir le comportement souhaité. 
+
+    \section{Sélection des briquettes}
+        Pour sélectionner nos briquettes nous fournissons à l'utilisateur un
+        curseur de souris. Lors du clic, un rayon est émis dans la direction de
+        celui-ci et qui rapporte l'identifiant d'une briquette éventuellement
+        atteinte. C'est également la librairie Bullet qui nous fournis les
+        primitives nécessaires. 
 
     \section{Menus}
         Le menus à été réalisé en utilisant la bibliothèque CEGUI. Une classe
@@ -166,9 +178,24 @@
         Le logiciel dispose d'un menus d'introdution, simple qui permet de
         choisir le niveau de difficulté via 3 boutons: facile, intérmédiaire,
         difficile.
-        Pendant le jeux, un menus est disponible en bas de l'écran. Il est également très simple.
+        Pendant le jeux, un menus est disponible en bas de l'écran. Il est
+        également très simple. Il dispose de 4 boutons, le premier affiche le
+        nombre de briquettes dont l'utilisateur peut disposé (qui ne sont pas
+        encore en jeu). Un clic sur ce bouton permet de faire apparaître une
+        briquette sur le plateau de jeu. Le second bouton permet de suivre les
+        révision (voir la partie sur les Snapshoots). Celui ci est composé de 2
+        numéros, le premier annonce la révision actuelle sur laquelle on se
+        trouve, le deuxième, le nombre de révisions accessibles. Les deux
+        derniers boutons permettent respectivemnt d'activer ou de désactiver le
+        moteur physique et d'aligner les briquettes sur l'axes de construction.
 
-        Une des difficultés à été la synchronisation de la souris de Bullet et de CEGUI
+        Au départ, nous avions une souris géré par Ogre (avec un overlay) qui
+        permettait à l'utilisateur de viser les briquettes. CEGUI apporte sa
+        propre souris. Le plus simple à été de ne conservé visible que la
+        souris de CEGUI tout au long du jeu. En pratique, l'on a conservé de
+        l'ancienne souris d'ogre qu'un jeu de coordonnées mis à jour à chaque
+        déplacement de la souris de CEGUI afin de garder la synchronisation
+        entre les deux.
 \chapter{Conclusion}
 
 
