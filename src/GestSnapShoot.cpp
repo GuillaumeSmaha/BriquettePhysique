@@ -67,45 +67,53 @@ void GestSnapShoot::removeLastModification(unsigned int numberModification)
 
 void GestSnapShoot::undo(unsigned int numberModification)
 {
+	bool state = ListenerCollision::getSingletonPtr()->getPhysicEngineState();
+	
 	ListenerCollision::getSingletonPtr()->physicEngineMutexLock(this);	
 	ListenerCollision::getSingletonPtr()->setPhysicEngineState(false, this);
 	
 	this->_applyRevision(this->currentSnapShoot-numberModification);
 	
-	ListenerCollision::getSingletonPtr()->setPhysicEngineState(true, this);	
+	ListenerCollision::getSingletonPtr()->setPhysicEngineState(state, this);	
 	ListenerCollision::getSingletonPtr()->physicEngineMutexUnLock(this);
 }
 
 void GestSnapShoot::undoAll()
 {
+	bool state = ListenerCollision::getSingletonPtr()->getPhysicEngineState();
+	
 	ListenerCollision::getSingletonPtr()->physicEngineMutexLock(this);	
 	ListenerCollision::getSingletonPtr()->setPhysicEngineState(false, this);
 	
 	this->_applyRevision(0);
 	
-	ListenerCollision::getSingletonPtr()->setPhysicEngineState(true, this);	
+	ListenerCollision::getSingletonPtr()->setPhysicEngineState(state, this);	
 	ListenerCollision::getSingletonPtr()->physicEngineMutexUnLock(this);
 }
 
 void GestSnapShoot::redo(unsigned int numberModification)
 {
+	bool state = ListenerCollision::getSingletonPtr()->getPhysicEngineState();
+	
 	ListenerCollision::getSingletonPtr()->physicEngineMutexLock(this);	
 	ListenerCollision::getSingletonPtr()->setPhysicEngineState(false, this);
 	
 	this->_applyRevision(this->currentSnapShoot+numberModification);
 	
-	ListenerCollision::getSingletonPtr()->setPhysicEngineState(true, this);	
+	ListenerCollision::getSingletonPtr()->setPhysicEngineState(state, this);	
 	ListenerCollision::getSingletonPtr()->physicEngineMutexUnLock(this);
 }
 
 void GestSnapShoot::redoAll()
 {
+	bool state = ListenerCollision::getSingletonPtr()->getPhysicEngineState();
+	
 	ListenerCollision::getSingletonPtr()->physicEngineMutexLock(this);	
 	ListenerCollision::getSingletonPtr()->setPhysicEngineState(false, this);
 	
 	this->_applyRevision(this->lstSnapShoot.size()-1);
 	
-	ListenerCollision::getSingletonPtr()->setPhysicEngineState(true, this);	
+	ListenerCollision::getSingletonPtr()->setPhysicEngineState(state, this);	
 	ListenerCollision::getSingletonPtr()->physicEngineMutexUnLock(this);
 }
 

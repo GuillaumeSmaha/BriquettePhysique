@@ -5,6 +5,7 @@ CameraTarget::CameraTarget(Ogre::String cameraName, Ogre::SceneNode * targetNode
 {
     this->targetNode = GestSceneManager::getSceneManager()->getSceneNode(NODE_NAME_GROUPE_CAMERA)->createChildSceneNode("nodeTargetCamera_"+cameraName+"_"+Utils::toString(Utils::unique()));
     this->targetNode->_setDerivedPosition(targetNode->_getDerivedPosition());
+    this->targetPosition = this->targetNode->_getDerivedPosition();
    
     this->nodeCamera = GestSceneManager::getSceneManager()->getSceneNode(NODE_NAME_GROUPE_CAMERA)->createChildSceneNode("nodeCamera_"+cameraName+"_"+Utils::toString(Utils::unique()));
     this->nodeCamera->attachObject(this->camera);
@@ -26,14 +27,28 @@ CameraTarget::CameraTarget(Ogre::String cameraName, Ogre::SceneNode * targetNode
 
     this->camera->setFixedYawAxis(true, Ogre::Vector3::UNIT_Z);    
     this->camera->setAutoTracking(true, this->targetNode);
+    
+    
+    this->keyPressedMoveTargetX = Controls::NONE;
+    this->keyPressedMoveTargetY = Controls::NONE;
+    
 
 	PlayerControls::getSingletonPtr()->signalMouseMoved.add(&CameraTarget::onMouseMoved, this);
 	PlayerControls::getSingletonPtr()->signalKeyPressed.add(&CameraTarget::onKeyPressed, this);
+	PlayerControls::getSingletonPtr()->signalKeyReleased.add(&CameraTarget::onKeyReleased, this);
+	
+	ListenerFrame::getSingletonPtr()->signalFrameRendering.add(&CameraTarget::update_camera, this);
 }
 
 
 CameraTarget::~CameraTarget()
 {
+	PlayerControls::getSingletonPtr()->signalMouseMoved.remove(&CameraTarget::onMouseMoved, this);
+	PlayerControls::getSingletonPtr()->signalKeyPressed.remove(&CameraTarget::onKeyPressed, this);
+	PlayerControls::getSingletonPtr()->signalKeyReleased.remove(&CameraTarget::onKeyReleased, this);
+	
+	ListenerFrame::getSingletonPtr()->signalFrameRendering.remove(&CameraTarget::update_camera, this);
+	
 	this->nodeCamera->detachObject(this->camera);
 	GestSceneManager::getSceneManager()->destroySceneNode(this->nodeCamera);
 	GestSceneManager::getSceneManager()->destroySceneNode(this->targetNode);
@@ -41,15 +56,52 @@ CameraTarget::~CameraTarget()
 		
 void CameraTarget::init_camera()
 {
-	/*
-	this->camera->setPosition(Ogre::Vector3(100, 100, -500));
-	this->camera->lookAt(this->sceneMgr->getRootSceneNode()->getPosition());
-	this->camera->setOrientation(Ogre::Quaternion(0, 0, 0, 1));
-	*/
+	this->targetPosition = this->targetNode->_getDerivedPosition();
 }
 		
 void CameraTarget::update_camera()
 {
+}
+		
+void CameraTarget::update_camera(void * null)
+{
+	Ogre::Vector3 vec = (this->targetPosition - this->targetNode->_getDerivedPosition());
+	Ogre::Real dist = vec.length();
+	
+	if(dist > 1.0)
+	{
+		vec.normalise();
+		this->moveTarget(vec);
+	}
+	
+	switch(this->keyPressedMoveTargetX)
+	{
+        case Controls::CAM_TARGET_MOVE_LEFT :
+			this->targetPosition += Ogre::Vector3(0.0, -1.0, 0.0);
+            break;
+        
+        case Controls::CAM_TARGET_MOVE_RIGHT :
+			this->targetPosition += Ogre::Vector3(0.0, 1.0, 0.0);
+            break;
+        
+        default:
+            break;
+	}
+	
+	switch(this->keyPressedMoveTargetY)
+	{
+        case Controls::CAM_TARGET_MOVE_UP :
+			this->targetPosition += Ogre::Vector3(1.0, 0.0, 0.0);
+            break;
+                    
+        case Controls::CAM_TARGET_MOVE_DOWN :
+			this->targetPosition += Ogre::Vector3(-1.0, 0.0, 0.0);
+            break;
+        
+        default:
+            break;
+	}
+
 }
 
 
@@ -83,6 +135,10 @@ void CameraTarget::onKeyPressed(Controls::Controls key)
 {
     switch(key)
     {
+        case Controls::MOUSE_CAMERA_ROTATE:
+            this->moveOnBriquette();
+            break;            
+            
         case Controls::CAM_ZOOM_IN :
             this->zoom(-20.0);
             break;
@@ -104,24 +160,29 @@ void CameraTarget::onKeyPressed(Controls::Controls key)
         }
         
         case Controls::CAM_TARGET_MOVE_LEFT :
-			this->moveTarget(Ogre::Vector3(0.0, -10.0, 0.0));
-            break;
-        
         case Controls::CAM_TARGET_MOVE_RIGHT :
-			this->moveTarget(Ogre::Vector3(0.0, 10.0, 0.0));
+			this->keyPressedMoveTargetX = key;
             break;
-        
+            
         case Controls::CAM_TARGET_MOVE_UP :
-			this->moveTarget(Ogre::Vector3(10.0, 0.0, 0.0));
-            break;
-                    
         case Controls::CAM_TARGET_MOVE_DOWN :
-			this->moveTarget(Ogre::Vector3(-10.0, 0.0, 0.0));
+			this->keyPressedMoveTargetY = key;
             break;
         
         default:
             break;
     }
+    
+}
+
+
+void CameraTarget::onKeyReleased(Controls::Controls key)
+{
+	if(this->keyPressedMoveTargetX == key)
+		this->keyPressedMoveTargetX = Controls::NONE;
+		
+	if(this->keyPressedMoveTargetY == key)
+		this->keyPressedMoveTargetY = Controls::NONE;
 }
 
 
@@ -143,6 +204,15 @@ void CameraTarget::zoom(Ogre::Real zoomDist)
     {
 		this->camera->moveRelative(Ogre::Vector3(0.0, 0.0, zoomDist));
 	}
+}
+
+
+void CameraTarget::setPositionTarget(Ogre::Vector3 vector)
+{
+	Ogre::Real dist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
+	this->targetNode->setPosition(vector);
+	Ogre::Real newDist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
+	this->zoom(dist-newDist);
 }
 
 
@@ -168,4 +238,24 @@ bool CameraTarget::checkRotation(Ogre::Degree yaw, Ogre::Degree pitch)
 		return false;
 	
 	return true;
+}
+
+
+
+void CameraTarget::moveOnBriquette()
+{
+	Ogre::Ray rayon;
+	OgreBulletDynamics::RigidBody * body = SelectionMouse::getSingletonPtr()->getBodyUnderCursorUsingBullet(rayon);
+   
+	if((body != NULL) && (!body->isStaticObject()))
+	{
+		ObjBriquette * briquette = GestObj::getSingletonPtr()->getBriquetteByRigidBody(body);
+		
+		if(briquette != NULL)
+		{
+			Ogre::Vector3 vec = briquette->getSceneNode()->getPosition();
+			vec[2] = this->targetNode->getPosition()[2];
+			this->targetPosition = vec;
+		}
+	}
 }

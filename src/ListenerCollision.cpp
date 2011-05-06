@@ -26,28 +26,12 @@ ListenerCollision::~ListenerCollision()
     delete mWorld;
 }
 
+
 void ListenerCollision::updateCollision(const Ogre::FrameEvent &evt)
 {
 	if(this->physicEngineState)
 		mWorld->stepSimulation(evt.timeSinceLastFrame);   // update Bullet Physics animation
 }
-
-
-bool ListenerCollision::switchPhysicEngineState(void * locker)
-{
-	if(this->physicEngineMutex == false || (this->physicEngineMutex == true && locker == this->physicEngineMutexLocker))
-	{
-		if(this->physicEngineState)
-			this->physicEngineState = false;
-		else
-			this->physicEngineState = true;
-			
-		return true;
-	}
-		
-	return false;
-}
-
 
 void ListenerCollision::onKeyPressed(Controls::Controls key)
 {
@@ -61,6 +45,7 @@ void ListenerCollision::onKeyPressed(Controls::Controls key)
             break;
     }
 }
+
 
 bool ListenerCollision::physicEngineMutexLock(void * locker)
 {
@@ -91,11 +76,28 @@ void ListenerCollision::physicEngineMutexUnLock(void * locker)
 }
 
 
+bool ListenerCollision::switchPhysicEngineState(void * locker)
+{
+	bool result;
+	
+	if(this->physicEngineState)
+		result = this->setPhysicEngineState(false, locker);
+	else
+		result = this->setPhysicEngineState(true, locker);
+			
+	return result;
+}
+
+
 bool ListenerCollision::setPhysicEngineState(bool physicEngineState, void * locker)
 {
 	if(this->physicEngineMutex == false || (this->physicEngineMutex == true && locker == this->physicEngineMutexLocker))
 	{
 		this->physicEngineState = physicEngineState;
+		
+		if(Menus::getSingletonPtr()->getMenusBriquette() != NULL)
+			Menus::getSingletonPtr()->getMenusBriquette()->updateTextButtons();
+			
 		return true;
 	}
 		

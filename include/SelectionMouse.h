@@ -14,7 +14,6 @@
 #include <OgreBulletCollisionsPreRequisites.h>
 #endif
 
-#include "collisionBullet.h"
 #include "mouseMove.h"
 #include "collisionBullet.h"
 #include "ClassRootSingleton.h"
@@ -24,11 +23,13 @@
 #include "ListenerCollision.h"
 #include "GestSnapShoot.h"
 #include "Menus.h"
+#include "MouseFunction.h"
+
+
 /*!
 * \class SelectionMouse
 * \brief Class permettent d'afficher un pointeur de souris et de selectionner des briquettes (via lancé de rayon)
 */
-
 class SelectionMouse: public ClassRootSingleton<SelectionMouse>
 {
     public:
@@ -121,22 +122,22 @@ class SelectionMouse: public ClassRootSingleton<SelectionMouse>
          * \brief Permet en particulier de reprendre le comportement physique de la briquette aprés mise à jour de sa position
         */
         void unselectBriquette();
+        
+        
+	public:
         /*!
          * \brief Essaye d'attraper une briquette lors d'un clic de souris
          * \param rayTo Rayon à lancer
+         * \return L'objet percuté par le rayon ou NULL
         */
         OgreBulletDynamics::RigidBody * getBodyUnderCursorUsingBullet(Ogre::Ray &rayTo);
         /*!
          * \brief Essaye d'attraper le résultat lors d'un clic de souris
          * Attention à supprimer le pointeur
          * \param rayTo Rayon à lancer
+         * \return Le résultat du lancer de rayon
         */
         OgreBulletCollisions::CollisionClosestRayResultCallback * getResultUnderCursorUsingBullet(Ogre::Ray &rayTo);
-        /*!
-         * \brief clear les forces de toutes les briquettes en jeux
-         * Ca permet d'avoir un déplacement de briquettes immédiat.
-        */
-        void clearAllForces();
 };
 
 

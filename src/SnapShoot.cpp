@@ -1,7 +1,9 @@
 #include "SnapShoot.h"
 
 SnapShoot::SnapShoot()
-{	
+{
+	bool state = ListenerCollision::getSingletonPtr()->getPhysicEngineState();
+	
 	ListenerCollision::getSingletonPtr()->physicEngineMutexLock(this);
 	ListenerCollision::getSingletonPtr()->setPhysicEngineState(false, this);
 	
@@ -22,7 +24,7 @@ SnapShoot::SnapShoot()
 	}
 	
 	
-	ListenerCollision::getSingletonPtr()->setPhysicEngineState(true, this);
+	ListenerCollision::getSingletonPtr()->setPhysicEngineState(state, this);
 	ListenerCollision::getSingletonPtr()->physicEngineMutexUnLock(this);
 }
 

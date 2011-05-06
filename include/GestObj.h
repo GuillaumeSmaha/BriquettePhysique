@@ -13,6 +13,7 @@
 #include "ObjBriquette.h"
 
 class ObjBriquette;
+class ObjTable;
 
 /*!
 * \class GestObj
@@ -73,7 +74,13 @@ class GestObj : public ClassRootSingleton<GestObj>
 		 * \brief Vérifie si la briquette existe dans la liste
 		 * \param briquette Pointeur à supprimer
 		*/
-		void removeBriquette(ObjBriquette * briquette);
+		void removeBriquette(ObjBriquette * briquette);    
+		
+        /*!
+         * \brief Clear les forces de toutes les briquettes en jeux
+         * Ca permet d'avoir un déplacement de briquettes immédiat.
+        */
+        void clearAllForces();
 
 
          //#######GETTER /SETTER########

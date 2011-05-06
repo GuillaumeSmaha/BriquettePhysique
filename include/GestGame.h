@@ -25,6 +25,8 @@
 #include "ListenerFrame.h"
 #include "ObjBriquette.h"
 
+class ObjBriquette;
+
 /*!
  * \class GestGame
  * \brief Classe permettant de gérer le jeu.
@@ -101,7 +103,7 @@ class GestGame : public ClassRootSingleton<GestGame>
         /*!
         * \brief Aligne les briquettes
         */
-        void alignBriquette();
+        void alignBriquettes();
         
          /*!
          * \brief Ajoute une nouvelle modification

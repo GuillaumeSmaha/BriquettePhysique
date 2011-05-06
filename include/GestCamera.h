@@ -14,7 +14,6 @@
 #include "CameraAbstract.h"
 #include "CameraTarget.h"
 
-
 /*!
  * \class GestCamera
  * \brief Classe permettant de gérer les viewports.
@@ -80,10 +79,11 @@ class GestCamera : public ClassRootSingleton<GestCamera>
 		 */
         CameraAbstract * getCamera(unsigned int id);
 
-        /*
+        /**
          * \brief recupere la dernière camera placé
         */
-        CameraAbstract * getCurrentCamera(){
+        CameraAbstract * getCurrentCamera()
+        {
             return (listCameras.back());
         }
 };
