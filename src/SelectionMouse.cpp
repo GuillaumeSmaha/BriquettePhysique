@@ -216,12 +216,12 @@ void SelectionMouse::unselectBriquette()
 {
     if(this->selectedBriquetteOnMove != NULL)
     {
-        //mettre a jour la bounding permet de la placer à la nouvelle position de la briquette
-        ObjBriquette::updateBtBoundingBox(this->selectedBriquetteOnMove);
-           
         this->selectedBriquetteOnMove = NULL;
                 
         GestGame::getSingletonPtr()->addModification();
+     
+        //mettre a jour la bounding permet de la placer à la nouvelle position de la briquette   
+        GestObj::getSingletonPtr()->updateAllForces();
     }
 }
 
