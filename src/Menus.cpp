@@ -10,6 +10,7 @@ Menus::Menus() : ClassRootSingleton<Menus>()
     this->pControl = PlayerControls::getSingletonPtr();
 
     this->mainWdw = NULL;
+    this->menusScore = NULL;
     this->menusBriquette = NULL;
     
    //démarre le menusRenderer
@@ -65,6 +66,9 @@ Menus::~Menus()
     
     if(this->menusBriquette != NULL)
 		delete this->menusBriquette;
+    if(this->menusScore!= NULL)
+		delete this->menusScore;
+
 }
 
 
@@ -113,7 +117,9 @@ void Menus::actionFromPlayer(Controls::Controls key)
             }
             break;
         case Controls::CALCUL_RES:
-            afficher_menus_calculs();
+            if(this->menusScore->estAffiche()==false){
+                this->mainWdw->addChildWindow(this->menusScore->afficher_menus_calculs());
+            }
             break;
         default:
             break;
@@ -190,9 +196,7 @@ void Menus::afficher_main_window(void)
     mainWdw->show();
 }
 
-void Menus::afficher_menus_calculs(void){
-    std::cout<<"briquette la plus éloigné :"<<GestObj::getSingletonPtr()->calculDistBriquetteEloigne()<<std::endl;
-}
+
 
 
 void Menus::creer_souris(void)
@@ -220,7 +224,7 @@ bool Menus::startEasy(const CEGUI::EventArgs & evt)
     GestGame::getSingletonPtr()->setDifficulty(GestGame::DIFFICULTY_EASY);
     
     creer_menus_briquettes();
-    
+    this->menusScore = new MenusScore();
     this->menusBriquette->updateTextButtons();
     
     destroyWindow(evt);
@@ -233,6 +237,7 @@ bool Menus::startMedium(const CEGUI::EventArgs & evt)
     GestGame::getSingletonPtr()->setDifficulty(GestGame::DIFFICULTY_MEDIUM);
     
     creer_menus_briquettes();
+    this->menusScore = new MenusScore();
     
     this->menusBriquette->updateTextButtons();
     
@@ -246,6 +251,7 @@ bool Menus::startHard(const CEGUI::EventArgs & evt)
     GestGame::getSingletonPtr()->setDifficulty(GestGame::DIFFICULTY_HARD);
     
     creer_menus_briquettes();
+    this->menusScore = new MenusScore();
     
     this->menusBriquette->updateTextButtons();
     

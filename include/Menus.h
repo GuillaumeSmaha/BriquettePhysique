@@ -92,6 +92,27 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
                 void actionFromPlayer(Controls::Controls key); 
         };
         
+        class MenusScore: public Fenetre
+        {
+            private:
+                bool est_affiche;
+            public:
+				/*!
+				* \brief Constructeur
+				*/
+                MenusScore();
+				/*!
+				* \brief Destructeur
+				*/
+                ~MenusScore();
+                /*!
+                 * \brief Affiche le menus donnant la briquette la plus éloigné
+                 */
+                CEGUI::Window * afficher_menus_calculs(void);
+                bool destroyWindow(const CEGUI::EventArgs & evt);
+                void actionFromPlayer(Controls::Controls key){};
+                bool estAffiche(){return est_affiche;};
+        };
     private:
         /*!
         * \brief le renderer de cegui pour ogre
@@ -117,6 +138,10 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
         * \brief Gère le menus des briquettes durant le jeu
         */
 		MenusBriquette * menusBriquette;
+        /*!
+        * \brief Gère le menus des scores durant le jeu
+        */
+		MenusScore * menusScore;
     
     public:
          /*!
@@ -184,11 +209,6 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
          * \brief Affiche le menus principal
          */
         void afficher_main_window(void);
-
-        /*!
-         * \brief Affiche le menus donnant la briquette la plus éloigné
-         */
-        void afficher_menus_calculs(void);
 
         /*!
          * \brief Cache le menus principal
