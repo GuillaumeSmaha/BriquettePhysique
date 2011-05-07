@@ -5,6 +5,9 @@
 #ifndef __GEST_OBJ_H__
 #define __GEST_OBJ_H__
 
+//class C++ disposant d'un template max
+#include <algorithm>
+
 #include "nodeName.h"
 #include "ClassRootSingleton.h"
 #include "Utils.h"
@@ -141,6 +144,13 @@ class GestObj : public ClassRootSingleton<GestObj>
 		 * \return Un pointeur ou NULL s'il n'existe pas
          */
         ObjBriquette * getBriquetteByRigidBody(OgreBulletDynamics::RigidBody * rigidBody);
+
+         /*!
+         * \brief Retourne la distance de la briquette stable la plus éloigné
+         *  du jeu parmis les briquettes placés.
+		 * \return Distance de la briquette au centre de la table
+         */
+        double calculDistBriquetteEloigne();
 };
 
 #endif

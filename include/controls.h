@@ -51,7 +51,9 @@ namespace Controls
         ///Mouse move to zoom the camera
         MOUSE_CAMERA_ZOOM,
         ///Define if the physic engine (bullet) is started
-        SWITCH_BULLET_STATE
+        SWITCH_BULLET_STATE,
+        ///Affiche la distance de la briquette la plus éloigné
+        CALCUL_RES
 	};
 }
 

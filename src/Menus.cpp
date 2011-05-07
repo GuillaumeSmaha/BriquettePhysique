@@ -112,7 +112,9 @@ void Menus::actionFromPlayer(Controls::Controls key)
 				}
             }
             break;
-            
+        case Controls::CALCUL_RES:
+            afficher_menus_calculs();
+            break;
         default:
             break;
     }
@@ -188,6 +190,9 @@ void Menus::afficher_main_window(void)
     mainWdw->show();
 }
 
+void Menus::afficher_menus_calculs(void){
+    std::cout<<"briquette la plus éloigné :"<<GestObj::getSingletonPtr()->calculDistBriquetteEloigne()<<std::endl;
+}
 
 
 void Menus::creer_souris(void)

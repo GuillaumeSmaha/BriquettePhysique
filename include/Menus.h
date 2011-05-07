@@ -184,6 +184,12 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
          * \brief Affiche le menus principal
          */
         void afficher_main_window(void);
+
+        /*!
+         * \brief Affiche le menus donnant la briquette la plus éloigné
+         */
+        void afficher_menus_calculs(void);
+
         /*!
          * \brief Cache le menus principal
          */

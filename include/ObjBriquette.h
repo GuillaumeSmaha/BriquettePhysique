@@ -146,6 +146,12 @@ class ObjBriquette
         {
             return this->briquetteNode;
         }
+	
+    	/*!
+		 * \brief Retourne la distance au centre de la table
+		 * \return distance au centre de la table
+		*/
+        double getRangeToCenter();
 
 		/*!
 		 * \brief Définit le noeud contenant la briquette
@@ -173,7 +179,9 @@ class ObjBriquette
         {
             return this->bodyBriquette;
         }
-
+        Ogre::String getNom(){
+            return this->nom;
+        }
 };
 
 

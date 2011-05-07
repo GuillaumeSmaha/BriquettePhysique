@@ -56,6 +56,7 @@ void PlayerControls::setDefaultKeys()
 	this->setKeyControl(Controls::OPEN_MENU, OIS::KC_ESCAPE);
 	this->setKeyControl(Controls::SWITCH_BULLET_STATE, OIS::KC_W);
 	this->setKeyControl(Controls::QUIT, OIS::KC_F10);
+	this->setKeyControl(Controls::CALCUL_RES, OIS::KC_C);
 }
 
 void PlayerControls::resetControls(void)

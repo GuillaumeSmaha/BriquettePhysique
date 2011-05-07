@@ -1,6 +1,6 @@
 /*!
  *  \file  GestSceneManager.h
- * \brief Ce fichier contient la déclaration de la classe GestSceneManager. C'est la classe gérant les événements de la fenêtre.
+ * \brief Ce fichier contient la déclaration de la classe GestSceneManager. 
  */
 #ifndef __GEST_SCENE_MANAGER_H__
 #define __GEST_SCENE_MANAGER_H__
