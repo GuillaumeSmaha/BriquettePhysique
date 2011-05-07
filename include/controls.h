@@ -34,6 +34,14 @@ namespace Controls
 		OPEN_MENU,
 		///Select an object
 		SELECT,
+		///Move up the selected briquette
+        SELECT_MOVE_UP,
+		///Move down the selected briquette
+        SELECT_MOVE_DOWN,
+		///Move left the selected briquette
+        SELECT_MOVE_LEFT,
+		///Move right the selected briquette
+        SELECT_MOVE_RIGHT,
 		///Undo a modification
 		UNDO,
 		///Add a revision

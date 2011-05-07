@@ -83,6 +83,12 @@ void ObjBriquette::setOrientation(Ogre::Quaternion orientation)
     ObjBriquette::updateBtBoundingBox(this->bodyBriquette);
 }
 
+void ObjBriquette::move(Ogre::Vector3 pos)
+{
+	Ogre::Vector3 vec = this->briquetteNode->getPosition() + pos;
+    this->setPosition(vec);
+}
+
 void ObjBriquette::createPhysicalObj()
 {
     this->briquetteNode->setScale(5.0, 3.0, 0.5);

@@ -33,10 +33,14 @@ void PlayerControls::setDefaultKeys()
 	this->setMouseControl(Controls::MOUSE_CAMERA_ZOOM, OIS::MB_Middle);
 	this->setMouseControl(Controls::MOUSE_CAMERA_ROTATE, OIS::MB_Right);
 	
-	this->setKeyControl(Controls::CAM_TARGET_MOVE_RIGHT, OIS::KC_RIGHT);
-	this->setKeyControl(Controls::CAM_TARGET_MOVE_LEFT, OIS::KC_LEFT);
-	this->setKeyControl(Controls::CAM_TARGET_MOVE_UP, OIS::KC_UP);
-	this->setKeyControl(Controls::CAM_TARGET_MOVE_DOWN, OIS::KC_DOWN);
+	//~ this->setKeyControl(Controls::CAM_TARGET_MOVE_UP, OIS::KC_UP);
+	//~ this->setKeyControl(Controls::CAM_TARGET_MOVE_DOWN, OIS::KC_DOWN);
+	//~ this->setKeyControl(Controls::CAM_TARGET_MOVE_LEFT, OIS::KC_LEFT);
+	//~ this->setKeyControl(Controls::CAM_TARGET_MOVE_RIGHT, OIS::KC_RIGHT);
+	this->setKeyControl(Controls::SELECT_MOVE_UP, OIS::KC_UP);
+	this->setKeyControl(Controls::SELECT_MOVE_DOWN, OIS::KC_DOWN);
+	this->setKeyControl(Controls::SELECT_MOVE_LEFT, OIS::KC_LEFT);
+	this->setKeyControl(Controls::SELECT_MOVE_RIGHT, OIS::KC_RIGHT);
 	
 	this->setKeyControl(Controls::CAM_ZOOM_IN, OIS::KC_Z);
 	this->setKeyControl(Controls::CAM_ZOOM_OUT, OIS::KC_S);

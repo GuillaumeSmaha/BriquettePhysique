@@ -92,6 +92,12 @@ class ObjBriquette
 		 * \param orientation Quaternion d'orientation
 		*/
 		void setOrientation(Ogre::Quaternion orientation);
+		
+		/*!
+		 * \brief Déplace la briquette
+		 * \param pos Vecteur de déplacement
+		*/
+		void move(Ogre::Vector3 pos);
 
 		/*!
 		 * \brief Permet de créer l'objet physique (avec les propriétés de ogre bullet, une fois que l'objet est positionné

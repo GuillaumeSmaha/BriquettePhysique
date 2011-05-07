@@ -145,10 +145,33 @@ void SelectionMouse::onKeyPressed(Controls::Controls key)
             this->selectBriquette();
             break;
             
-        case Controls::UNDO:
-        case Controls::REDO:
+        case Controls::UNDO :
+        case Controls::REDO :
             this->selectedBriquetteOnMove = NULL;
             this->selectedBriquettePrevious = NULL;
+            break;
+            
+        case Controls::SELECT_MOVE_UP :
+            if(this->selectedBriquettePrevious != NULL)
+				GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquettePrevious)->move(Ogre::Vector3(0.0, 0.0, 0.5));
+            break;
+            
+        case Controls::SELECT_MOVE_DOWN :
+            if(this->selectedBriquettePrevious != NULL)
+				GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquettePrevious)->move(Ogre::Vector3(0.0, 0.0, -0.5));
+        
+            break;
+            
+        case Controls::SELECT_MOVE_LEFT :
+            if(this->selectedBriquettePrevious != NULL)
+				GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquettePrevious)->move(Ogre::Vector3(0.5, 0.0, 0.0));
+        
+            break;
+            
+        case Controls::SELECT_MOVE_RIGHT :
+            if(this->selectedBriquettePrevious != NULL)
+				GestObj::getSingletonPtr()->getBriquetteByRigidBody(this->selectedBriquettePrevious)->move(Ogre::Vector3(-0.5, 0.0, 0.0));
+        
             break;
             
         default:
