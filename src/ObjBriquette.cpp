@@ -45,13 +45,13 @@ ObjBriquette::ObjBriquette(Ogre::String nom)
 
 ObjBriquette::ObjBriquette(const ObjBriquette& briquette)
 {
-    nom = briquette.nom;
+    this->nom =briquette.nom+"_"+Utils::toString(Utils::unique());
     this->_isDrawing = briquette._isDrawing;
-    entBriquette = GestSceneManager::getSingletonPtr()->createEntity(briquette.nom+"_"+Utils::toString(Utils::unique()), "Briquette.mesh");
-    entBriquette->setMaterialName("Briquette");
+    this->entBriquette = GestSceneManager::getSingletonPtr()->createEntity(nom, "Briquette.mesh");
+    this->entBriquette->setMaterialName("Briquette");
     
     //positionnement dans le graphe de scene
-    briquetteNode = GestSceneManager::getSceneManager()->getSceneNode(NODE_NAME_GROUPE_BRIQUETTES)->createChildSceneNode("Node_"+briquette.nom);
+    briquetteNode = GestSceneManager::getSceneManager()->getSceneNode(NODE_NAME_GROUPE_BRIQUETTES)->createChildSceneNode("Node_"+nom);
     briquetteNode->attachObject(entBriquette);
     briquetteNode->setPosition(briquette.briquetteNode->getPosition());
     briquetteNode->setOrientation(briquette.briquetteNode->getOrientation());
