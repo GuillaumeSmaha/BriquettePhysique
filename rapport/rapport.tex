@@ -45,9 +45,16 @@
 	\details{Université François-Rabelais, Tours}
 }
 
-\abstracts{Ce rapport présentera notre projet de construction de Kapla. L'objectif de ce projet était de développer une simulation physique d'un jeu de Kapla. Nous y expliquerons les différentes techniques utilisées (signaux, déplacements, ...) pour obtenir le résultat le plus réaliste possible.}
+\abstracts{Ce rapport présentera notre projet de logiciel 3D de construction de
+Kapla. L'objectif de ce projet était de développer une simulation physique d'un
+jeu de Kapla. Nous y expliquerons les différentes techniques utilisées
+(signaux, déplacements, ...) pour obtenir le résultat le plus réaliste
+possible.}
 {Ogre3D, Bullet, Kapla, simulation}
-{This report will describe our project of construction Kapla. The main goal of this project was to develop a physic simulation of a Kapla game. We will describe the different techniques (signals, movement, …) used to obtain the most realistic result.}
+{This report will describe our project of a 3D software for building with
+Kapla. The main goal of this project was to develop a physic simulation of a
+Kapla game. We will describe the different techniques (signals, movement, …)
+used to obtain the most realistic result.}
 {Ogre3D, Bullet, Kapla, simulation}
 
 
@@ -65,10 +72,14 @@
     éloigné autant que possible du bord de la table.
     Bien sur, chaque briquette est soumis à la force de gravité rendant plus
     complexe l'élaboration de structures stables.
+    Ce document décrit les technologies utilisé ainsi que le fonctionnement du
+    logiciel.
+    \begin{figure}[h]
+        \includegraphics[scale=0.5]{images/jeux.png}
+        \caption{Un exemple typique de l'application en cours de fonctionnment}
+    \end{figure}
 
-
-
-\section{détail}
+\section{détail des attentes}
     Aprés avoir discuter avec notre encadrant, nous nous sommes données les objectifs suivants:
     \begin{itemize}
         \item Un menus permettant de gérer différents niveaux de difficulté.
@@ -82,11 +93,17 @@
         \item Les briquettes ne doivent pas pouvoir être posés n'importe ou
         mais seulement le long d'un axe. De même, leur orientation est
         vérouillé, l'utilisateur ne pouvant pas placer ces briquettes en
-        travers.
+        travers. Cela permet de réduire la complexité du problème lorsque l'on
+        recherche des solutions efficaces au problème.
         Le jeu n'est donc en réalité pas un jeu 3D mais 2D, seul la visualisation est en 3D.
-
+        
     \end{itemize}
-    
+     \begin{figure}[h]
+        \includegraphics[scale=0.5]{images/zoom_briquette.png}
+        \caption{Les briquettes sont toutes orientés de la même façon suivant le même axe.}
+    \end{figure}
+
+   
     
     
 \chapter{Choix techniques}
@@ -102,9 +119,13 @@
 
     \section{Liste des outils}
     \begin{itemize}
-        \item Ogre\refMot{bib:librairie_ogre}: Moteur 3D open source (http://www.ogre3d.org/) supportant aussi bien OpenGL que Direct3D. 
-        \item CEGUI\refMot{bib:librairie_cegui}: Crazy Eddie's GUI System (http://www.cegui.org.uk) fournissant des outils de créations de menus et de fenetre dans un environnement 3D.
-        \item Bullet\refMot{bib:librairie_bullet}: Librairie de simulation de la physique http://bulletphysics.org/
+        \item Ogre\refMot{bib:librairie_ogre}: Moteur 3D open source
+        (http://www.ogre3d.org/) supportant aussi bien OpenGL que Direct3D. 
+        \item CEGUI\refMot{bib:librairie_cegui}: Crazy Eddie's GUI System
+        (http://www.cegui.org.uk) fournissant des outils de créations de menus
+        et de fenetre dans un environnement 3D.
+        \item Bullet\refMot{bib:librairie_bullet}: Librairie de simulation de
+        la physique http://bulletphysics.org/
     \end{itemize}
 
 \chapter{Réalisation}
@@ -118,18 +139,25 @@
         Dans ce projet, il n'y a pas besoin de fournir de multiples caméras à
         l'utilisateur. Nous avons convenu que la caméra la plus adapté serait
         une caméra capable de pivoter autours de la table. La caméra est
-        toujours orienté vers le point central de la table, cela permet d'avoir
-        une orientation correcte, de plus son axe de lacet est fixé sur l'axe
-        Z de façon à ce que la table soit toujours vue droite. Les rotations se
-        font à l'aide de la souris, il est également possible de zoomer à
-        l'aide des touches du clavier. introduire des translations de la caméra
-        pourrait être intéressant mais cela est complexe car il faut alors
-        reprendre l'orientation de la caméra et les rotations ne se font plus
-        alors autours du centre de la table mais d'un autre point qu'il faut
-        déplacer en conséquence. On aurait également pu imaginer un système ou
-        la caméra plutôt que de s'orienter vers le centre de la table,
-        s'oriente sur la dernière briquette sélectionné, mais cela peut
-        également désorienté l'utilisateur.
+        toujours orienté vers un point central, qui au départ est le centre de
+        la table, cela permet d'avoir une orientation correcte, de plus l'axe
+        de lacet de la caméra est fixé sur l'axe Z de façon à ce que la table
+        soit toujours vue droite. Les rotations se font à l'aide de la souris,
+        il est également possible de zoomer à l'aide des touches du clavier.
+        Nous avons permis avec les touches directionnelles du clavier de
+        déplacer le point central qui sert de repère à la caméra, en pratique
+        ce n'est pas très utile car peu maîtrisable pour l'utilisateur. Par
+        contre, un système beaucoup plus intéresant consiste à fixer ce point
+        central à la position d'une briquette en effectuant un clic droit sur
+        celle-ci. La caméra se tourne alors vers la briquette et les rotations
+        se font autour de celle-ci.
+
+    \begin{figure}[h]
+        \includegraphics[scale=0.5]{images/bon_score.png}
+        \caption{ici l'on voit que la caméra n'est plus centré autours du point
+        central de la table mais sur une des briquettes de la structure,
+        permettant d'étudier plus précisément celle-ci.}
+    \end{figure}
 
     \section{Gestion de la physique des briquettes}
         La physique est géré avec la librairie Bullet. La technique consite à
@@ -156,7 +184,8 @@
         curseur de souris. Lors du clic, un rayon est émis dans la direction de
         celui-ci et qui rapporte l'identifiant d'une briquette éventuellement
         atteinte. C'est également la librairie Bullet qui nous fournis les
-        primitives nécessaires. 
+        primitives nécessaires. Lorsqu'une briquette est sélectionné, celle-ci
+        prend une couleur violette pour avertir l'utilisateur.
 
     \section{Menus}
         Le menus à été réalisé en utilisant la bibliothèque CEGUI. Une classe
@@ -178,6 +207,14 @@
         Le logiciel dispose d'un menus d'introdution, simple qui permet de
         choisir le niveau de difficulté via 3 boutons: facile, intérmédiaire,
         difficile.
+     \begin{figure}[h]
+        \includegraphics[scale=0.5]{images/Menus_initial.png}
+        \caption{Le menus d'introduction au jeu}
+    \end{figure}
+      \begin{figure}[h]
+        \includegraphics[scale=0.5]{images/menu_jeu.png}
+        \caption{Le menus en cours de jeu}
+    \end{figure}      
         Pendant le jeux, un menus est disponible en bas de l'écran. Il est
         également très simple. Il dispose de 4 boutons, le premier affiche le
         nombre de briquettes dont l'utilisateur peut disposé (qui ne sont pas
