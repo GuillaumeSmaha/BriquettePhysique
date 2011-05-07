@@ -80,7 +80,7 @@ used to obtain the most realistic result.}
         \caption{\label{fig:jeux}Un exemple typique de l'application en cours de fonctionnment}
     \end{figure}
 
-\section{détail des attentes}
+\section{Détail des attentes}
     Aprés avoir discuter avec notre encadrant, nous nous sommes données les objectifs suivants:
     \begin{itemize}
         \item Un menus permettant de gérer différents niveaux de difficulté.
@@ -145,13 +145,14 @@ used to obtain the most realistic result.}
         la table, cela permet d'avoir une orientation correcte, de plus l'axe
         de lacet de la caméra est fixé sur l'axe Z de façon à ce que la table
         soit toujours vue droite. Les rotations se font à l'aide de la souris,
-        il est également possible de zoomer à l'aide des touches du clavier.
-        Nous avons permis avec les touches directionnelles du clavier de
+        il est également possible de zoomer à l'aide des touches du clavier
+         ou de la touche centrale de la souris (molette).
+        Au départ, nous avons permis avec les touches directionnelles du clavier de
         déplacer le point central qui sert de repère à la caméra, en pratique
         ce n'est pas très utile car peu maîtrisable pour l'utilisateur. Par
-        contre, un système beaucoup plus intéresant consiste à fixer ce point
+        contre, un système beaucoup plus intéresant consiste à déplacer ce point
         central à la position d'une briquette en effectuant un clic droit sur
-        celle-ci. La caméra se tourne alors vers la briquette et les rotations
+        celle-ci. La caméra se tourne alors vers la position de la briquette et les rotations
         se font autour de celle-ci.
 
     \begin{figure}[h]
@@ -189,6 +190,37 @@ used to obtain the most realistic result.}
         atteinte. C'est également la librairie Bullet qui nous fournis les
         primitives nécessaires. Lorsqu'une briquette est sélectionné, celle-ci
         prend une couleur violette pour avertir l'utilisateur.
+        
+    \section{Déplacement d'un briquette}
+        Pour le déplacement d'une briquette, nous avons tout d'abord voulu
+         utiliser la distance parcourue par la souris sur l'écran
+        , puis de directement déplacer la briquette en fonction de cette distance en X et Y.
+        Le problème est que selon l'orientation de la caméra, la distance en X
+        peut s'inverser et donc un déplacement de la souris vers la droit
+        déplacerait la briquette vers la gauche.
+        
+        \
+        
+        Nous avons donc utilisé une autre méthode.
+        Lors de la saisi d'une briquette, on crée un plan sur l'axe de positionnement
+        des briquettes, puis nous effectuons un lancer de rayon depuis la position de
+        la souris à l'écran. Ce plan possède la même largeur que celle d'une briquette.
+        Le plan doit absolument être détruit après le lancer de rayon, sinon celui-ci intérargira avec
+        les briquettes comme s'il y avait une collision, et les briquettes seraient alors projeté en dehors
+        de leur axe commun Y.
+        Lors du déplacement de la souris, le rayon lancé percute alors un point du plan
+        , il nous suffit alors de récupérer ce point et de déplacer la briquette aux mêmes
+        coordonnées en X et Z que le point de collision (Y étant l'axe commun à toutes les briquettes).
+        C'est pour cela, que le centre de la face latérale de la briquette est toujours
+		situé à la même position que la souris.
+		Deplus le plan ayant une taille limité, il limite alors le déplacement de la briquette dans la scène.
+		
+		\begin{figure}[h]
+			\centering
+			\includegraphics[scale=0.75]{images/move_briquette.png}
+			\caption{\label{fig:move_briquette}On peut voir explicitement sur cette image le plan de collision
+			qui est nécessaire au déplacement de la briquette.}
+		\end{figure}
 
     \section{Menus}
         Le menus à été réalisé en utilisant la bibliothèque CEGUI. Une classe
