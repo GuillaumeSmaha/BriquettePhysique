@@ -118,6 +118,7 @@ used to obtain the most realistic result.}
     choix de réutiliser autant que possible les outils que nous connaissions
     déja. Cela nous à permis d'avoir une vue d'ensemble et une maitrise que
     nous n'aurions pas eu autrement.
+    
 
     \section{Liste des outils}
     \begin{itemize}
@@ -129,6 +130,7 @@ used to obtain the most realistic result.}
         \item Bullet\refMot{bib:librairie_bullet}: Librairie de simulation de
         la physique http://bulletphysics.org/
     \end{itemize}
+    
 
 \chapter{Réalisation}
     \section{Gestion des évènements claviers/souris}
@@ -223,6 +225,9 @@ used to obtain the most realistic result.}
 			\caption{\label{fig:move_briquette}On peut voir explicitement sur cette image le plan de collision
 			qui est nécessaire au déplacement de la briquette.}
 		\end{figure}
+		
+		
+    
 
     \section{Menus}
         Le menus à été réalisé en utilisant la bibliothèque CEGUI. Une classe
@@ -262,16 +267,18 @@ used to obtain the most realistic result.}
         révision (voir la partie sur les Snapshoots). Celui ci est composé de 2
         numéros, le premier annonce la révision actuelle sur laquelle on se
         trouve, le deuxième, le nombre de révisions accessibles. Les deux
-        derniers boutons permettent respectivemnt d'activer ou de désactiver le
+        derniers boutons permettent respectivement d'activer ou de désactiver le
         moteur physique et d'aligner les briquettes sur l'axes de construction.
 
-        Au départ, nous avions une souris géré par Ogre (avec un overlay) qui
+        Au départ, nous avions une souris gérée par Ogre (avec un overlay) qui
         permettait à l'utilisateur de viser les briquettes. CEGUI apporte sa
         propre souris. Le plus simple à été de ne conservé visible que la
         souris de CEGUI tout au long du jeu. En pratique, l'on a conservé de
         l'ancienne souris d'ogre qu'un jeu de coordonnées mis à jour à chaque
         déplacement de la souris de CEGUI afin de garder la synchronisation
         entre les deux.
+        
+        
 \chapter{Conclusion}
 
 

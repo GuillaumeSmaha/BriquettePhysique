@@ -15,9 +15,9 @@ CEGUI::Window * Menus::MenusScore::afficher_menus_calculs(void){
     this->est_affiche=true;
     CEGUI::WindowManager &wmgr = CEGUI::WindowManager::getSingleton();
 
-    double dist= GestObj::getSingletonPtr()->calculDistBriquetteEloigne();
+    double dist = GestObj::getSingletonPtr()->calculDistBriquetteEloigne();
 	std::ostringstream oss;
-	oss << "Distance de la briquette la plus eloigne \n au centre de la table: "<<dist;
+	oss << "Distance de la briquette la plus eloigne \n au centre de la table: " << dist;
 
     CEGUI::Window * textScen= wmgr.createWindow("TaharezLook/StaticText", "TextScenDebut");
     textScen->setSize(CEGUI::UVector2(CEGUI::UDim(0.6, 0), CEGUI::UDim(0.6,0)));
