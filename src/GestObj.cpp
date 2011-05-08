@@ -160,10 +160,11 @@ ObjBriquette * GestObj::getBriquetteByRigidBody(OgreBulletDynamics::RigidBody * 
 }
 
 
-double GestObj::calculDistBriquetteEloigne(){
+double GestObj::calculDistBriquetteEloigne()
+{
     std::vector<ObjBriquette *> lstBriquettes = this->getListBriquettes();
     std::vector<ObjBriquette *>::iterator it;
-    double max=0;
+    double max = 0.0;
     for(it = lstBriquettes.begin() ; it < lstBriquettes.end() ; it ++)
     {
         if((*it)->isDrawing()){
@@ -173,5 +174,6 @@ double GestObj::calculDistBriquetteEloigne(){
             }
         }
     }
+    
     return max;
 }

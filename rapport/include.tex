@@ -9,6 +9,8 @@
 
 %\swapAuthorsAndSupervisors
 
+\RequirePackage{listings}
+
 % le compteur de references
 \makeatletter
 \newcounter{reference}%
@@ -51,3 +53,11 @@
 	\refstepcounter{reference}
 	\label{#1}
 }
+
+
+\newcommand{\lstinputlistingSmall}[1]{%
+	\begin{scriptsize}
+		\lstinputlisting{#1}
+	\end{scriptsize}
+}
+

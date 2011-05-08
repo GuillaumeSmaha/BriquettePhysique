@@ -67,22 +67,26 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
 				/*!
 				* \brief Ajoute une briquette
 				* \param evt Evenement CEGUI
+				* \return Si l'ajout d'une briquette, c'est passé correctement
 				*/
                 bool addBriquette(const CEGUI::EventArgs & evt);
 				/*!
 				* \brief Switch l'état du moteur physique
 				* \param evt Evenement CEGUI
+				* \return Si le changement d'état du moteur physique, c'est passé correctement
 				*/
                 bool switchPhysicEngineState(const CEGUI::EventArgs & evt);
 				/*!
 				* \brief Aligne les briquettes
 				* \param evt Evenement CEGUI
+				* \return Si l'alignement, c'est passé correctement
 				*/
                 bool alignBriquettes(const CEGUI::EventArgs & evt);
                 
 				/*!
 				* \brief Action à effectuer lors de la destruction de la fenetre
 				* \param evt Evenement CEGUI
+				* \return Si la destruction de la fenetre, c'est passé correctement
 				*/
                 bool destroyWindow(const CEGUI::EventArgs & evt);
 				/*!
@@ -92,10 +96,22 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
                 void actionFromPlayer(Controls::Controls key); 
         };
         
+		/*!
+		 * \class MenusScore
+		 * \brief Déclaration d'une classe interne qui gère la fenetre contenant le score du jeu
+		 */
         class MenusScore: public Fenetre
         {
             private:
+				/*!
+				* \brief Indique si la fenetre est affiché ou non
+				*/
                 bool est_affiche;
+				/*!
+				* \brief Pour afficher le score
+				*/
+                CEGUI::Window * textScore;
+                
             public:
 				/*!
 				* \brief Constructeur
@@ -109,10 +125,28 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
                  * \brief Affiche le menus donnant la briquette la plus éloigné
                  */
                 CEGUI::Window * afficher_menus_calculs(void);
+				/*!
+				* \brief Met à jour la valeur du score sur la fenêtre
+				*/
+                void update_score();
+				/*!
+				* \brief Action à effectuer lors de la destruction de la fenetre
+				* \param evt Evenement CEGUI
+				* \return Si la destruction de la fenetre, c'est passé correctement
+				*/
                 bool destroyWindow(const CEGUI::EventArgs & evt);
-                void actionFromPlayer(Controls::Controls key){};
-                bool estAffiche(){return est_affiche;};
+				/*!
+				* \brief Action du joueur
+				* \param key Touche appuyer par le joueur
+				*/
+                void actionFromPlayer(Controls::Controls key);
+				/*!
+				* \brief Indique si la fenetre est affiché
+				* \return La valeur de l'attribut est_affiche
+				*/
+                bool estAffiche();
         };
+        
     private:
         /*!
         * \brief le renderer de cegui pour ogre
@@ -245,11 +279,13 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
         
         
         /*!
-        * \brief action lors de la fermeture de la fenetre avec le bouton fermer
+        * \brief Action lors de la fermeture de la fenetre avec le bouton fermer
+		* \return Si la destruction de la fenetre, c'est passé correctement
         */
         bool actionButtonClose(const CEGUI::EventArgs & evt);
         /*!
         * \brief Permet de supprimer une fenetre (appeler par create_std_window, ne devrait pas être utilisé ailleurs).
+		* \return Si la destruction de la fenetre, c'est passé correctement
         */
         bool destroyWindow(const CEGUI::EventArgs & evt);
         
@@ -280,6 +316,8 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
 
         /*!
          * \brief Permet de convertir les clics de souris pour cegui (utilisé par mousePressed).
+         * \param evt Evenement OIS de la souris
+         * \return Evenement CEGUI de la souris
         */
         CEGUI::MouseButton convertButton(OIS::MouseButtonID evt);       
         

@@ -2,7 +2,7 @@
 
 \input{include.tex}
 
-%\usepackage[utf8]{inputenc}
+%~ \usepackage[utf8]{inputenc}
 \usepackage[utf8x]{inputenc}
 \usepackage{ucs}
 \usepackage{eurosym}
@@ -15,6 +15,7 @@
 
 \urlstyle{sf}
 
+\lstset{language=C++}  
 
 
 %%%%%%%%%%%%Commande personnalisée
@@ -64,19 +65,32 @@ used to obtain the most realistic result.}
 \chapter{Introduction}
 
 \section{Présentation du projet}
+
+	Ce projet se place dans le cadre de l'option Réalité Virtuelle pour les
+	élèves de 5\up{ième} année de l'école Polytech'Tours.
+	
+	\
+	
+	Ce projet a été proposé par Emmanuel Néron afin de répondre à la demande
+	de concrétiser le problème d'ordonnancement pour un cas particulier du jeu
+	de "Kapla". Le problème d'ordonnancement est, pour un nombre donné de
+	briquettes, de trouver la meilleure architecture permettant d'avoir une
+	structure stable et d'être éloigner le plus possible du support de départ.
+
 \section{Objectifs}
     L'objectif du projet est de proposer un environnement 3D dans lequel un
     utilisateur peut positionner un ensemble de briquettes afin de créer des
     structures. A partir d'une table, l'utilisateur doit essayer d'obtenir une
     structure qui est la flèche la plus grande possible (c'est à dire qui soit
-    éloigné autant que possible du bord de la table.
+    éloigné autant que possible du bord de la table).
     Bien sur, chaque briquette est soumis à la force de gravité rendant plus
     complexe l'élaboration de structures stables.
     Ce document décrit les technologies utilisé ainsi que le fonctionnement du
     logiciel.
+    
     \begin{figure}[h]
 		\centering
-        \includegraphics[scale=0.75]{images/jeux.png}
+        \includegraphics[width=13cm]{images/jeux.png}
         \caption{\label{fig:jeux}Un exemple typique de l'application en cours de fonctionnment}
     \end{figure}
 
@@ -101,7 +115,7 @@ used to obtain the most realistic result.}
     \end{itemize}
      \begin{figure}[h]
 		\centering
-        \includegraphics[scale=0.75]{images/zoom_briquette.png}
+        \includegraphics[width=16cm]{images/zoom_briquette.png}
         \caption{\label{fig:zoom_briquette}Les briquettes sont toutes orientés de la même façon suivant le même axe.}
     \end{figure}
 
@@ -117,18 +131,117 @@ used to obtain the most realistic result.}
     possible dans le projet en considérant le temps imparti. Nous avons fait le
     choix de réutiliser autant que possible les outils que nous connaissions
     déja. Cela nous à permis d'avoir une vue d'ensemble et une maitrise que
-    nous n'aurions pas eu autrement.
+    nous n'aurions pas eu autrement. Et nous avons pu améliorer nos
+    idées mises en place pour le projet collectif de Réalité Virtuelle\refMot{bib:projet_rv}.
+    
+    
 
     \section{Liste des outils}
-    \begin{itemize}
-        \item Ogre\refMot{bib:librairie_ogre}: Moteur 3D open source
-        (http://www.ogre3d.org/) supportant aussi bien OpenGL que Direct3D. 
-        \item CEGUI\refMot{bib:librairie_cegui}: Crazy Eddie's GUI System
-        (http://www.cegui.org.uk) fournissant des outils de créations de menus
-        et de fenetre dans un environnement 3D.
-        \item Bullet\refMot{bib:librairie_bullet}: Librairie de simulation de
-        la physique http://bulletphysics.org/
-    \end{itemize}
+		\subsection{Librairie utilisée}
+		
+		Afin de faciliter la mise en \oe{}uvre, il est nécessaire d'utiliser des librairies.
+		Nous avons donc d'utiliser les librairies suivantes.
+		\begin{itemize}
+			\item Ogre\refMot{bib:librairie_ogre}: Moteur 3D open source
+			(http://www.ogre3d.org/) supportant aussi bien OpenGL que Direct3D. 
+			\item CEGUI\refMot{bib:librairie_cegui}: Crazy Eddie's GUI System
+			(http://www.cegui.org.uk) fournissant des outils de créations de menus
+			et de fenetre dans un environnement 3D.
+			\item Bullet\refMot{bib:librairie_bullet}: Librairie de simulation de
+			la physique http://bulletphysics.org/
+		\end{itemize}
+		
+		\
+		
+		Notre expérience dans l'utilisation de ces librairies ayant été facilité
+		par leur utilisation dans le projet collectif\refMot{bib:projet_rv}, il
+		avons grandement amélioré la structure du programme.
+		
+		
+		\subsection{Documentation technique}
+		
+		Il est intéressant de concevoir une documentation technique, ce qui faciliterait
+		son étude par une personne tierce dans le cas d'une reprise du projet.
+		
+		\
+		
+		Nous avons utilisé pour se faire le logiciel Doxygen\refMot{bib:outils_doxygen}.
+		Ce logiciel permet à partir de commentaires spécifiques dans les fichiers d'en-tête
+		de générer la documentation au format html et pdf.
+		Le format html est intéressant puisqu'il permet d'être facilement diffusé sur Internet.
+		
+		\
+		
+		L'avantage majeur d'utilisé Doxygen et qu'il permet la génération de graphique :
+		\begin{itemize}
+			\item Graphe de collaboration
+			\item Graphe des dépendances par inclusion
+			\item Graphe d'inclusion direct et indirect
+			\item Graphe d'appels d'une fonction
+		\end{itemize}
+		
+
+\newpage
+		
+		La légende est très simple à comprendre :
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=12cm]{images/graph_legend.png}
+			\caption{\label{fig:graph_legend}Légende du graphe}
+		\end{figure}
+		
+		\
+		
+		Le code permettant de générer ce graphe :
+		\begin{figure}[h]
+			\centering
+			\lstinputlistingSmall{images/graph_legend.cpp}
+			\caption{\label{fig:graph_legend_code}Le code permettant de générer le graphe de légende}
+		\end{figure}
+		
+		
+		Pour présenter les différents, nous utiliserons la classe la moins utilisé dans le programme
+		(GestViewport) car les graphes deviennent rapidement très grand et ils ne seraient
+		pas correctement visible dans le rapport.
+		
+			\subsubsection{Graphe de collaboration}
+			Le graphe de collaboration de la classe GestViewport.
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=6cm]{images/graph_collaboration_gestviewport.png}
+				\caption{\label{fig:graph_collaboration_gestviewport}Graphe de collaboration de la classe GestViewport}
+			\end{figure}
+			
+			
+			\subsubsection{Graphe des dépendances par inclusion}
+			Le graphe des dépendances par inclusion de la classe GestViewport.
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=15cm]{images/graph_dependance_gestviewport.png}
+				\caption{\label{fig:graph_dependance_gestviewport}Graphe des dépendances par inclusion de la classe GestViewport}
+			\end{figure}
+			
+\newpage
+			
+			\subsubsection{Graphe d'inclusion direct et indirect}
+			Le graphe d'inclusion direct et indirect de la classe GestViewport.
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=10cm]{images/graph_inclusion_gestviewport.png}
+				\caption{\label{fig:graph_inclusion_gestviewport}Graphe d'inclusion direct et indirect de la classe GestViewport}
+			\end{figure}
+			
+			
+			\subsubsection{Graphe d'appels d'une fonction}
+			Le graphe d'appels de la méthode addViewport de la classe GestViewport.
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=15cm]{images/graph_appels_addviewport_gestviewport.png}
+				\caption{\label{fig:graph_appels_addviewport_gestviewport}Graphe d'appels de la méthode addViewport de la classe GestViewport}
+			\end{figure}
+    
+    
+    
 
 \chapter{Réalisation}
     \section{Gestion des évènements claviers/souris}
@@ -157,7 +270,7 @@ used to obtain the most realistic result.}
 
     \begin{figure}[h]
 		\centering
-        \includegraphics[scale=0.75]{images/bon_score.png}
+        \includegraphics[width=12cm]{images/bon_score.png}
         \caption{\label{fig:bon_score}Ici l'on voit que la caméra n'est plus centré autours du point
         central de la table mais sur une des briquettes de la structure,
         permettant d'étudier plus précisément celle-ci.}
@@ -219,10 +332,13 @@ used to obtain the most realistic result.}
 		
 		\begin{figure}[h]
 			\centering
-			\includegraphics[width=17cm]{images/move_briquette.png}
+			\includegraphics[width=16cm]{images/move_briquette.png}
 			\caption{\label{fig:move_briquette}On peut voir explicitement sur cette image le plan de collision
 			qui est nécessaire au déplacement de la briquette.}
 		\end{figure}
+		
+		
+    
 
     \section{Menus}
         Le menus à été réalisé en utilisant la bibliothèque CEGUI. Une classe
@@ -232,6 +348,9 @@ used to obtain the most realistic result.}
         fenêtres que l'on crée, en offrant des méthodes pour les créer
         simplements. Il suffit d'insérer les boutons ou les éléments graphiques
         sur une fenetre créé automatiquement.
+        
+        \
+        
         La charte graphique provient de deux "skins" CEGUI pré-existants et
         placé sous licence libre. Il s'agit de "TaharezLook" qui est le thème
         par défaut de CEGUI et le thème "Sleekspace" que l'on peut télécharger
@@ -244,16 +363,17 @@ used to obtain the most realistic result.}
         Le logiciel dispose d'un menus d'introdution, simple qui permet de
         choisir le niveau de difficulté via 3 boutons: facile, intérmédiaire,
         difficile.
+
+\newpage
+
 		\begin{figure}[h]
 			\centering
-			\includegraphics[scale=0.75]{images/Menus_initial.png}
+			\includegraphics[width=16cm]{images/Menus_initial.png}
 			\caption{\label{fig:menus_initial}Le menus d'introduction au jeu}
 		\end{figure}
-		\begin{figure}[h]
-			\centering
-			\includegraphics[scale=0.75]{images/menu_jeu.png}
-			\caption{\label{fig:menu_jeu}Le menus en cours de jeu}
-		\end{figure}      
+		
+		\
+		   
         Pendant le jeux, un menus est disponible en bas de l'écran. Il est
         également très simple. Il dispose de 4 boutons, le premier affiche le
         nombre de briquettes dont l'utilisateur peut disposé (qui ne sont pas
@@ -262,16 +382,26 @@ used to obtain the most realistic result.}
         révision (voir la partie sur les Snapshoots). Celui ci est composé de 2
         numéros, le premier annonce la révision actuelle sur laquelle on se
         trouve, le deuxième, le nombre de révisions accessibles. Les deux
-        derniers boutons permettent respectivemnt d'activer ou de désactiver le
+        derniers boutons permettent respectivement d'activer ou de désactiver le
         moteur physique et d'aligner les briquettes sur l'axes de construction.
+		
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=16cm]{images/menu_jeu.png}
+			\caption{\label{fig:menu_jeu}Le menus en cours de jeu}
+		\end{figure}
+		
+		\
 
-        Au départ, nous avions une souris géré par Ogre (avec un overlay) qui
+        Au départ, nous avions une souris gérée par Ogre (avec un overlay) qui
         permettait à l'utilisateur de viser les briquettes. CEGUI apporte sa
         propre souris. Le plus simple à été de ne conservé visible que la
         souris de CEGUI tout au long du jeu. En pratique, l'on a conservé de
         l'ancienne souris d'ogre qu'un jeu de coordonnées mis à jour à chaque
         déplacement de la souris de CEGUI afin de garder la synchronisation
         entre les deux.
+        
+        
 \chapter{Conclusion}
 
 
@@ -286,6 +416,8 @@ used to obtain the most realistic result.}
 	\biblioentry{bib:librairie_bullet}{} Bullet Wiki, \textit{Utilisation de Bullet}, \url{http://bulletphysics.org/wordpress/}
 	\biblioentry{bib:librairie_ogrebullet}{} Ogre Wiki, \textit{Tutorial d'utilisation d'OgreBullet}, \url{http://www.ogre3d.org/tikiwiki/OgreBullet}
 	\biblioentry{bib:signaux_qt}{} Site du Zéro, \textit{Signaux avec QT}, \url{http://www.siteduzero.com/tutoriel-3-11268-les-signaux-et-les-slots.html}
+	\biblioentry{bib:outils_doxygen}{} Doxygen, \textit{Génération de documentation}, \url{http://www.stack.nl/~dimitri/doxygen/}
+	\biblioentry{bib:projet_rv}{} Simulation Spatiale, \textit{Projet Polytech'Tours de Réalité Virtuelle, 2011}, \url{http://code.google.com/p/rv-simulation-interactive-battle-space/}
 	\end{bibliographie}	
 
 

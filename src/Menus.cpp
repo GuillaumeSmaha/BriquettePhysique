@@ -116,11 +116,18 @@ void Menus::actionFromPlayer(Controls::Controls key)
 				}
             }
             break;
+            
         case Controls::CALCUL_RES:
-            if(this->menusScore->estAffiche()==false){
+            if(this->menusScore->estAffiche() == false)
+            {
                 this->mainWdw->addChildWindow(this->menusScore->afficher_menus_calculs());
             }
+            else
+            {
+				this->menusScore->update_score();
+			}
             break;
+            
         default:
             break;
     }
