@@ -453,10 +453,40 @@ used to obtain the most realistic result.}
 		car au niveau structurel GestSnapShoot ne doit pas faire appel aux méthodes d'affichage.
 		Deplus, GestGame permet de gérer le niveau de difficulté et par conséquent le nombre maximum
 		de briquettes en jeu.
-			 
+
+    \section{Calcul du score}
+        L'objectif est de construire la flèche la plus éloigné possible du bord
+        de la table. Pour cela, nous avons mis en place un outil permettant de
+        voir le score atteint. Durant le jeu, il suffit d'appuyer sur la touche
+        "C" (Calcul) pour voir un menus donnant le score s'afficher.
+        Celui-ci est calculer à partir de la briquette stable la plus éloigné
+        de la table. Si la briquette vient d'être placé et qu'elle bouge encore
+        un peu, elle ne sera pas comptabilisé immédiatement. Cela permet
+        d'éviter d'avoir un score important en projettant une briquette à
+        l'autre bout du jeu. Le calcul est fait entre le milieu de la briquette
+        et le bord de la table.
+    \begin{figure}[h]
+		\centering
+        \includegraphics[width=13cm]{images/score.png}
+        \caption{\label{fig:jeux}Un exemple typique de l'application en cours de fonctionnment}
+    \end{figure}
         
 \chapter{Conclusion}
+    La réutilisation d'outils que nous avions commencé à voir dans le projet
+    collectif{bib:projet_rv} nous à permis de gagner en efficacité et de mener
+    le projet à bien. En particulier nous avons implémenter correctement la
+    physique du jeu. Nous avons profiter de cette aisance pour offrir de
+    nombreuses améliorations, aidant la prise en mains du jeu (par exemple la
+    possibilité d'arreter le moteur physique, permettant de placer plusieurs
+    briquettes avant le relancer la physique).
 
+    Le projet pourrait être continué de plusieurs manières, on pourrait mettre
+    en place un langage permettant de placer les briquettes via des scripts et
+    de tester les solutions ainsi obtenu. On pourrait également travaillé pour
+    perfectionner la stabilité des briquettes, une solution pourrait être de
+    mettre en place un système de bords collants, pour placer la briquette au
+    mieux, évitant ainsi un mouvement de chute pouvant mettre en péril la
+    structure.
 
 
 
