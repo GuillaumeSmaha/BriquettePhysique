@@ -11,7 +11,6 @@
 #endif
 
 #include "ClassRootSingleton.h"
-#include "PlayerControls.h"
 #include "SnapShoot.h"
 
 /*!

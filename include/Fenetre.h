@@ -10,7 +10,8 @@
 #include <RendererModules/Ogre/CEGUIOgreRenderer.h>
 #endif
 
-#include "PlayerControls.h"
+#include "controls.h"
+#include "Signal.h"
 
 /*!
 * \class Fenetre
