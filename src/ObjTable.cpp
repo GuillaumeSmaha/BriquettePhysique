@@ -9,8 +9,9 @@ ObjTable::ObjTable(Ogre::Real size, Ogre::Real depth) : entTable(NULL), tableNod
 
     this->tableNode->setScale(size, size, 1.0);
 
-	Ogre::Real center = size/2.0;
-    this->tableNode->setPosition(center, center, depth);
+	//Ogre::Real center = size/2.0;
+    //this->tableNode->setPosition(center, center, depth);
+    this->tableNode->setPosition(0, 0, depth);
     
     this->createPhysicalObj();
 }

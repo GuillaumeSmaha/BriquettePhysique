@@ -166,10 +166,11 @@ double GestObj::calculDistBriquetteEloigne(){
     double max=0;
     for(it = lstBriquettes.begin() ; it < lstBriquettes.end() ; it ++)
     {
-        //si le corps bullet n'est pas activé, c'est que la briquette est stable
-        if(((*it)->getRigidBody()->getBulletRigidBody()->isActive())==false){
-            std::cout<<"briquette désactivé"<<std::endl;
-            max=std::max(max, (*it)->getRangeToCenter());  
+        if((*it)->isDrawing()){
+            //si le corps bullet n'est pas activé, c'est que la briquette est stable
+            if(((*it)->getRigidBody()->getBulletRigidBody()->isActive())==false){
+                max=std::max(max, (*it)->getRangeToCenter()-100);  
+            }
         }
     }
     return max;

@@ -166,6 +166,5 @@ bool ObjBriquette::isDrawing()
 
 
 double ObjBriquette::getRangeToCenter(){
-    return this->briquetteNode->getPosition()[0];
-    //return std::sqrt(position[0]*position[0]+position[1]*position[1]+position[2]*position[2]);
+    return std::abs(this->briquetteNode->getPosition()[0] - entBriquette->getBoundingBox().getHalfSize().x);
 }
