@@ -174,7 +174,7 @@ void Menus::creer_demarrage_window(void)
     tblWin[1] = mediumWdw;
     tblWin[2] = hardWdw;
 
-    this->mainWdw->addChildWindow(create_std_window((CEGUI::utf8 *)"Le jeux des briquettes", 0.1, 0.05, 0.8, 0.2,3, tblWin));
+    this->mainWdw->addChildWindow(create_std_window((CEGUI::utf8 *)"Le jeu des briquettes", 0.1, 0.05, 0.8, 0.2,3, tblWin));
 
     this->mainWdw->hide();
 }

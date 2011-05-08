@@ -58,7 +58,7 @@ CEGUI::Window * Menus::MenusBriquette::creer_menus_briquettes(void)
     tblWin[2] = this->physicEngineStateWdw;
     tblWin[3] = this->alignBriquettesWdw;
 
-	return create_std_window((CEGUI::utf8 *)"Controles du jeux", 0.0, 0.85, 1, 0.1, nbList, tblWin);
+	return create_std_window((CEGUI::utf8 *)"Controles du jeu", 0.0, 0.85, 1, 0.1, nbList, tblWin);
 }
 
 void Menus::MenusBriquette::updateTextButtons()
