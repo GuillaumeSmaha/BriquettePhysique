@@ -19,9 +19,9 @@
 #include "mouseMove.h"
 #include "CameraAbstract.h"
 #include "PlayerControls.h"
-#include "SelectionMouse.h"
+#include "GestSceneManager.h"
+#include "ListenerFrame.h"
 
-class GestSceneManager;
 
 /*!
  * \class CameraTarget
@@ -58,10 +58,11 @@ class CameraTarget : public CameraAbstract
 	public:
 		/*!
 		 * \brief Constructeur
+		 * \param cameraType Type nouvelle caméra
 		 * \param cameraName Nom de la nouvelle caméra
 		 * \param targetNode Cible de la caméra
 		 */
-		CameraTarget(Ogre::String cameraName, Ogre::SceneNode * targetNode = NULL);
+		CameraTarget(CameraAbstract::CameraType cameraType, Ogre::String cameraName, Ogre::SceneNode * targetNode = NULL);
 		/*!
 		 * \brief Destructeur
 		 */
@@ -108,24 +109,55 @@ class CameraTarget : public CameraAbstract
         */
         void zoom(Ogre::Real zoomDist);
         /*!
-         * \brief Déplace la cible de la caméra
+         * \brief Définit la cible de la caméra
          * \param vector Vecteur de déplacement
         */
-        void setPositionTarget(Ogre::Vector3 vector);
-        /*!
-         * \brief Définit la position de la cible de la caméra
-         * \param vector Vecteur de position
-        */
-        void moveTarget(Ogre::Vector3 vector);
+        void definePositionTarget(Ogre::Vector3 vector);
+     
+	private:
         /*!
          * \brief Vérifie la rotation de la caméra et met à jour en conséquence
          * \return Vrai si on ne sort pas des limites
         */
         bool checkRotation(Ogre::Degree yaw, Ogre::Degree pitch);
         /*!
-         * \brief Essaie de déplacer la cible de la caméra à l'emplacement de la briquette
+         * \brief Déplace la position de la cible de la caméra
+         * \param vector Vecteur de position
         */
-        void moveOnBriquette();
+        void moveTarget(Ogre::Vector3 vector);
+        
+        
+        
+        // Getter - Setter
+        
+	public:
+        /*!
+         * \brief Retourne la valeur de l'attribut keyPressedMoveTargetX
+         * \return La valeur de keyPressedMoveTargetX
+        */
+        Controls::Controls getKeyPressedMoveTargetX();
+        /*!
+         * \brief Définit la valeur de l'attribut keyPressedMoveTargetX
+         * \param keyPressedMoveTargetX Valeur à attribuer
+        */
+        void setKeyPressedMoveTargetX(Controls::Controls keyPressedMoveTargetX);
+        
+        /*!
+         * \brief Retourne la valeur de l'attribut keyPressedMoveTargetY
+         * \return La valeur de keyPressedMoveTargetY
+        */
+        Controls::Controls getKeyPressedMoveTargetY();
+        /*!
+         * \brief Définit la valeur de l'attribut keyPressedMoveTargetY
+         * \param keyPressedMoveTargetY Valeur à attribuer
+        */
+        void setKeyPressedMoveTargetY(Controls::Controls keyPressedMoveTargetY);
+        /*!
+         * \brief Retourne le pointeur sue l'attribut 'targetNode'
+         * \return Retourne le noeud de la cible
+        */
+        Ogre::SceneNode * getTargetNode();
+        
 };
 
 #endif //__CAMERA_TARGET_H__

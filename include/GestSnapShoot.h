@@ -14,8 +14,6 @@
 #include "PlayerControls.h"
 #include "SnapShoot.h"
 
-class SnapShoot;
-
 /*!
 * \class GestSnapShoot
 * \brief Permet de gérer les annulations, retours de modifications : undo, redo.
@@ -96,12 +94,6 @@ class GestSnapShoot : public ClassRootSingleton<GestSnapShoot>
          * \brief Re-effectue une modification
          */
         void _applyRevision(int iVersion);
-        
-        /*!
-         * \brief Permet de réagir a l'appui sur touche/button souris, permet de lancer la prise de briquettes
-         * \param key Evénement du clavier
-        */
-        void onKeyPressed(Controls::Controls key);
 };
 
 #endif

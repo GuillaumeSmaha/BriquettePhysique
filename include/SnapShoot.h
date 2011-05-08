@@ -12,10 +12,8 @@
 #endif
 
 #include "GestObj.h"
+#include "ObjBriquette.h"
 #include "ListenerCollision.h"
-
-class GestObj;
-class ObjBriquette;
 
 
 /*!

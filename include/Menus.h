@@ -12,7 +12,7 @@
 #include "GestGame.h"
 
 
-class PlayerControls;
+class GestGame;
 
 /*!
  * \class Menus
@@ -206,13 +206,15 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
         /*!
          * \brief Permet de déplacer la souris en lui injectant le vecteur x, y.
          * La souris n'est pas géré directement dans cette classe mais dans la
-         * classe SelectionMouse car en réalité on à 2 souris (la souris du
+         * classe MouseFunction car en réalité on à 2 souris (la souris du
          * menus CEGUI et la souris de bullet pour attraper les briquettes.
          *
-         * Cette fonction permet donc a SelectionMouse de déplacer la souris de
+         * Cette fonction permet donc a GestGame de déplacer la souris de
          * CEGUI pour que les deux ai la même position
+         * \param delta_x Déplacement sur l'axe X
+         * \param delta_y Déplacement sur l'axe Y
         */
-        void injectMouseMove (float delta_x, float delta_y);
+        void injectMouseMove(float delta_x, float delta_y);
 
     private:
         /*!

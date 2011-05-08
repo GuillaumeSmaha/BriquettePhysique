@@ -12,6 +12,10 @@ GestGame::GestGame() : ClassRootSingleton<GestGame>()
     
     
     ListenerFrame::getSingletonPtr()->signalFrameStarted.add(&GestGame::checkBriquette, this);
+    
+    PlayerControls::getSingletonPtr()->signalKeyPressed.add(&GestGame::onKeyPressed, GestGame::getSingletonPtr());
+    PlayerControls::getSingletonPtr()->signalKeyReleased.add(&GestGame::onKeyReleased, GestGame::getSingletonPtr());
+    PlayerControls::getSingletonPtr()->signalMouseMoved.add(&GestGame::onMouseMoved, GestGame::getSingletonPtr());
 }
 
 
@@ -62,6 +66,8 @@ bool GestGame::addBriquette()
 		GestObj * gest = GestObj::getSingletonPtr();
 		
 		gest->addBriquette(vec);
+    
+		this->addModification();
 		
 		return true;
     }
@@ -176,10 +182,53 @@ void GestGame::quitGame()
 }
 
 
+void GestGame::moveCameraTargetOnBriquette()
+{
+	Ogre::Ray rayon;
+	OgreBulletDynamics::RigidBody * body = MouseFunction::getSingletonPtr()->getBodyUnderCursorUsingBullet(rayon);
+   
+	if((body != NULL) && (!body->isStaticObject()))
+	{
+		ObjBriquette * briquette = GestObj::getSingletonPtr()->getBriquetteByRigidBody(body);
+		
+		if(briquette != NULL)
+		{
+			Ogre::Vector3 vec = briquette->getSceneNode()->getPosition();
+			vec[2] = GestCamera::getSingletonPtr()->getCurrentCamera()->getTargetNode()->getPosition()[2];
+			GestCamera::getSingletonPtr()->getCurrentCamera()->definePositionTarget(vec);
+		}
+	}
+}
+
+
+void GestGame::switchPhysicEngineState()
+{
+	ListenerCollision::getSingletonPtr()->switchPhysicEngineState();
+	
+	if(Menus::getSingletonPtr()->getMenusBriquette() != NULL)
+		Menus::getSingletonPtr()->getMenusBriquette()->updateTextButtons();
+}
+
+
+void GestGame::injectMouseMove(float delta_x, float delta_y)
+{
+	//permet de déplacer également la souris de Bullet
+	MouseFunction::getSingletonPtr()->injectMouseMove(delta_x, delta_y);
+	
+	//permet de déplacer également la souris du menus CEGUI
+	Menus::getSingletonPtr()->injectMouseMove(delta_x, delta_y);
+}
+
+
+
 void GestGame::onKeyPressed(Controls::Controls key)
 {
     switch(key)
     {
+        case Controls::SWITCH_BULLET_STATE:
+			this->switchPhysicEngineState();
+            break;
+            
         case Controls::UNDO :
             this->undo();
             break;
@@ -204,6 +253,40 @@ void GestGame::onKeyPressed(Controls::Controls key)
 			this->quitGame();
             break;
 
+        case Controls::MOUSE_CAMERA_ROTATE:
+            this->moveCameraTargetOnBriquette();
+            break;        
+        
+        default:
+            break;
+    }
+}
+
+
+void GestGame::onKeyReleased(Controls::Controls key)
+{
+		
+    switch(key)
+    {     
+        default:
+            break;
+    }
+}
+
+
+void GestGame::onMouseMoved(MouseMove_t &mouseMove)
+{   
+		
+    switch(mouseMove.controlMouseId)
+    {     
+		case Controls::NONE :
+		case Controls::SELECT :
+		{
+			this->injectMouseMove(mouseMove.vector[0], mouseMove.vector[1]);
+			break;
+		}
+		
+			
         default:
             break;
     }

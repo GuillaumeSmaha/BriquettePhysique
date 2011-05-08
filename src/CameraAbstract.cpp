@@ -1,8 +1,9 @@
 #include "CameraAbstract.h"
 
-CameraAbstract::CameraAbstract(Ogre::String cameraName)
+CameraAbstract::CameraAbstract(CameraAbstract::CameraType cameraType, Ogre::String cameraName)
 {
 	this->cameraName = cameraName;
+	this->cameraType = cameraType;
 	this->camera = GestSceneManager::getSceneManager()->createCamera(cameraName);
 	
 	// set the frustrum plan

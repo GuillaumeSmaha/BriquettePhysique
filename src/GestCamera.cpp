@@ -22,8 +22,8 @@ CameraAbstract * GestCamera::addCamera(CameraAbstract::CameraType cameraType, Og
 	CameraAbstract * cam = NULL;
 	switch(cameraType)
 	{
-		case CameraAbstract::CAMERA_FREE :
-			cam = new CameraTarget(cameraName, targetNode);
+		case CameraAbstract::CAMERA_TARGET :
+			cam = new CameraTarget(cameraType, cameraName, targetNode);
 			this->listCameras.push_back(cam);
 			break;
 			

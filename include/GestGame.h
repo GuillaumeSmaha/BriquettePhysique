@@ -22,10 +22,15 @@
 #include "controls.h"
 #include "ClassRootSingleton.h"
 #include "Application.h"
+#include "Menus.h"
+#include "PlayerControls.h"
 #include "ListenerFrame.h"
+#include "ListenerCollision.h"
+#include "ListenerWindow.h"
+#include "MouseFunction.h"
 #include "ObjBriquette.h"
 
-class ObjBriquette;
+class Menus;
 
 /*!
  * \class GestGame
@@ -64,7 +69,7 @@ class GestGame : public ClassRootSingleton<GestGame>
         /*!
         * \brief Number of Briquette in game
         */
-        bool gameLauched;   
+        bool gameLauched;
         
 	public:
         /*!
@@ -134,11 +139,45 @@ class GestGame : public ClassRootSingleton<GestGame>
         */
         void quitGame();
         
+        /*!
+         * \brief Essaie de déplacer la cible de la caméra à l'emplacement de la briquette
+        */
+        void moveCameraTargetOnBriquette();
+        
+		/*!
+		 * \brief Switch the value of the attribute physicEngineState in the singleton ListenerCollision
+		 */
+        void switchPhysicEngineState();
+        
+        /*!
+         * \brief Permet de déplacer la souris en lui injectant le vecteur x, y.
+         * La souris n'est pas géré directement dans cette classe mais dans la
+         * classe MouseFunction car en réalité on à 2 souris (la souris du
+         * menus CEGUI et la souris de bullet pour attraper les briquettes.
+         *
+         * Cette fonction permet donc a GestGame de déplacer la souris de
+         * Bullet et de CEGUI pour que les deux ai la même position
+         * \param delta_x Déplacement sur l'axe X
+         * \param delta_y Déplacement sur l'axe Y
+        */
+        void injectMouseMove(float delta_x, float delta_y);
+        
+        
 	    /*!
-		* \brief Permet de recevoir un evènement quand une touche est appuyé
-        *   Ici, permet de fermer l'application
+		 * \brief Permet de recevoir un evènement quand une touche est appuyé
+         * \param key Touche du clavier (Controls::Controls)
 		*/	
         void onKeyPressed(Controls::Controls key);
+        /*!
+		 * \brief Permet de recevoir un evènement quand une touche est appuyé
+         * \param key Touche du clavier (Controls::Controls)
+        */
+        void onKeyReleased(Controls::Controls key);        
+        /*!
+		 * \brief Permet de recevoir un evènement quand une touche de la souris est appuyé ou quand la souris est déplacé
+		 * \param mouseMove Structure de déplacement de la souris
+        */
+        void onMouseMoved(MouseMove_t &mouseMove);
         
         
 	public:

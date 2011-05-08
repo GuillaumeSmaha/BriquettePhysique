@@ -1,7 +1,7 @@
 #include "CameraTarget.h"
 
 
-CameraTarget::CameraTarget(Ogre::String cameraName, Ogre::SceneNode * targetNode) : CameraAbstract(cameraName)
+CameraTarget::CameraTarget(CameraAbstract::CameraType cameraType, Ogre::String cameraName, Ogre::SceneNode * targetNode) : CameraAbstract(cameraType, cameraName)
 {
     this->targetNode = GestSceneManager::getSceneManager()->getSceneNode(NODE_NAME_GROUPE_CAMERA)->createChildSceneNode("nodeTargetCamera_"+cameraName+"_"+Utils::toString(Utils::unique()));
     this->targetNode->_setDerivedPosition(targetNode->_getDerivedPosition());
@@ -135,10 +135,6 @@ void CameraTarget::onKeyPressed(Controls::Controls key)
 {
     switch(key)
     {
-        case Controls::MOUSE_CAMERA_ROTATE:
-            this->moveOnBriquette();
-            break;            
-            
         case Controls::CAM_ZOOM_IN :
             this->zoom(-20.0);
             break;
@@ -148,25 +144,21 @@ void CameraTarget::onKeyPressed(Controls::Controls key)
             break;
             
         case Controls::CAM_ROTATE_LEFT :
-        {
             this->manuallyRotate(Ogre::Radian(PI/36.0));
             break;
-        }
         
         case Controls::CAM_ROTATE_RIGHT :
-        {
             this->manuallyRotate(Ogre::Radian(-PI/36.0));
             break;
-        }
         
         case Controls::CAM_TARGET_MOVE_LEFT :
         case Controls::CAM_TARGET_MOVE_RIGHT :
-			this->keyPressedMoveTargetX = key;
+			this->setKeyPressedMoveTargetX(key);
             break;
             
         case Controls::CAM_TARGET_MOVE_UP :
         case Controls::CAM_TARGET_MOVE_DOWN :
-			this->keyPressedMoveTargetY = key;
+			this->setKeyPressedMoveTargetY(key);
             break;
         
         default:
@@ -207,24 +199,10 @@ void CameraTarget::zoom(Ogre::Real zoomDist)
 }
 
 
-void CameraTarget::setPositionTarget(Ogre::Vector3 vector)
+void CameraTarget::definePositionTarget(Ogre::Vector3 vector)
 {
-	Ogre::Real dist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
-	this->targetNode->setPosition(vector);
-	Ogre::Real newDist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
-	this->zoom(dist-newDist);
+	this->targetPosition = vector;
 }
-
-
-void CameraTarget::moveTarget(Ogre::Vector3 vector)
-{
-	Ogre::Real dist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
-	Ogre::Vector3 vec = this->targetNode->getPosition() + vector;
-	this->targetNode->setPosition(vec);
-	Ogre::Real newDist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
-	this->zoom(dist-newDist);
-}
-
 
 
 bool CameraTarget::checkRotation(Ogre::Degree yaw, Ogre::Degree pitch)
@@ -241,21 +219,39 @@ bool CameraTarget::checkRotation(Ogre::Degree yaw, Ogre::Degree pitch)
 }
 
 
-
-void CameraTarget::moveOnBriquette()
+void CameraTarget::moveTarget(Ogre::Vector3 vector)
 {
-	Ogre::Ray rayon;
-	OgreBulletDynamics::RigidBody * body = SelectionMouse::getSingletonPtr()->getBodyUnderCursorUsingBullet(rayon);
-   
-	if((body != NULL) && (!body->isStaticObject()))
-	{
-		ObjBriquette * briquette = GestObj::getSingletonPtr()->getBriquetteByRigidBody(body);
-		
-		if(briquette != NULL)
-		{
-			Ogre::Vector3 vec = briquette->getSceneNode()->getPosition();
-			vec[2] = this->targetNode->getPosition()[2];
-			this->targetPosition = vec;
-		}
-	}
+	Ogre::Real dist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
+	Ogre::Vector3 vec = this->targetNode->getPosition() + vector;
+	this->targetNode->setPosition(vec);
+	Ogre::Real newDist = (this->camera->getPosition() - this->targetNode->_getDerivedPosition()).length();
+	this->zoom(dist-newDist);
+}
+
+
+Controls::Controls CameraTarget::getKeyPressedMoveTargetX()
+{
+	return this->keyPressedMoveTargetX;
+}
+
+void CameraTarget::setKeyPressedMoveTargetX(Controls::Controls keyPressedMoveTargetX)
+{
+	this->keyPressedMoveTargetX = keyPressedMoveTargetX;
+}
+
+
+Controls::Controls CameraTarget::getKeyPressedMoveTargetY()
+{
+	return this->keyPressedMoveTargetY;
+}
+
+void CameraTarget::setKeyPressedMoveTargetY(Controls::Controls keyPressedMoveTargetY)
+{
+	this->keyPressedMoveTargetY = keyPressedMoveTargetY;
+}
+
+
+Ogre::SceneNode * CameraTarget::getTargetNode()
+{
+	return this->targetNode;
 }

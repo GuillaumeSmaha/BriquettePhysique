@@ -16,6 +16,7 @@
 #include "collisionBullet.h"
 #include "GestSceneManager.h"
 #include "ListenerCollision.h"
+#include "Utils.h"
 
 /*!
 * \class ObjTable

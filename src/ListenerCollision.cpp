@@ -15,8 +15,7 @@ ListenerCollision::ListenerCollision() : ClassRootSingleton<ListenerCollision>()
     node_debugDrawer->attachObject(static_cast <Ogre::SimpleRenderable *> (debugDrawer));
     mWorld->getBulletDynamicsWorld()->clearForces();
 
-    ListenerFrame::getSingletonPtr()->signalFrameStarted.add(&ListenerCollision::updateCollision, this);    
-    PlayerControls::getSingletonPtr()->signalKeyPressed.add(&ListenerCollision::onKeyPressed, this);
+    ListenerFrame::getSingletonPtr()->signalFrameStarted.add(&ListenerCollision::updateCollision, this);  
 }
 
 ListenerCollision::~ListenerCollision()
@@ -31,19 +30,6 @@ void ListenerCollision::updateCollision(const Ogre::FrameEvent &evt)
 {
 	if(this->physicEngineState)
 		mWorld->stepSimulation(evt.timeSinceLastFrame);   // update Bullet Physics animation
-}
-
-void ListenerCollision::onKeyPressed(Controls::Controls key)
-{
-    switch(key)
-    {
-        case Controls::SWITCH_BULLET_STATE:
-            this->switchPhysicEngineState();
-            break;
-            
-        default:
-            break;
-    }
 }
 
 
@@ -94,9 +80,6 @@ bool ListenerCollision::setPhysicEngineState(bool physicEngineState, void * lock
 	if(this->physicEngineMutex == false || (this->physicEngineMutex == true && locker == this->physicEngineMutexLocker))
 	{
 		this->physicEngineState = physicEngineState;
-		
-		if(Menus::getSingletonPtr()->getMenusBriquette() != NULL)
-			Menus::getSingletonPtr()->getMenusBriquette()->updateTextButtons();
 			
 		return true;
 	}

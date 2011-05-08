@@ -26,13 +26,17 @@ class CameraAbstract : public ClassRoot
 			/// Caméra Null
 			CAMERA_NULL = 0,
 			/// Caméra libre
-			CAMERA_FREE = 1
+			CAMERA_TARGET = 1
 		};
 		/// Définit le nombre de caméra
 		static const int CameraTypeCount = 1;
 		
 		
 	protected:
+		/*!
+		 * \brief Type de la caméra
+		 */
+		CameraAbstract::CameraType cameraType;
 		/*!
 		 * \brief Camera instanciée
 		 */
@@ -45,9 +49,10 @@ class CameraAbstract : public ClassRoot
 	public:		 
 		/*!
 		 * \brief Constructeur
+		 * \param cameraType Type nouvelle caméra
 		 * \param cameraName Nom de la nouvelle caméra
 		 */
-		CameraAbstract(Ogre::String cameraName);
+		CameraAbstract(CameraAbstract::CameraType cameraType, Ogre::String cameraName);
 		/*!
 		 * \brief Destructeur virtuel
 		 */
@@ -93,6 +98,21 @@ class CameraAbstract : public ClassRoot
 		 * 	\param position Position
 		 */
         virtual void setPosition( Ogre::Vector3 position );
+        
+        
+        // Camera Target method
+        /*!
+         * \brief Retourne le pointeur sue l'attribut 'targetNode'
+         * \return Retourne le noeud de la cible
+        */
+        virtual Ogre::SceneNode * getTargetNode(){return NULL;};
+        /*!
+         * \brief Définit la cible de la caméra
+         * \param vector Vecteur de déplacement
+        */
+        virtual void definePositionTarget(Ogre::Vector3 vector){};
+        
+        
         
         
 		//Getter/Setter

@@ -432,15 +432,51 @@ used to obtain the most realistic result.}
 		
 		Maintenant, nous allons vous expliquer en détails le fonctionnement de
 		ces 3 structures :
+			
+			
+			\subsection{SnapShootData}
+			
+			Cette structure de données contient 3 éléments :
+			\begin{itemize}
+				\item Un pointeur du type ObjBriquette sur la briquette concerné par la donnée.
+				\item Un vecteur de dimension 3 correspondant à la position de la briquette lors
+				la capture.
+				\item Un quaternion correspondant à l'orientation de la briquette.
+			\end{itemize}
+			
+			
+			 
+			\subsection{SnapShoot}
+			
+			Cette classe correspond à une révision, un état du système qui contient la position
+			et l'état des briquettes affichées dans la scène.
+			Elle contient donc une liste d'élément de type SnapShootData.
+			
+			\
+			
+			Lors de la création d'une nouvelle instance de la classe (appel du constructeur)
+			, le moteur physique de bullet est arrêté et la liste de l'instance est complété
+			avec les briquettes affichées.
+			
+			\
+			
+			Cette classe contient donc entierement l'état du jeu à un instant donné.
+			Il suffit donc de cacher toutes les briquettes stockées en mémoire et de
+			ré-afficher en les repositionnant les briquettes contenu dans la liste .
+			
 		
 			\subsection{GestSnapShoot}
 			Cette classe permet de gérer l'ensemble des révisions, elle contient
-			une liste du type deque (liste "queue" accessible dans les deux sens).
+			une liste du type "deque" (liste "queue" accessible dans les deux sens).
 			La classe permet d'ajouter une révision, d'en supprimer un ensemble depuis
 			le début ou la fin, d'annuler une modification, de re-effectuer une modification
-			 et surtout d'appliquer une révision donnée.
+			et surtout d'appliquer une révision donnée.
 			 
 			 \
+			 
+			 Cette liste de la classe contient des éléments de type SnapShoot.
+			 
+			
 			 
         
 
@@ -471,7 +507,7 @@ used to obtain the most realistic result.}
 	\biblioentry{bib:signaux_qt}{} Site du Zéro, \textit{Signaux avec QT}, \url{http://www.siteduzero.com/tutoriel-3-11268-les-signaux-et-les-slots.html}
 	\biblioentry{bib:outils_doxygen}{} Doxygen, \textit{Génération de documentation}, \url{http://www.stack.nl/~dimitri/doxygen/}
 	\biblioentry{bib:projet_rv}{} Simulation Spatiale, \textit{Projet Polytech'Tours de Réalité Virtuelle, 2011}, \url{http://code.google.com/p/rv-simulation-interactive-battle-space/}
-	\end{bibliographie}	
+\end{bibliographie}	
 
 
 \end{document}

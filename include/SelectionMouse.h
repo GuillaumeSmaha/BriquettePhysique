@@ -18,12 +18,11 @@
 #include "collisionBullet.h"
 #include "ClassRootSingleton.h"
 #include "PlayerControls.h"
-#include "CameraAbstract.h"
-#include "GestCamera.h"
 #include "ListenerCollision.h"
-#include "GestSnapShoot.h"
-#include "Menus.h"
 #include "MouseFunction.h"
+#include "ObjBriquette.h"
+#include "GestObj.h"
+#include "GestGame.h"
 
 
 /*!
@@ -32,18 +31,6 @@
 */
 class SelectionMouse: public ClassRootSingleton<SelectionMouse>
 {
-    public:
-		/*!
-		 * \brief NE PAS UTILISER, present uniquement pour la définition de ClassRootSingleton
-         *  il faut utiliser createSingleton(Ogre::RenderWindow * win) à la place.
-		*/		
-        static void createSingleton();
-        /*!
-         * Permet de creer la souris, celle ci ce présente sous la forme d'un curseur qui peut saisir les briquettes.
-         * \param win: Le renderWindow permet d'avoir la taille de la fenetre et donc d'adapter la taille du curseur à celle ci
-        */
-        static void createSingleton(Ogre::RenderWindow * win);
-
     private:
         /*!
          * \brief permet d'avoir la dernière briquette selectionné
@@ -56,38 +43,18 @@ class SelectionMouse: public ClassRootSingleton<SelectionMouse>
         */
         OgreBulletDynamics::RigidBody * selectedBriquettePrevious;  
 
-        Ogre::Vector3 posMouse;
-        /*!
-         * \brief Permet de conserver la largeur la fenetre
-        */
-        int winWidth;
-        /*!
-         * \brief Permet de conserver la hauteur de la fenetre
-        */
-        int winHeight;
 
-
-	private:
+	public:
         /*!
         * \brief Constructeur par défault, ne doit pas être utilisé
         */
         SelectionMouse();
-        /*! 
-        * \brief Constructeur 
-        * \param win: Le renderWindow permet d'avoir la taille de la fenetre et donc d'adapter la taille du curseur à celle ci
-        */
-        SelectionMouse(Ogre::RenderWindow * win);
         /*!
         * \brief Destructeur
         */
        ~SelectionMouse();
 
-        /*!
-         * \brief Initialise la souris au milieu de l'écran
-         * \param win Le renderWindow permet d'avoir la taille de la fenetre et donc d'adapter la taille du curseur à celle ci
-        */
-        void initMouse(Ogre::RenderWindow * win);
-
+	private:
         /*!
          * \brief Permet de déplacer la souris sur l'écran
 		 * \param mouseMove Structure de déplacement de la souris
@@ -111,22 +78,7 @@ class SelectionMouse: public ClassRootSingleton<SelectionMouse>
          * \brief Permet en particulier de reprendre le comportement physique de la briquette aprés mise à jour de sa position
         */
         void unselectBriquette();
-        
-        
-	public:
-        /*!
-         * \brief Essaye d'attraper une briquette lors d'un clic de souris
-         * \param rayTo Rayon à lancer
-         * \return L'objet percuté par le rayon ou NULL
-        */
-        OgreBulletDynamics::RigidBody * getBodyUnderCursorUsingBullet(Ogre::Ray &rayTo);
-        /*!
-         * \brief Essaye d'attraper le résultat lors d'un clic de souris
-         * Attention à supprimer le pointeur
-         * \param rayTo Rayon à lancer
-         * \return Le résultat du lancer de rayon
-        */
-        OgreBulletCollisions::CollisionClosestRayResultCallback * getResultUnderCursorUsingBullet(Ogre::Ray &rayTo);
+       
 };
 
 

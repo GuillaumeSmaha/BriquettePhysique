@@ -31,6 +31,7 @@ Application::~Application()
 	GestCamera::destroySingleton();
 	GestSnapShoot::destroySingleton();
 	GestObj::destroySingleton();
+	GestGame::destroySingleton();
 	GestViewport::destroySingleton();
 	PlayerControls::destroySingleton();
 	ListenerCollision::destroySingleton();
@@ -160,11 +161,11 @@ void Application::initListeners()
 	ListenerWindow::getSingletonPtr()->signalWindowClosed.add(&ListenerFrame::shutdown, ListenerFrame::getSingletonPtr());
 	ListenerFrame::getSingletonPtr()->signalFrameRendering.add(&ListenerKeyboard::capture, ListenerKeyboard::getSingletonPtr());
 	ListenerFrame::getSingletonPtr()->signalFrameRendering.add(&ListenerMouse::capture, ListenerMouse::getSingletonPtr());
-
-    PlayerControls::getSingletonPtr()->signalKeyPressed.add(&GestGame::onKeyPressed, GestGame::getSingletonPtr());
     
 	//Create Menus Singleton
-	Menus::createSingleton();
+	Menus::createSingleton();   
+    
+    MouseFunction::createSingleton(ListenerWindow::getSingletonPtr()->getRenderWindow());
 }
 
 void Application::initSceneGraph()
@@ -201,12 +202,11 @@ void Application::initSceneBase()
     
     GestGame::getSingletonPtr()->setPositionCreationBriquette(GestObj::getSingletonPtr()->getTable()->getNode()->_getDerivedPosition());
     
-    CameraTarget * gestCamera = new CameraTarget("mainCam", GestObj::getSingletonPtr()->getTable()->getNode());
+    CameraAbstract * gestCamera = GestCamera::getSingletonPtr()->addCamera(CameraAbstract::CAMERA_TARGET, "mainCam", GestObj::getSingletonPtr()->getTable()->getNode());
     
     this->idViewport = GestViewport::getSingletonPtr()->addViewport(gestCamera);
     
-    GestCamera::getSingletonPtr()->addCamera(gestCamera);
-    SelectionMouse::createSingleton(ListenerWindow::getSingletonPtr()->getRenderWindow());
+    SelectionMouse::createSingleton();
 }
 
 void Application::initScene()

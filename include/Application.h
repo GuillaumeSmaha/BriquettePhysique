@@ -18,16 +18,17 @@
 #include "GestViewport.h"
 #include "GestCamera.h"
 #include "GestObj.h"
+#include "GestSnapShoot.h"
+#include "GestGame.h"
 #include "ListenerWindow.h"
 #include "ListenerFrame.h"
 #include "ListenerCollision.h"
 #include "ListenerInputManager.h"
 #include "PlayerControls.h"
-#include "controls.h"
-#include "nodeName.h"
 #include "SelectionMouse.h"
 #include "CameraTarget.h"
 #include "Menus.h"
+#include "MouseFunction.h"
 
 class ListenerWindow;
 class ListenerFrame;

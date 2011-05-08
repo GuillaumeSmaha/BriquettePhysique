@@ -6,24 +6,9 @@ using namespace Ogre;
 template<> SelectionMouse * ClassRootSingleton<SelectionMouse>::_instance = NULL;
 
 
-void SelectionMouse::createSingleton()
+
+SelectionMouse::SelectionMouse() : ClassRootSingleton<SelectionMouse>()
 {
-    std::cerr << "Le constructeur de SelectionMouse ne doit pas être appelé via \
-        createSingleton() et doit être appelé avec un Ogre::RenderWindow * en argument \
-        !" << std::endl << "Attention le singleton n'ayant pas été crée, il est fort \
-        possible d'avoir des erreurs de segmentation"  << std::endl ;
-}
-
-void SelectionMouse::createSingleton(Ogre::RenderWindow * win)
-{
-    new SelectionMouse(win);
-}
-
-
-
-SelectionMouse::SelectionMouse(Ogre::RenderWindow * win) : ClassRootSingleton<SelectionMouse>()
-{
-    initMouse(win);
     this->selectedBriquetteOnMove = NULL;   
     this->selectedBriquettePrevious = NULL;   
     PlayerControls::getSingletonPtr()->signalMouseMoved.add(&SelectionMouse::onMouseMoved, this);
@@ -39,56 +24,8 @@ SelectionMouse::~SelectionMouse()
 }
 
 
-void SelectionMouse::initMouse(Ogre::RenderWindow * win)
-{
-	this->winWidth= win->getWidth();
-	this->winHeight= win->getHeight();
-
-	//la souris est centré initialement
-	this->posMouse[0] = 0.5;        //correspond à la position horizontale
-	this->posMouse[1] = 0.5;        //correspond à la position verticale
-  
-}
-
-
 void SelectionMouse::onMouseMoved(MouseMove_t &mouseMove)
 {
-	if(mouseMove.controlMouseId == Controls::NONE || mouseMove.controlMouseId == Controls::SELECT)
-	{
-        //réglage horizontal
-		this->posMouse[0] = this->posMouse[0] + (mouseMove.vector[0]/this->winWidth);
-
-        //Ces conditions permettent d'éviter que la souris ne sorte de la fenetre
-        //C'est nécéssaire car la souris CEGUI est prévu pour ne pas sortir de la fenetre, 
-        //on perd donc la correspondance si l'une sort et pas l'autre
-        if(posMouse[0] < (0.0))
-        {
-            this->posMouse[0] = 0.0;
-        }
-        if(posMouse[0] > (1.0))
-        {
-            this->posMouse[0] = 1.0;
-        }
-
-        //réglage vertical
-		this->posMouse[1] = this->posMouse[1] + (mouseMove.vector[1] / this->winHeight);
-
-        //Ces conditions permettent d'éviter que la souris ne sorte de la fenetre
-        //C'est nécéssaire car la souris CEGUI est prévu pour ne pas sortir de la fenetre, 
-        //on perd donc la correspondance si l'une sort et pas l'autre
-        if(posMouse[1] < (0.0))
-        {
-            this->posMouse[1] = 0.0;
-        }
-        if(posMouse[1] > (1.0))
-        {
-            this->posMouse[1] = 1.0;
-        }
-
-		//permet de déplacer également la souris du menus CEGUI
-		Menus::getSingletonPtr()->injectMouseMove(mouseMove.vector[0], mouseMove.vector[1]);
-	}
-	
 	if(mouseMove.controlMouseId == Controls::SELECT)
 	{
         if(this->selectedBriquetteOnMove != NULL)
@@ -105,7 +42,7 @@ void SelectionMouse::onMouseMoved(MouseMove_t &mouseMove)
 			bodyTest->setShape(nodeTest, shapeTest, 0.0, 0.0, 0.0, GestGame::getSingletonPtr()->getPositionCreationBriquette(), ObjBriquette::defaultOrientation);
             		
 			Ogre::Ray rayon;
-			OgreBulletCollisions::CollisionClosestRayResultCallback * mCollisionClosestRayResultCallback = this->getResultUnderCursorUsingBullet(rayon);
+			OgreBulletCollisions::CollisionClosestRayResultCallback * mCollisionClosestRayResultCallback = MouseFunction::getSingletonPtr()->getResultUnderCursorUsingBullet(rayon);
 			
 			if (mCollisionClosestRayResultCallback->doesCollide())
 			{
@@ -198,7 +135,7 @@ void SelectionMouse::selectBriquette()
 	if(GestGame::getSingletonPtr()->getGameLauched())
 	{
 		Ogre::Ray rayon;
-		OgreBulletDynamics::RigidBody * body = this->getBodyUnderCursorUsingBullet(rayon);
+		OgreBulletDynamics::RigidBody * body = MouseFunction::getSingletonPtr()->getBodyUnderCursorUsingBullet(rayon);
 	   
 		if((body != NULL) && (!body->isStaticObject()))
 		{
@@ -246,22 +183,4 @@ void SelectionMouse::unselectBriquette()
         //mettre a jour la bounding permet de la placer à la nouvelle position de la briquette   
         GestObj::getSingletonPtr()->updateAllForces();
     }
-}
-
-
-
-OgreBulletDynamics::RigidBody * SelectionMouse::getBodyUnderCursorUsingBullet(Ogre::Ray &rayTo)
-{
-    Ogre::Real mouseScreenX = this->posMouse[0];
-    Ogre::Real mouseScreenY = this->posMouse[1];    
-    return MouseFunction::getBodyUnderCursorUsingBullet(rayTo, mouseScreenX, mouseScreenY);
-}
-
-
-OgreBulletCollisions::CollisionClosestRayResultCallback * SelectionMouse::getResultUnderCursorUsingBullet(Ogre::Ray &rayTo)
-{
-    Ogre::Real mouseScreenX = this->posMouse[0];
-    Ogre::Real mouseScreenY = this->posMouse[1]; 
-   
-    return MouseFunction::getResultUnderCursorUsingBullet(rayTo, mouseScreenX, mouseScreenY);
 }

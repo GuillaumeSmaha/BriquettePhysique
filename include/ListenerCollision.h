@@ -18,8 +18,6 @@
 #include "ClassRootSingleton.h"
 #include "GestSceneManager.h"
 #include "ListenerFrame.h"
-#include "PlayerControls.h"
-#include "GestCamera.h"
 
 /*!
  * \class ListenerCollision
@@ -65,12 +63,6 @@ class ListenerCollision : public ClassRootSingleton<ListenerCollision>
 		 * \param evt Evenement du controlleur de frame
 		 */
 		void updateCollision(const Ogre::FrameEvent &evt);
-		
-        /*!
-         * \brief Permet de réagir a l'appui sur touche/button souris, permet de lancer la prise de briquettes
-         * \param key Evénement du clavier
-        */
-        void onKeyPressed(Controls::Controls key);
 		
 		
 		/*!
