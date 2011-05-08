@@ -203,7 +203,23 @@ void GestGame::moveCameraTargetOnBriquette()
 
 void GestGame::switchPhysicEngineState()
 {
-	ListenerCollision::getSingletonPtr()->switchPhysicEngineState();
+	
+	ListenerCollision::getSingletonPtr()->physicEngineMutexLock(this);
+	ListenerCollision::getSingletonPtr()->switchPhysicEngineState(this);
+	ListenerCollision::getSingletonPtr()->physicEngineMutexUnLock(this);
+	
+	if(ListenerCollision::getSingletonPtr()->getPhysicEngineState())
+	{
+		std::vector<ObjBriquette *> lstBriquettes = GestObj::getSingletonPtr()->getListBriquettes();
+		std::vector<ObjBriquette *>::iterator it;
+		for(it = lstBriquettes.begin() ; it <lstBriquettes.end() ; it ++)
+		{
+			if((*it)->isDrawing())
+			{
+				(*it)->getRigidBody()->getBulletRigidBody()->activate(true);
+			}
+		}
+	}
 	
 	if(Menus::getSingletonPtr()->getMenusBriquette() != NULL)
 		Menus::getSingletonPtr()->getMenusBriquette()->updateTextButtons();

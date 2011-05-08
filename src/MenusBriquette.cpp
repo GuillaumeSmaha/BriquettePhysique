@@ -78,9 +78,7 @@ void Menus::MenusBriquette::updateTextButtons()
 bool Menus::MenusBriquette::addBriquette(const CEGUI::EventArgs & evt)
 {
     if(GestGame::getSingletonPtr()->addBriquette())
-    {
-		this->updateTextButtons();
-		
+    {		
 		return true;
 	}
 	
@@ -89,29 +87,14 @@ bool Menus::MenusBriquette::addBriquette(const CEGUI::EventArgs & evt)
 
 bool Menus::MenusBriquette::switchPhysicEngineState(const CEGUI::EventArgs & evt)
 {
-	bool result = ListenerCollision::getSingletonPtr()->switchPhysicEngineState(this);
+	GestGame::getSingletonPtr()->switchPhysicEngineState();
 	
-	if(ListenerCollision::getSingletonPtr()->getPhysicEngineState())
-	{
-		std::vector<ObjBriquette *> lstBriquettes = GestObj::getSingletonPtr()->getListBriquettes();
-		std::vector<ObjBriquette *>::iterator it;
-		for(it = lstBriquettes.begin() ; it <lstBriquettes.end() ; it ++)
-		{
-			if((*it)->isDrawing())
-			{
-				(*it)->getRigidBody()->getBulletRigidBody()->activate(true);
-			}
-		}
-	}
-	
-	return result;
+	return true;
 }
 
 bool Menus::MenusBriquette::alignBriquettes(const CEGUI::EventArgs & evt)
 {
 	GestGame::getSingletonPtr()->alignBriquettes();
-	
-	this->updateTextButtons();
 	
 	return true;
 }
