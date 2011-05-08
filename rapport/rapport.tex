@@ -291,10 +291,17 @@ used to obtain the most realistic result.}
         empécher la mise à jour de l'objet et l'application des nouvelles
         forces avant que l'utilisateur n'est fini de positionner l'objet. 
 
+		\
+		
         On utilise en réalité Bullet via OgreBullet pour l'intégrer avec Ogre,
         cependant OgreBullet est limité dans ces possiblités et il nous a
         parfois fallut travailler directement sur l'objet Bullet pour pouvoir
         obtenir le comportement souhaité. 
+        
+        \
+        
+        Les briquettes tombant à côté de la table sont réinitialisées au centre
+        de la table sur l'axe de construction.
 
     \section{Sélection des briquettes}
         Pour sélectionner nos briquettes nous fournissons à l'utilisateur un
@@ -401,6 +408,52 @@ used to obtain the most realistic result.}
         déplacement de la souris de CEGUI afin de garder la synchronisation
         entre les deux.
         
+
+    \section{Gestion des révisions}
+    
+		La plus grande difficulté d'utilisation du jeu était de ne pas faire
+		d'erreurs pour ne pas devoir tout recommencer. Nous avons alors créer
+		un système permettant de se déplacer parmi tous les changements effectués.
+		Ces changements correspondent à l'ajout d'une nouvelle briquette
+		, à l'alignement des briquettes, au déplacement d'une briquette
+		ou tout simplement à l'ajout d'une révision par l'utilisateur.
+		
+		\
+		
+		Ce système est composé de 3 structures, comme on peut le voir
+		 sur le graphique de collaboration de la classe GestSnapShoot :
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=8cm]{images/graph_collaboration_gestsnapshoot.png}
+			\caption{\label{fig:graph_collaboration_gestsnapshoot}Le graphe de collaboration de la classe GestSnapShoot}
+		\end{figure}
+		
+		\
+		
+		Maintenant, nous allons vous expliquer en détails le fonctionnement de
+		ces 3 structures :
+		
+			\subsection{GestSnapShoot}
+			Cette classe permet de gérer l'ensemble des révisions, elle contient
+			une liste du type deque (liste "queue" accessible dans les deux sens).
+			La classe permet d'ajouter une révision, d'en supprimer un ensemble depuis
+			le début ou la fin, d'annuler une modification, de re-effectuer une modification
+			 et surtout d'appliquer une révision donnée.
+			 
+			 \
+			 
+        
+
+    \section{Gestion du jeu}
+    
+		La plupart des actions effectuées par l'utilisateur, comme par exemple la gestion
+		des révisions, n'appellent pas directement une méthode de GestSnapShoot. Elles appellent
+		une méthode du même nom contenu par GestGame, cette sur-couche effectue l'action demandée
+		par l'utilisateur mais elle permet de faire aux méthodes d'actualisation de l'affichage
+		car au niveau structurel GestSnapShoot ne doit pas faire appel aux méthodes d'affichage.
+		Deplus, GestGame permet de gérer le niveau de difficulté et par conséquent le nombre maximum
+		de briquettes en jeu.
+			 
         
 \chapter{Conclusion}
 

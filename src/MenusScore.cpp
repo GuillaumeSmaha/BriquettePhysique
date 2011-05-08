@@ -31,8 +31,8 @@ void Menus::MenusScore::update_score(void)
 {
 	if(this->est_affiche && this->textScore != NULL)
 	{
-        GestObj * gestObj= GestObj::getSingletonPtr();
-        double dist= gestObj->calculDistBriquetteEloigne();
+        GestObj * gestObj = GestObj::getSingletonPtr();
+        double dist = gestObj->calculDistBriquetteEloigne();
         int nbBriquettes=gestObj->getCountBriquetteDrawed(); 
         std::ostringstream oss;
         oss << "\

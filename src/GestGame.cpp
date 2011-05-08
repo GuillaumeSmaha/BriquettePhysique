@@ -102,16 +102,16 @@ void GestGame::alignBriquettes()
 		{
 			(*it)->setPosition(vec);
 			(*it)->setOrientation(ObjBriquette::defaultOrientation);
+		
+			(*it)->getRigidBody()->getBulletRigidBody()->forceActivationState(false);
+			(*it)->getRigidBody()->getBulletRigidBody()->clearForces();
+			(*it)->getRigidBody()->getBulletRigidBody()->activate(true);
 		}
 		else
 		{
 			(*it)->getSceneNode()->setPosition(vec);
 			(*it)->getSceneNode()->setOrientation(ObjBriquette::defaultOrientation);
-		}		
-		
-		(*it)->getRigidBody()->getBulletRigidBody()->forceActivationState(false);
-		(*it)->getRigidBody()->getBulletRigidBody()->clearForces();
-		(*it)->getRigidBody()->getBulletRigidBody()->activate(true);
+		}
 	}
 	
 	this->addModification();
@@ -186,6 +186,14 @@ void GestGame::onKeyPressed(Controls::Controls key)
             
         case Controls::REDO :
             this->redo();
+            break;
+            
+        case Controls::UNDO_ALL :
+            this->undoAll();
+            break;
+            
+        case Controls::REDO_ALL :
+            this->redoAll();
             break;
             
         case Controls::ADD_REVISION :

@@ -42,12 +42,16 @@ namespace Controls
         SELECT_MOVE_LEFT,
 		///Move right the selected briquette
         SELECT_MOVE_RIGHT,
+		///Undo all modifications
+		UNDO_ALL,
 		///Undo a modification
 		UNDO,
 		///Add a revision
 		ADD_REVISION,
 		///Redo a modification
 		REDO,
+		///Redo all modifications
+		REDO_ALL,
 		///Delete an object
 		SUPPR,
 		///Save the objects
