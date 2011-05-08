@@ -1,0 +1,29 @@
+Liste des touches :
+
+	- Clic gauche : Sélection d'une briquette
+	- Clic droit : Déplacement du centre de rotation sur la briquette cliquée
+	- Clic droit + déplacement : Rotation de la caméra autour du centre de rotation.
+	- Clic du milieu (molette) + déplacement : Zoom de la caméra
+
+	- Touche directionnelle haut : Déplacement vers le haut de la briquette sélectionnée (en violet)
+	- Touche directionnelle bas : Déplacement vers le bas de la briquette sélectionnée (en violet)
+	- Touche directionnelle gauche : Déplacement vers la gauche de la briquette sélectionnée (en violet) (Attention à l'orientation de la caméra)
+	- Touche directionnelle droite : Déplacement vers la droite de la briquette sélectionnée (en violet) (Attention à l'orientation de la caméra)
+
+	- Touche z : Zoom avant
+	- Touche s : Zoom arrière
+	
+	- Touche q : Rotation vers la gauche
+	- Touche d : Rotation vers la droite
+	
+	- Touche u : Annule la dernière modification
+	- Touche u : Ajoute une nouvelle modification
+	- Touche u : Re-effectue la dernière modification
+	
+	- Touche echap : Ouvre/Ferme le menu
+	
+	- Touche w : Active/Désactive le moteur physique
+	
+	- Touche c : Calcule la distance de la construction
+	
+	- Touche F10 : Quitte le jeu

@@ -289,7 +289,7 @@ used to obtain the most realistic result.}
 
     \section{Gestion de la physique des briquettes}
         La physique est gérée avec la librairie Bullet. La technique consiste à
-        lier à l'objet d'Ogre, un 'corps' particulier à bullet sur lequel
+        lier à l'objet d'Ogre, un 'corps' particulier à Bullet sur lequel
         s'exerceront des forces et sur lequel on surveillera les possibles
         collisions. Bullet permet de rajouter une force d'attraction globale au
         monde et un poids à chacun des objets. Une des difficultés était de
@@ -311,8 +311,23 @@ used to obtain the most realistic result.}
         
         \
         
-        Les briquettes tombant à côté de la table sont réinitialisées au centre
-        de la table sur l'axe de construction.
+        Deplus l'activation de Bullet est très simple, il suffit d'appeler la
+        méthode \textit{stepSimulation} à chaque actualisation de la frame.
+        Cette méthode a pour but d'effectuer toutes les actions du moteur
+        physique : application de la gravité, mise à jour des forces
+        sur les objets, gestion des collisions\dots{} Il nous est alors facile
+        d'arrêter et de relancer le moteur physique à l'aide d'une condition
+        avec un booléen.
+             
+        Afin de gérer ce booléen, nous avons mis en place un système de mutex
+        afin d'éviter que plusieurs threads modifient la valeur de ce booléen.
+        
+        La méthode lock prend en paramètre un élément du type (void *) afin
+        d'enregistrer quelle classe en fait l'appel. Il en est de même pour
+        la méthode unlock. Et finalement la méthode de modification du booléen
+        prend aussi en paramètre un pointeur sur la classe faisant l'appel
+        pour savoir si elle a le droit d'effectuer la modification.
+        
 
     \section{Sélection des briquettes}
         Pour sélectionner nos briquettes nous fournissons à l'utilisateur un
@@ -339,14 +354,19 @@ used to obtain the most realistic result.}
         Le plan doit absolument être détruit après le lancer de rayon, sinon celui-ci intéragira avec
         les briquettes comme s'il y avait une collision, et les briquettes seraient alors projetées en dehors
         de leur axe commun Y.
+        
         Lors du déplacement de la souris, le rayon lancé percute alors un point du plan
         , il nous suffit alors de récupérer ce point et de déplacer la briquette aux mêmes
         coordonnées en X et Z que le point de collision (Y étant l'axe commun à toutes les briquettes).
         C'est pour cela, que le centre de la face latérale de la briquette est toujours
 		située à la même position que la souris.
 		De plus, le plan ayant une taille limitée, il limite alors le déplacement de la briquette dans la scène.
+        
+        \
+        
+        Les briquettes tombant à côté de la table sont réinitialisées au centre
+        de la table sur l'axe de construction.
 		
-		\newpage
 		
 		\begin{figure}[h]
 			\centering
@@ -382,7 +402,6 @@ used to obtain the most realistic result.}
         choisir le niveau de difficulté via 3 boutons: facile, intermédiaire,
         difficile.
 
-\newpage
 
 		\begin{figure}[h]
 			\centering
@@ -444,14 +463,44 @@ used to obtain the most realistic result.}
 		Maintenant, nous allons vous expliquer en détails le fonctionnement de
 		ces 3 structures :
 		
+		\subsection{SnapShootData}
+
+		Cette structure de données contient 3 éléments :
+		\begin{itemize}
+		\item Un pointeur du type ObjBriquette sur la briquette concernée par la donnée.
+		\item Un vecteur de dimension 3 correspondant à la position de la briquette lors
+		la capture.
+		\item Un quaternion correspondant à l'orientation de la briquette.
+		\end{itemize}
+
+
+
+			\subsection{SnapShoot}
+
+			Cette classe correspond à une révision, un état du système qui contient la position
+			et l'état des briquettes affichées dans la scène.
+			Elle contient donc une liste d'élément de type SnapShootData.
+
+			\
+
+			Lors de la création d'une nouvelle instance de la classe (appel du constructeur)
+			, le moteur physique de bullet est arrêté et la liste de l'instance est complété
+			avec les briquettes affichées.
+
+			\
+
+			Cette classe contient donc entierement l'état du jeu à un instant donné.
+			Il suffit donc de cacher toutes les briquettes stockées en mémoire et de
+			ré-afficher en repositionnant les briquettes contenu dans la liste.
+			
+			\
+		
 			\subsection{GestSnapShoot}
 			Cette classe permet de gérer l'ensemble des révisions, elle contient
 			une liste du type deque (liste "queue" accessible dans les deux sens).
 			La classe permet d'ajouter une révision, d'en supprimer un ensemble depuis
 			le début ou la fin, d'annuler une modification, de re-effectuer une modification
 			 et surtout d'appliquer une révision donnée.
-			 
-			 \
 			 
         
 
@@ -490,6 +539,8 @@ used to obtain the most realistic result.}
     nombreuses améliorations, aidant la prise en mains du jeu (par exemple la
     possibilité d'arrêter le moteur physique, permettant de placer plusieurs
     briquettes avant de relancer la physique).
+    
+    \
 
     Le projet pourrait être continué de plusieurs manières, on pourrait mettre
     en place un langage permettant de placer les briquettes via des scripts et
@@ -512,7 +563,7 @@ used to obtain the most realistic result.}
 	\biblioentry{bib:signaux_qt}{} Site du Zéro, \textit{Signaux avec QT}, \url{http://www.siteduzero.com/tutoriel-3-11268-les-signaux-et-les-slots.html}
 	\biblioentry{bib:outils_doxygen}{} Doxygen, \textit{Génération de documentation}, \url{http://www.stack.nl/~dimitri/doxygen/}
 	\biblioentry{bib:projet_rv}{} Simulation Spatiale, \textit{Projet Polytech'Tours de Réalité Virtuelle, 2011}, \url{http://code.google.com/p/rv-simulation-interactive-battle-space/}
-	\end{bibliographie}	
+\end{bibliographie}	
 
 
 \end{document}
