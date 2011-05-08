@@ -2,7 +2,7 @@
 
 \input{include.tex}
 
-%\usepackage[utf8]{inputenc}
+%~ \usepackage[utf8]{inputenc}
 \usepackage[utf8x]{inputenc}
 \usepackage{ucs}
 \usepackage{eurosym}
@@ -15,6 +15,7 @@
 
 \urlstyle{sf}
 
+\lstset{language=C++}  
 
 
 %%%%%%%%%%%%Commande personnalisée
@@ -81,14 +82,15 @@ used to obtain the most realistic result.}
     utilisateur peut positionner un ensemble de briquettes afin de créer des
     structures. A partir d'une table, l'utilisateur doit essayer d'obtenir une
     structure qui est la flèche la plus grande possible (c'est à dire qui soit
-    éloigné autant que possible du bord de la table.
+    éloigné autant que possible du bord de la table).
     Bien sur, chaque briquette est soumis à la force de gravité rendant plus
     complexe l'élaboration de structures stables.
     Ce document décrit les technologies utilisé ainsi que le fonctionnement du
     logiciel.
+    
     \begin{figure}[h]
 		\centering
-        \includegraphics[scale=0.75]{images/jeux.png}
+        \includegraphics[width=13cm]{images/jeux.png}
         \caption{\label{fig:jeux}Un exemple typique de l'application en cours de fonctionnment}
     \end{figure}
 
@@ -130,20 +132,115 @@ used to obtain the most realistic result.}
     choix de réutiliser autant que possible les outils que nous connaissions
     déja. Cela nous à permis d'avoir une vue d'ensemble et une maitrise que
     nous n'aurions pas eu autrement. Et nous avons pu améliorer nos
-    idées mises en place pour le projet collectif de Réalité Virtuelle.
+    idées mises en place pour le projet collectif de Réalité Virtuelle\refMot{bib:projet_rv}.
     
     
 
     \section{Liste des outils}
-    \begin{itemize}
-        \item Ogre\refMot{bib:librairie_ogre}: Moteur 3D open source
-        (http://www.ogre3d.org/) supportant aussi bien OpenGL que Direct3D. 
-        \item CEGUI\refMot{bib:librairie_cegui}: Crazy Eddie's GUI System
-        (http://www.cegui.org.uk) fournissant des outils de créations de menus
-        et de fenetre dans un environnement 3D.
-        \item Bullet\refMot{bib:librairie_bullet}: Librairie de simulation de
-        la physique http://bulletphysics.org/
-    \end{itemize}
+		\subsection{Librairie utilisée}
+		
+		Afin de faciliter la mise en \oe{}uvre, il est nécessaire d'utiliser des librairies.
+		Nous avons donc d'utiliser les librairies suivantes.
+		\begin{itemize}
+			\item Ogre\refMot{bib:librairie_ogre}: Moteur 3D open source
+			(http://www.ogre3d.org/) supportant aussi bien OpenGL que Direct3D. 
+			\item CEGUI\refMot{bib:librairie_cegui}: Crazy Eddie's GUI System
+			(http://www.cegui.org.uk) fournissant des outils de créations de menus
+			et de fenetre dans un environnement 3D.
+			\item Bullet\refMot{bib:librairie_bullet}: Librairie de simulation de
+			la physique http://bulletphysics.org/
+		\end{itemize}
+		
+		\
+		
+		Notre expérience dans l'utilisation de ces librairies ayant été facilité
+		par leur utilisation dans le projet collectif\refMot{bib:projet_rv}, il
+		avons grandement amélioré la structure du programme.
+		
+		
+		\subsection{Documentation technique}
+		
+		Il est intéressant de concevoir une documentation technique, ce qui faciliterait
+		son étude par une personne tierce dans le cas d'une reprise du projet.
+		
+		\
+		
+		Nous avons utilisé pour se faire le logiciel Doxygen\refMot{bib:outils_doxygen}.
+		Ce logiciel permet à partir de commentaires spécifiques dans les fichiers d'en-tête
+		de générer la documentation au format html et pdf.
+		Le format html est intéressant puisqu'il permet d'être facilement diffusé sur Internet.
+		
+		\
+		
+		L'avantage majeur d'utilisé Doxygen et qu'il permet la génération de graphique :
+		\begin{itemize}
+			\item Graphe de collaboration
+			\item Graphe des dépendances par inclusion
+			\item Graphe d'inclusion direct et indirect
+			\item Graphe d'appels d'une fonction
+		\end{itemize}
+		
+
+\newpage
+		
+		La légende est très simple à comprendre :
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=12cm]{images/graph_legend.png}
+			\caption{\label{fig:graph_legend}Légende du graphe}
+		\end{figure}
+		
+		\
+		
+		Le code permettant de générer ce graphe :
+		\begin{figure}[h]
+			\centering
+			\lstinputlistingSmall{images/graph_legend.cpp}
+			\caption{\label{fig:graph_legend_code}Le code permettant de générer le graphe de légende}
+		\end{figure}
+		
+		
+		Pour présenter les différents, nous utiliserons la classe la moins utilisé dans le programme
+		(GestViewport) car les graphes deviennent rapidement très grand et ils ne seraient
+		pas correctement visible dans le rapport.
+		
+			\subsubsection{Graphe de collaboration}
+			Le graphe de collaboration de la classe GestViewport.
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=6cm]{images/graph_collaboration_gestviewport.png}
+				\caption{\label{fig:graph_collaboration_gestviewport}Graphe de collaboration de la classe GestViewport}
+			\end{figure}
+			
+			
+			\subsubsection{Graphe des dépendances par inclusion}
+			Le graphe des dépendances par inclusion de la classe GestViewport.
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=15cm]{images/graph_dependance_gestviewport.png}
+				\caption{\label{fig:graph_dependance_gestviewport}Graphe des dépendances par inclusion de la classe GestViewport}
+			\end{figure}
+			
+\newpage
+			
+			\subsubsection{Graphe d'inclusion direct et indirect}
+			Le graphe d'inclusion direct et indirect de la classe GestViewport.
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=10cm]{images/graph_inclusion_gestviewport.png}
+				\caption{\label{fig:graph_inclusion_gestviewport}Graphe d'inclusion direct et indirect de la classe GestViewport}
+			\end{figure}
+			
+			
+			\subsubsection{Graphe d'appels d'une fonction}
+			Le graphe d'appels de la méthode addViewport de la classe GestViewport.
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=15cm]{images/graph_appels_addviewport_gestviewport.png}
+				\caption{\label{fig:graph_appels_addviewport_gestviewport}Graphe d'appels de la méthode addViewport de la classe GestViewport}
+			\end{figure}
+    
+    
     
 
 \chapter{Réalisation}
@@ -308,6 +405,7 @@ used to obtain the most realistic result.}
 	\biblioentry{bib:librairie_ogrebullet}{} Ogre Wiki, \textit{Tutorial d'utilisation d'OgreBullet}, \url{http://www.ogre3d.org/tikiwiki/OgreBullet}
 	\biblioentry{bib:signaux_qt}{} Site du Zéro, \textit{Signaux avec QT}, \url{http://www.siteduzero.com/tutoriel-3-11268-les-signaux-et-les-slots.html}
 	\biblioentry{bib:outils_doxygen}{} Doxygen, \textit{Génération de documentation}, \url{http://www.stack.nl/~dimitri/doxygen/}
+	\biblioentry{bib:projet_rv}{} Simulation Spatiale, \textit{Projet Polytech'Tours de Réalité Virtuelle, 2011}, \url{http://code.google.com/p/rv-simulation-interactive-battle-space/}
 	\end{bibliographie}	
 
 
