@@ -115,7 +115,7 @@ used to obtain the most realistic result.}
     \end{itemize}
      \begin{figure}[h]
 		\centering
-        \includegraphics[scale=0.75]{images/zoom_briquette.png}
+        \includegraphics[width=16cm]{images/zoom_briquette.png}
         \caption{\label{fig:zoom_briquette}Les briquettes sont toutes orientés de la même façon suivant le même axe.}
     \end{figure}
 
@@ -270,7 +270,7 @@ used to obtain the most realistic result.}
 
     \begin{figure}[h]
 		\centering
-        \includegraphics[scale=0.75]{images/bon_score.png}
+        \includegraphics[width=12cm]{images/bon_score.png}
         \caption{\label{fig:bon_score}Ici l'on voit que la caméra n'est plus centré autours du point
         central de la table mais sur une des briquettes de la structure,
         permettant d'étudier plus précisément celle-ci.}
@@ -332,7 +332,7 @@ used to obtain the most realistic result.}
 		
 		\begin{figure}[h]
 			\centering
-			\includegraphics[width=17cm]{images/move_briquette.png}
+			\includegraphics[width=16cm]{images/move_briquette.png}
 			\caption{\label{fig:move_briquette}On peut voir explicitement sur cette image le plan de collision
 			qui est nécessaire au déplacement de la briquette.}
 		\end{figure}
@@ -348,6 +348,9 @@ used to obtain the most realistic result.}
         fenêtres que l'on crée, en offrant des méthodes pour les créer
         simplements. Il suffit d'insérer les boutons ou les éléments graphiques
         sur une fenetre créé automatiquement.
+        
+        \
+        
         La charte graphique provient de deux "skins" CEGUI pré-existants et
         placé sous licence libre. Il s'agit de "TaharezLook" qui est le thème
         par défaut de CEGUI et le thème "Sleekspace" que l'on peut télécharger
@@ -360,16 +363,17 @@ used to obtain the most realistic result.}
         Le logiciel dispose d'un menus d'introdution, simple qui permet de
         choisir le niveau de difficulté via 3 boutons: facile, intérmédiaire,
         difficile.
+
+\newpage
+
 		\begin{figure}[h]
 			\centering
-			\includegraphics[scale=0.75]{images/Menus_initial.png}
+			\includegraphics[width=16cm]{images/Menus_initial.png}
 			\caption{\label{fig:menus_initial}Le menus d'introduction au jeu}
 		\end{figure}
-		\begin{figure}[h]
-			\centering
-			\includegraphics[scale=0.75]{images/menu_jeu.png}
-			\caption{\label{fig:menu_jeu}Le menus en cours de jeu}
-		\end{figure}      
+		
+		\
+		   
         Pendant le jeux, un menus est disponible en bas de l'écran. Il est
         également très simple. Il dispose de 4 boutons, le premier affiche le
         nombre de briquettes dont l'utilisateur peut disposé (qui ne sont pas
@@ -380,6 +384,14 @@ used to obtain the most realistic result.}
         trouve, le deuxième, le nombre de révisions accessibles. Les deux
         derniers boutons permettent respectivement d'activer ou de désactiver le
         moteur physique et d'aligner les briquettes sur l'axes de construction.
+		
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=16cm]{images/menu_jeu.png}
+			\caption{\label{fig:menu_jeu}Le menus en cours de jeu}
+		\end{figure}
+		
+		\
 
         Au départ, nous avions une souris gérée par Ogre (avec un overlay) qui
         permettait à l'utilisateur de viser les briquettes. CEGUI apporte sa
