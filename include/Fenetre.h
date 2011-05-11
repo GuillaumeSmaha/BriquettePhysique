@@ -12,6 +12,7 @@
 
 #include "controls.h"
 #include "Signal.h"
+#include "ClassRoot.h"
 
 /*!
 * \class Fenetre
@@ -46,11 +47,12 @@ class Fenetre
         */
         virtual bool destroyWindow(const CEGUI::EventArgs & evt) = 0;
 
+	public:
         /*!
         * \brief Réagis aux actions de player, en particulier pour gérer l'ouverture/fermeture du menus
         * \param key Action appelé par le joueur
         */
-        virtual void actionFromPlayer(Controls::Controls key) = 0;
+        virtual void actionFromPlayer(Controls::Controls key);
 };
 
 #endif // __FENETRE_H__

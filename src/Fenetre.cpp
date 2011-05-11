@@ -48,3 +48,7 @@ bool Fenetre::actionButtonClose(const CEGUI::EventArgs & evt)
 	return this->destroyWindow(evt);
 }
 
+
+void Fenetre::actionFromPlayer(Controls::Controls key)
+{
+}

@@ -52,7 +52,7 @@ CEGUI::Window * Menus::MenusBriquette::creer_menus_briquettes(void)
     this->alignBriquettesWdw->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&Menus::MenusBriquette::alignBriquettes, this));
     
     int nbList = 4;
-    CEGUI::Window * tblWin[nbList];
+    CEGUI::Window * tblWin[4];
     tblWin[0] = this->addBriquetteWdw;
     tblWin[1] = this->idRevisionWdw;
     tblWin[2] = this->physicEngineStateWdw;

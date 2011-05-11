@@ -128,6 +128,8 @@ void CameraTarget::onMouseMoved(MouseMove_t &mouseMove)
 	{
 		this->zoom((mouseMove.vector[0]+mouseMove.vector[1])/2.0);
 	}
+	else if(abs(mouseMove.vector[2]) > 1.0)
+		this->zoom(-mouseMove.vector[2]/6.0);
 }
 
 

@@ -3,6 +3,7 @@
 Menus::MenusScore::MenusScore()
 {
 	this->textScore = NULL;
+    this->est_affiche = false;
 }
 
 Menus::MenusScore::~MenusScore()

@@ -13,9 +13,9 @@ GestGame::GestGame() : ClassRootSingleton<GestGame>()
     
     ListenerFrame::getSingletonPtr()->signalFrameStarted.add(&GestGame::checkBriquette, this);
     
-    PlayerControls::getSingletonPtr()->signalKeyPressed.add(&GestGame::onKeyPressed, GestGame::getSingletonPtr());
-    PlayerControls::getSingletonPtr()->signalKeyReleased.add(&GestGame::onKeyReleased, GestGame::getSingletonPtr());
-    PlayerControls::getSingletonPtr()->signalMouseMoved.add(&GestGame::onMouseMoved, GestGame::getSingletonPtr());
+    PlayerControls::getSingletonPtr()->signalKeyPressed.add(&GestGame::onKeyPressed, this);
+    PlayerControls::getSingletonPtr()->signalKeyReleased.add(&GestGame::onKeyReleased, this);
+    PlayerControls::getSingletonPtr()->signalMouseMoved.add(&GestGame::onMouseMoved, this);
 }
 
 
@@ -269,9 +269,15 @@ void GestGame::onKeyPressed(Controls::Controls key)
 			this->quitGame();
             break;
 
-        case Controls::MOUSE_CAMERA_ROTATE:
+        case Controls::MOUSE_CAMERA_ROTATE :
             this->moveCameraTargetOnBriquette();
-            break;        
+            break;     
+            
+        case Controls::CALCUL_RES :
+		{
+			Menus::getSingletonPtr()->switch_menus_score();
+            break;
+		}   
         
         default:
             break;

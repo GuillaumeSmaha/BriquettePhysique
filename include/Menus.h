@@ -153,18 +153,6 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
         */
         CEGUI::OgreRenderer * menusRenderer;
          /*!
-         * \brief Pointeur sur le controleur du clavier
-         */
-        ListenerKeyboard * keyControl;
-         /*!
-         * \brief Pointeur sur le controleur de la souris
-         */
-        ListenerMouse * mouseControl;
-         /*!
-         * \brief Pointeur sur le controleur du joueur
-         */
-        PlayerControls * pControl;
-         /*!
          * \brief Indique si le menu est ouvert
          */
         bool menu_open;        
@@ -202,6 +190,10 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
          * \brief Retire le menus lorsque l'on le quitte.
          */
         void cacher_menus();
+        /*!
+         * \brief Switch l'affichage du menu des scores
+         */
+        void switch_menus_score();
 
         /*!
          * \brief Permet de déplacer la souris en lui injectant le vecteur x, y.
@@ -215,13 +207,13 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
          * \param delta_y Déplacement sur l'axe Y
         */
         void injectMouseMove(float delta_x, float delta_y);
-
-    private:
         /*!
         * \brief Réagis aux actions de player, en particulier pour gérer l'ouverture/fermeture du menus
         * \param key Touche appuyé par le joueur
         */
         void actionFromPlayer(Controls::Controls key);
+
+    private:
         
         /*!
          * \brief Crée le WindowManager de cegui
@@ -334,6 +326,15 @@ class Menus : public ClassRootSingleton<Menus>, public Fenetre
         MenusBriquette * getMenusBriquette()
         {
 			return this->menusBriquette;
+		}
+		
+        /*!
+         * \brief Retourne un pointeur sur le menu des scores
+         * \return Pointeur sur l'attribut menusScore
+        */
+        MenusScore * getMenusScore()
+        {
+			return this->menusScore;
 		}
 };
 

@@ -5,16 +5,12 @@ template<> Menus * ClassRootSingleton<Menus>::_instance = NULL;
 
 Menus::Menus() : ClassRootSingleton<Menus>()
 {
-    this->mouseControl = ListenerMouse::getSingletonPtr();
-    this->keyControl = ListenerKeyboard::getSingletonPtr();
-    this->pControl = PlayerControls::getSingletonPtr();
-
     this->mainWdw = NULL;
     this->menusScore = NULL;
     this->menusBriquette = NULL;
     
    //démarre le menusRenderer
-    menusRenderer = &CEGUI::OgreRenderer::bootstrapSystem();
+	this->menusRenderer = &CEGUI::OgreRenderer::bootstrapSystem();
 
     //prépare les différents groupes de ressources
     CEGUI::Imageset::setDefaultResourceGroup("Imagesets");
@@ -28,16 +24,19 @@ Menus::Menus() : ClassRootSingleton<Menus>()
     CEGUI::SchemeManager::getSingleton().create("TaharezLook.scheme");
 
     //enregistre les signaux sur la souris
-    mouseControl->signalMousePressed.add(&Menus::mousePressed, this);
-    mouseControl->signalMouseReleased.add(&Menus::mouseReleased, this);
-    //mouseControl->signalMouseMoved.add(&Menus::mouseMoved, this);
+    ListenerMouse::getSingletonPtr()->signalMousePressed.add(&Menus::mousePressed, this);
+    ListenerMouse::getSingletonPtr()->signalMouseReleased.add(&Menus::mouseReleased, this);
+    //ListenerMouse::getSingletonPtr()->signalMouseMoved.add(&Menus::mouseMoved, this);
 
     //enregistre les signaux sur le clavier
-    keyControl->signalKeyPressed.add(&Menus::keyPressed, this);
-    keyControl->signalKeyReleased.add(&Menus::keyReleased, this);
+    ListenerKeyboard::getSingletonPtr()->signalKeyPressed.add(&Menus::keyPressed, this);
+	ListenerKeyboard::getSingletonPtr()->signalKeyReleased.add(&Menus::keyReleased, this);
 
     //enregistre les signaux sur PlayerControls (même si réagit uniquement à l'appui sur la touche permettant d'ouvrir le menus
-    pControl->signalKeyPressed.add(&Menus::actionFromPlayer, this);
+#ifndef _WIN32
+	PlayerControls::getSingletonPtr()->signalKeyPressed.add(&Menus::actionFromPlayer, this);
+#endif
+
     this->menu_open = false;
     creer_root_window();
     creer_souris();
@@ -47,14 +46,14 @@ Menus::Menus() : ClassRootSingleton<Menus>()
 
 Menus::~Menus()
 {
-    mouseControl->signalMousePressed.remove(&Menus::mousePressed, this);
-    mouseControl->signalMouseReleased.remove(&Menus::mouseReleased, this);
-    //mouseControl->signalMouseMoved.remove(&Menus::mouseMoved, this);
+    ListenerMouse::getSingletonPtr()->signalMousePressed.remove(&Menus::mousePressed, this);
+    ListenerMouse::getSingletonPtr()->signalMouseReleased.remove(&Menus::mouseReleased, this);
+    //ListenerMouse::getSingletonPtr()->signalMouseMoved.remove(&Menus::mouseMoved, this);
 
-    keyControl->signalKeyPressed.remove(&Menus::keyPressed, this);
-    keyControl->signalKeyReleased.remove(&Menus::keyReleased, this);
+     ListenerKeyboard::getSingletonPtr()->signalKeyPressed.remove(&Menus::keyPressed, this);
+     ListenerKeyboard::getSingletonPtr()->signalKeyReleased.remove(&Menus::keyReleased, this);
 
-    pControl->signalKeyPressed.remove(&Menus::actionFromPlayer, this);
+    PlayerControls::getSingletonPtr()->signalKeyPressed.remove(&Menus::actionFromPlayer, this);
     
     this->menusRenderer->destroyAllGeometryBuffers();
     this->menusRenderer->destroyAllTextureTargets();
@@ -86,19 +85,32 @@ void Menus::cacher_menus()
     signalPaused.dispatch(false);
 }
 
+void Menus::switch_menus_score()
+{
+	if(this->menusScore != NULL)
+	{
+		if(this->menusScore->estAffiche() == false)
+        {
+			this->mainWdw->addChildWindow(this->menusScore->afficher_menus_calculs());
+        }
+        else
+        {
+			this->menusScore->update_score();
+		}
+	}
+}
+
 void Menus::injectMouseMove(float delta_x, float delta_y)
 {
     CEGUI::System::getSingleton().injectMouseMove(delta_x, delta_y);
 }
-
-
-
 
 void Menus::actionFromPlayer(Controls::Controls key)
 {
     switch(key)
     {
         case Controls::OPEN_MENU:
+		{
 			if(this->menusBriquette != NULL)
             {
 				if(!this->menu_open)
@@ -116,22 +128,14 @@ void Menus::actionFromPlayer(Controls::Controls key)
 				}
             }
             break;
-            
-        case Controls::CALCUL_RES:
-            if(this->menusScore->estAffiche() == false)
-            {
-                this->mainWdw->addChildWindow(this->menusScore->afficher_menus_calculs());
-            }
-            else
-            {
-				this->menusScore->update_score();
-			}
-            break;
+		}
             
         default:
             break;
     }
 }
+
+
 
 
 void Menus::creer_root_window(void)
@@ -188,9 +192,6 @@ void Menus::creer_menus_briquettes(void)
     this->mainWdw->addChildWindow(this->menusBriquette->creer_menus_briquettes());
 }
 
-
-
-
 void Menus::cacher_main_window(void)
 {
     mainWdw->hide();
@@ -232,6 +233,7 @@ bool Menus::startEasy(const CEGUI::EventArgs & evt)
     
     creer_menus_briquettes();
     this->menusScore = new MenusScore();
+
     this->menusBriquette->updateTextButtons();
     
     destroyWindow(evt);
@@ -244,7 +246,7 @@ bool Menus::startMedium(const CEGUI::EventArgs & evt)
     GestGame::getSingletonPtr()->setDifficulty(GestGame::DIFFICULTY_MEDIUM);
     
     creer_menus_briquettes();
-    this->menusScore = new MenusScore();
+	this->menusScore = new Menus::MenusScore();
     
     this->menusBriquette->updateTextButtons();
     
@@ -258,7 +260,7 @@ bool Menus::startHard(const CEGUI::EventArgs & evt)
     GestGame::getSingletonPtr()->setDifficulty(GestGame::DIFFICULTY_HARD);
     
     creer_menus_briquettes();
-    this->menusScore = new MenusScore();
+	this->menusScore = new Menus::MenusScore();
     
     this->menusBriquette->updateTextButtons();
     

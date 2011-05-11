@@ -141,6 +141,9 @@ void Application::initListeners()
 	
 	//Create Mouse Singleton
 	ListenerMouse::createSingleton();
+
+	//Create PlayerControls Singleton
+	PlayerControls::createSingleton();
 	
 	//Create Frame Singleton
     ListenerFrame::createSingleton(this->root);
