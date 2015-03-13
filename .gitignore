@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /build/*
 compileDebug.sh
 init_cmake.sh
@@ -7,3 +8,33 @@ ogre.cfg
 plugins.cfg
 resources.cfg
 *~
+=======
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+>>>>>>> github/master
